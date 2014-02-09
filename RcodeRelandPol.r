@@ -91,6 +91,15 @@ hp2013 <- read.dta("c:/Users/Kellen/Desktop/Research/Religion and Voting Behavio
 	hp2013$hetero[hp2013$community=="Mostly religious"] <- 0
 	hp2013$hetero[hp2013$community=="Mostly secular"] <- 0
 
+# commnum categorical variable:
+  hp2013$commnum[hp2013$community=="Somewhere between"] <- 2
+  hp2013$commnum[hp2013$community=="Mostly religious"] <- 3
+  hp2013$commnum[hp2013$community=="Mostly secular"] <- 1
+
+# community.f factor variable
+  hp2013$community.f <- factor(hp2013$commnum, labels=c("Mostly secular", "Somewhere between", "Mostly religious"))
+  hp2013$community.f
+
 # uschristnat dichotomous variable:
 	hp2013$uschristnat[hp2013$relidentity1=="No"] <- 0
 	hp2013$uschristnat[hp2013$relidentity1=="Yes"] <- 1
@@ -115,6 +124,37 @@ hp2013 <- read.dta("c:/Users/Kellen/Desktop/Research/Religion and Voting Behavio
 
 	hp2013$partind <- (hp2013$contact + hp2013$attmeet + hp2013$signed + hp2013$attrally + hp2013$voted2012)
 
+# partcat categorical variable:
+  hp2013$partcat[hp2013$partind==0] <- "None"
+  hp2013$partcat[hp2013$partind==1] <- "One"
+  hp2013$partcat[hp2013$partind==2] <- "Two"
+  hp2013$partcat[hp2013$partind==3] <- "Three"
+  hp2013$partcat[hp2013$partind==4] <- "Four"
+  hp2013$partcat[hp2013$partind==5] <- "Five"
+
+# partind.f factor variable
+  partind.f <- factor(hp2013$partind, labels=c("None", "One", "Two", "Three", "Four", "Five"))
+  partind.f
+
+# education ordinal variable:
+  hp2013$education[hp2013$educ=="<HighSchool"] <- 1
+  hp2013$education[hp2013$educ=="HighSchool"] <- 2
+  hp2013$education[hp2013$educ=="Vocational"] <- 3
+  hp2013$education[hp2013$educ=="SomeCollege"] <- 4
+  hp2013$education[hp2013$educ=="4yrDegree"] <- 5
+  hp2013$education[hp2013$educ=="PostCollege"] <- 5
+
+# inc ordinal variable:
+  hp2013$inc[hp2013$income=="<$10,000"] <- 1
+  hp2013$inc[hp2013$income=="$10-under$20,000"] <- 2
+  hp2013$inc[hp2013$income=="$20-under$30,000"] <- 3
+  hp2013$inc[hp2013$income=="$30-under$40,000"] <- 4
+  hp2013$inc[hp2013$income=="$40-under$50,000"] <- 5
+  hp2013$inc[hp2013$income=="$50-under$75,000"] <- 6
+  hp2013$inc[hp2013$income=="$75-under$100,000"] <- 7
+  hp2013$inc[hp2013$income=="$100-under$150,000"] <- 8
+  hp2013$inc[hp2013$income=="$150,000+"] <- 9
+  
   summary(hp2013$partind)
 
 #####################
@@ -131,18 +171,18 @@ summary(fit.2)
 fit.3 <- lm(partind ~ churchattend + mostlysecandhet + churchattend:mostlysecandhet + age + polinterest + polknowl + married, data=hp2013)
 summary(fit.3)
 
-fit.4 <- lm(partind ~ age + polinterest + polknowl + married + churchattend, data=hp2013)
+fit.4 <- lm(partind ~ age + polinterest + polknowl + married + churchattend + inc + education, data=hp2013)
 summary(fit.4)
 
-fit.5 <- lm(partind ~ age + polinterest + polknowl + married + churchattend, data=hp2013, mostlysecandhet==1)
+fit.5 <- lm(partind ~ age + polinterest + polknowl + married + churchattend + inc + education, data=hp2013, mostlysecandhet==1)
 summary(fit.5)
 
-fit.6 <- lm(partind ~ age + polinterest + polknowl + married + churchattend, data=hp2013, mostlyrel==1)
+fit.6 <- lm(partind ~ age + polinterest + polknowl + married + churchattend + inc + education, data=hp2013, mostlyrel==1)
 summary(fit.6)
 
-fit.7 <- lm(polmotbyrel ~ churchattend + age + polknowl + polinterest + married + educ, data=hp2013, mostlyrel==1)
-fit.8 <- lm(polmotbyrel ~ churchattend + age + polknowl + polinterest + married + educ, data=hp2013, mostlysec==1)
-fit.9 <- lm(polmotbyrel ~ churchattend + age + polknowl + polinterest + married + educ, data=hp2013, hetero==1)
+fit.7 <- lm(polmotbyrel ~ churchattend + polmotbyrel + age + polknowl + polinterest + married + inc + education, data=hp2013, mostlyrel==1)
+fit.8 <- lm(polmotbyrel ~ churchattend + polmotbyrel + age + polknowl + polinterest + married + inc + education, data=hp2013, mostlysec==1)
+fit.9 <- lm(polmotbyrel ~ churchattend + polmotbyrel + age + polknowl + polinterest + married + inc + education, data=hp2013, hetero==1)
 summary(fit.7)
 summary(fit.8)
 summary(fit.9)
@@ -155,61 +195,65 @@ library(ggplot2)
 library(car)
 
 ###################### Assessing Outliers
-outlierTest(fit.6) # Bonferonni p-value for most extreme observations
-qqplot(fit.6, main="QQ Plot") #qq plot for studentized residuals
-leveragePlots(fit.6) # Leverage plots
+outlierTest(fit.8) # Bonferonni p-value for most extreme observations
+# qqplot(fit.6, main="QQ Plot") #qq plot for studentized residuals
+# leveragePlots(fit.7) # Leverage plots
+# leveragePlots(fit.8) # Leverage plots
+# leveragePlots(fit.9) # Leverage plots
 
 ###################### Influential Observations
 # added variable plots
-avPlots(fit.6)
+# avPlots(fit.6)
 # Cook's D Plot
 # identify D values > 4/(n-k-1)
-cutoff <- 4/((nrow(hp2013)-length(fit.6$coefficients)-2))
-plot(fit.6, which=4, cook.levels=cutoff)
+cutoff <- 4/((nrow(hp2013)-length(fit.8$coefficients)-2))
+plot(fit.8, which=4, cook.levels=cutoff)
 #Influence Plot
-influencePlot(fit.6, id.method="identify", main="Influence Plot",
+influencePlot(fit.8, id.method="identify", main="Influence Plot",
               sub="Circle size is proprtional to Cook's Distance")
 
 ###################### Non-Normality
 # Normality of Residuals
 # qqplot for studentized residuals
-qqplot(fit.6, main="QQ Plot")
+# qqplot(fit.8, main="QQ Plot")
 # distribution of studentized residuals
-library(MASS)
-sresid <- studres(fit.6)
-hist(sresid, freq=FALSE,
-     main="Distribution of Studentized Residuals")
-xfit <- seq(min(sresid),max(sresid),length=40)
-yfit <- dnorm(xfit)
-lines(xfit, yfit)
+# library(MASS)
+# sresid <- studres(fit.8)
+# hist(sresid, freq=FALSE,
+#     main="Distribution of Studentized Residuals")
+# xfit <- seq(min(sresid),max(sresid),length=40)
+# yfit <- dnorm(xfit)
+# lines(xfit, yfit)
 
 ####################### Non-constant Error Variance
 # Evaluate homoscedasticity 
 # non-constant error variance test
-ncvTest(fit.6)
+ncvTest(fit.8)
 # plot studentized residuals vs. fitted values
-spreadLevelPlot(fit.6)
+spreadLevelPlot(fit.7)
+spreadLevelPlot(fit.8)
+spreadLevelPlot(fit.9)
 
 ####################### Multi-collinearity
 # Evaluate Collinearity
-vif(fit.6) # variance inflation factors
-sqrt(vif(fit.6)) > 2 # problem?
+vif(fit.8) # variance inflation factors
+sqrt(vif(fit.8)) > 2 # problem?
 
 ####################### Nonlinearity
 # Evaluate linearity
 # component + residual plot
-crPlots(fit.6)
+# crPlots(fit.8)
 # Ceres plots
-ceresPlots(fit.6)
+# ceresPlots(fit.8)
 
 ####################### Non-independence of Errors
 # Test for Autocorrelated Errors
-durbinWatsonTest(fit.6)
+durbinWatsonTest(fit.8)
 
 ####################### Global Tests
 # Global test of model assumptions
 library(gvlma)
-gvmodel <- gvlma(fit.6)
+gvmodel <- gvlma(fit.8)
 summary(gvmodel)
 
 
@@ -224,20 +268,55 @@ require(MASS)
 require(Hmisc)
 require(reshape2)
 
-## fit ordered logit model and store results 'm'
-m <- polr(partind ~ churchattend + age + polinterest + polknowl + married, data = hp2013, mostlyrel==1)
-summary(m)
+## fit ordered logit model and store results
+olr.rel <- polr(partind.f ~ churchattend + polmotbyrel + polmotbyrel:churchattend + age + polinterest + polknowl + married + education + inc, data = hp2013, mostlyrel==1)
+olr.het <- polr(partind.f ~ churchattend + polmotbyrel + polmotbyrel:churchattend + age + polinterest + polknowl + married + education + inc, data = hp2013, hetero==1)
+olr.sec <- polr(partind.f ~ churchattend + polmotbyrel + polmotbyrel:churchattend + age + polinterest + polknowl + married + education + inc, data = hp2013, mostlysec==1)
 
-summary(partind)
-
-
-#####################
-# Ordered Probit Model
-#####################
-
-
+summary(olr.rel)
+summary(olr.het)
+summary(olr.sec)
 
 #####################
-# Multi-level Model
+# Multi-level Model (Bayes / MCMC)
 #####################
+library(bayesm)
+attach(hp2013)
 
+commtype <- levels(hp2013$community.f)
+nreg <- length(commtype); nreg
+
+# removing cases missing values for either variable
+
+community.rm <- na.omit(hp2013$community.f)
+community.rm
+
+regdata <- NULL
+for (i in 1:nreg) {
+  filter <- hp2013$community.f==commtype[i]
+  y <- hp2013$partind[filter]
+  X <- cbind(1,      # intercept placeholder
+             newdata$churchattend.rm[filter],
+             newdata$polmotbyrel.rm[filter])
+  
+  regdata[[i]] <- list(y=y, X=X)
+}
+
+  Data <- list(regdata=regdata)
+  Mcmc <- list(R=2000)
+  
+  system.time(
+    out <- bayesm::rhierLinearModel(
+      Data=Data,
+      Mcmc=Mcmc))
+
+library(rpud)
+system.time(
+  out<- rpud::rhierLinearModel(
+    Data=Data,
+    Mcmc=Mcmc,
+    output="bayesm"))
+
+#estimate the coefficient from the third component of the second dimension in the betadraw attribute of the MCMC output (dropping the first 10% samples for burn-in)
+beta.3 <- mean(as.vector(out$betadraw[, 3, 201:2000]))
+beta.3
