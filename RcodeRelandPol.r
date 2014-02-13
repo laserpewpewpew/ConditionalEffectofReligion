@@ -10,7 +10,7 @@
 # input STATA file
 ##################
 library(foreign)
-hp2013 <- read.dta("c:/Users/Kellen/Desktop/Research/Religion and Voting Behavior/Data and do files/hp2013-11clean01-v12.dta")
+hp2013 <- read.dta("hp2013-11clean01-v12.dta")
 
 #####################
 # Recoding Variables
@@ -180,12 +180,19 @@ summary(fit.5)
 fit.6 <- lm(partind ~ age + polinterest + polknowl + married + churchattend + inc + education, data=hp2013, mostlyrel==1)
 summary(fit.6)
 
-fit.7 <- lm(polmotbyrel ~ churchattend + polmotbyrel + age + polknowl + polinterest + married + inc + education, data=hp2013, mostlyrel==1)
-fit.8 <- lm(polmotbyrel ~ churchattend + polmotbyrel + age + polknowl + polinterest + married + inc + education, data=hp2013, mostlysec==1)
-fit.9 <- lm(polmotbyrel ~ churchattend + polmotbyrel + age + polknowl + polinterest + married + inc + education, data=hp2013, hetero==1)
+fit.7 <- lm(partind ~ polmotbyrel + age + polknowl + polinterest + married + inc + education, data=hp2013, mostlyrel==1)
+fit.8 <- lm(partind ~ polmotbyrel + age + polknowl + polinterest + married + inc + education, data=hp2013, mostlysec==1)
+fit.9 <- lm(partind ~ polmotbyrel + age + polknowl + polinterest + married + inc + education, data=hp2013, hetero==1)
+
+fit.10 <- lm(partind ~ polmotbyrel + mostlysecandhet + polmotbyrel:mostlysecandhet + age + polknowl + polinterest + married + inc + education, data=hp2013)
+fit.11 <- lm(partind ~ polmotbyrel + mostlysec + hetero + polmotbyrel:mostlysec + polmotbyrel:hetero + age + polknowl + polinterest + married + inc + education, data=hp2013)
+fit.12 <- lm(partind ~ polmotbyrel + mostlyrel + mostlysec + polmotbyrel:mostlyrel + polmotbyrel:mostlysec + age + polknowl + polinterest + married + inc + education, data=hp2013)
 summary(fit.7)
 summary(fit.8)
 summary(fit.9)
+summary(fit.10)
+summary(fit.11)
+summary(fit.12)
 
 #####################
 # Regression Diagnostics
@@ -269,13 +276,18 @@ require(Hmisc)
 require(reshape2)
 
 ## fit ordered logit model and store results
-olr.rel <- polr(partind.f ~ churchattend + polmotbyrel + polmotbyrel:churchattend + age + polinterest + polknowl + married + education + inc, data = hp2013, mostlyrel==1)
-olr.het <- polr(partind.f ~ churchattend + polmotbyrel + polmotbyrel:churchattend + age + polinterest + polknowl + married + education + inc, data = hp2013, hetero==1)
-olr.sec <- polr(partind.f ~ churchattend + polmotbyrel + polmotbyrel:churchattend + age + polinterest + polknowl + married + education + inc, data = hp2013, mostlysec==1)
+olr.rel <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + education + inc, data = hp2013, mostlyrel==1)
+olr.het <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + education + inc, data = hp2013, hetero==1)
+olr.sec <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + education + inc, data = hp2013, mostlysec==1)
+olr.comb1 <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + education + inc, data = hp2013)
+olr.comb2 <- polr(partind.f ~ polmotbyrel + mostlysec + mostlyrel + polmotbyrel*mostlysec + polmotbyrel*mostlyrel + age + polinterest + polknowl + married + education + inc, data = hp2013)
 
 summary(olr.rel)
 summary(olr.het)
 summary(olr.sec)
+summary(olr.comb1)
+summary(olr.comb2)
+
 
 #####################
 # Multi-level Model (Bayes / MCMC)
