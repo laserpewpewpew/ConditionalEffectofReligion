@@ -194,6 +194,17 @@ summary(fit.10)
 summary(fit.11)
 summary(fit.12)
 
+require(MASS)
+
+nbfit.10 <- glm.nb(partind ~ polmotbyrel + mostlysecandhet + polmotbyrel:mostlysecandhet + age + polknowl + polinterest + married + inc + education, data=hp2013)
+nbfit.11 <- glm.nb(partind ~ polmotbyrel + mostlysec + hetero + polmotbyrel:mostlysec + polmotbyrel:hetero + age + polknowl + polinterest + married + inc + education, data=hp2013)
+nbfit.12 <- glm.nb(partind ~ polmotbyrel + mostlyrel + mostlysec + polmotbyrel:mostlyrel + polmotbyrel:mostlysec + age + polknowl + polinterest + married + inc + education, data=hp2013)
+nbfit.13 <- glm.nb(partind ~ polmotbyrel + mostlyrel + polmotbyrel:mostlyrel + age + polknowl + polinterest + married + inc + education, data=hp2013)
+summary(nbfit.10)
+summary(nbfit.11)
+summary(nbfit.12)
+summary(nbfit.13)
+
 #####################
 # Regression Diagnostics
 ####################
