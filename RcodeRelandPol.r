@@ -100,6 +100,11 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
   hp2013$community.f <- factor(hp2013$commnum, labels=c("Mostly secular", "Somewhere between", "Mostly religious"))
   hp2013$community.f
 
+# community nominal variable
+  hp2013$commnom[hp2013$community=="Somewhere between"] <- 1
+  hp2013$commnom[hp2013$community=="Mostly secular"] <- 2
+  hp2013$commnom[hp2013$community=="Mostly religious"] <- 3
+
 # uschristnat dichotomous variable:
 	hp2013$uschristnat[hp2013$relidentity1=="No"] <- 0
 	hp2013$uschristnat[hp2013$relidentity1=="Yes"] <- 1
@@ -186,24 +191,24 @@ fit.9 <- lm(partind ~ polmotbyrel + age + polknowl + polinterest + married + inc
 
 fit.10 <- lm(partind ~ polmotbyrel + mostlysecandhet + polmotbyrel:mostlysecandhet + age + polknowl + polinterest + married + inc + education, data=hp2013)
 fit.11 <- lm(partind ~ polmotbyrel + mostlysec + hetero + polmotbyrel:mostlysec + polmotbyrel:hetero + age + polknowl + polinterest + married + inc + education, data=hp2013)
-fit.12 <- lm(partind ~ polmotbyrel + mostlyrel + mostlysec + polmotbyrel:mostlyrel + polmotbyrel:mostlysec + age + polknowl + polinterest + married + inc + education, data=hp2013)
+fit.final <- lm(partind ~ polmotbyrel + mostlyrel + mostlysec + polmotbyrel*mostlyrel + polmotbyrel*mostlysec + age + polknowl + polinterest + married + inc + education, data=hp2013)
 summary(fit.7)
 summary(fit.8)
 summary(fit.9)
 summary(fit.10)
 summary(fit.11)
-summary(fit.12)
+summary(fit.final)
 
 require(MASS)
 
 nbfit.10 <- glm.nb(partind ~ polmotbyrel + mostlysecandhet + polmotbyrel:mostlysecandhet + age + polknowl + polinterest + married + inc + education, data=hp2013)
 nbfit.11 <- glm.nb(partind ~ polmotbyrel + mostlysec + hetero + polmotbyrel:mostlysec + polmotbyrel:hetero + age + polknowl + polinterest + married + inc + education, data=hp2013)
 nbfit.12 <- glm.nb(partind ~ polmotbyrel + mostlyrel + mostlysec + polmotbyrel:mostlyrel + polmotbyrel:mostlysec + age + polknowl + polinterest + married + inc + education, data=hp2013)
-nbfit.13 <- glm.nb(partind ~ polmotbyrel + mostlyrel + polmotbyrel:mostlyrel + age + polknowl + polinterest + married + inc + education, data=hp2013)
+nbfit.final <- glm.nb(partind ~ polmotbyrel + mostlysec + mostlyrel + polmotbyrel*mostlysec + polmotbyrel*mostlyrel + age + polknowl + polinterest + married + inc + education, data=hp2013)
 summary(nbfit.10)
 summary(nbfit.11)
 summary(nbfit.12)
-summary(nbfit.13)
+summary(nbfit.final)
 
 #####################
 # Regression Diagnostics
@@ -213,68 +218,62 @@ library(ggplot2)
 library(car)
 
 ###################### Assessing Outliers
-outlierTest(fit.8) # Bonferonni p-value for most extreme observations
-# qqplot(fit.6, main="QQ Plot") #qq plot for studentized residuals
-# leveragePlots(fit.7) # Leverage plots
-# leveragePlots(fit.8) # Leverage plots
-# leveragePlots(fit.9) # Leverage plots
+outlierTest(fit.final) # Bonferonni p-value for most extreme observations
+# qqplot(fit.final, main="QQ Plot") #qq plot for studentized residuals
+leveragePlots(fit.final) # Leverage plots
 
 ###################### Influential Observations
 # added variable plots
-# avPlots(fit.6)
+avPlots(fit.final)
 # Cook's D Plot
 # identify D values > 4/(n-k-1)
-cutoff <- 4/((nrow(hp2013)-length(fit.8$coefficients)-2))
-plot(fit.8, which=4, cook.levels=cutoff)
+cutoff <- 4/((nrow(hp2013)-length(fit.final$coefficients)-2))
+plot(fit.final, which=4, cook.levels=cutoff)
 #Influence Plot
-influencePlot(fit.8, id.method="identify", main="Influence Plot",
+influencePlot(fit.final, id.method="identify", main="Influence Plot",
               sub="Circle size is proprtional to Cook's Distance")
 
 ###################### Non-Normality
 # Normality of Residuals
 # qqplot for studentized residuals
-# qqplot(fit.8, main="QQ Plot")
+# qqplot(fit.final, main="QQ Plot")
 # distribution of studentized residuals
 # library(MASS)
-# sresid <- studres(fit.8)
-# hist(sresid, freq=FALSE,
-#     main="Distribution of Studentized Residuals")
-# xfit <- seq(min(sresid),max(sresid),length=40)
-# yfit <- dnorm(xfit)
-# lines(xfit, yfit)
+sresid <- studres(fit.final)
+hist(sresid, freq=FALSE,
+     main="Distribution of Studentized Residuals")
+ xfit <- seq(min(sresid),max(sresid),length=40)
+ yfit <- dnorm(xfit)
+ lines(xfit, yfit)
 
 ####################### Non-constant Error Variance
 # Evaluate homoscedasticity 
 # non-constant error variance test
-ncvTest(fit.8)
+ncvTest(fit.final)
 # plot studentized residuals vs. fitted values
-spreadLevelPlot(fit.7)
-spreadLevelPlot(fit.8)
-spreadLevelPlot(fit.9)
+spreadLevelPlot(fit.final)
 
 ####################### Multi-collinearity
 # Evaluate Collinearity
-vif(fit.8) # variance inflation factors
-sqrt(vif(fit.8)) > 2 # problem?
+vif(fit.final) # variance inflation factors
+sqrt(vif(fit.final)) > 2 # problem?
 
 ####################### Nonlinearity
 # Evaluate linearity
 # component + residual plot
-# crPlots(fit.8)
+# crPlots(fit.final)
 # Ceres plots
-# ceresPlots(fit.8)
+# ceresPlots(fit.final)
 
 ####################### Non-independence of Errors
 # Test for Autocorrelated Errors
-durbinWatsonTest(fit.8)
+durbinWatsonTest(fit.final)
 
 ####################### Global Tests
 # Global test of model assumptions
 library(gvlma)
-gvmodel <- gvlma(fit.8)
+gvmodel <- gvlma(fit.final)
 summary(gvmodel)
-
-
 
 #######################
 # Ordered Logistic regression
@@ -287,59 +286,58 @@ require(Hmisc)
 require(reshape2)
 
 ## fit ordered logit model and store results
-olr.rel <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + education + inc, data = hp2013, mostlyrel==1)
-olr.het <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + education + inc, data = hp2013, hetero==1)
-olr.sec <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + education + inc, data = hp2013, mostlysec==1)
-olr.comb1 <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + education + inc, data = hp2013)
-olr.comb2 <- polr(partind.f ~ polmotbyrel + mostlysec + mostlyrel + polmotbyrel*mostlysec + polmotbyrel*mostlyrel + age + polinterest + polknowl + married + education + inc, data = hp2013)
+olr.rel <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + 
+                  education + inc, data = hp2013, mostlyrel==1)
+    olr.het <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + 
+                  education + inc, data = hp2013, hetero==1)
+olr.sec <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + 
+                  education + inc, data = hp2013, mostlysec==1)
+    olr.comb1 <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + 
+                    education + inc, data = hp2013)
+    olr.final <- polr(partind.f ~ polmotbyrel + mostlysec + mostlyrel + polmotbyrel*mostlysec + 
+                    polmotbyrel*mostlyrel + age + polinterest + polknowl + married + education + 
+                    inc, data = hp2013)
+    olr.comb3 <- polr(partind.f ~ polmotbyrel + hetero + polmotbyrel*hetero + age + polinterest +
+                        polknowl + married + education + inc, data=hp2013)
 
 summary(olr.rel)
 summary(olr.het)
 summary(olr.sec)
 summary(olr.comb1)
-summary(olr.comb2)
+summary(olr.final)
 
+# Calculate p-values for OLR estimates
+(ctable <- coef(summary(olr.final)))
+p <- pnorm(abs(ctable[, "t value"]), lower.tail= FALSE) * 2
 
-#####################
-# Multi-level Model (Bayes / MCMC)
-#####################
-library(bayesm)
-attach(hp2013)
+(ctable <- cbind(ctable, 'p value' = p))
 
-commtype <- levels(hp2013$community.f)
-nreg <- length(commtype); nreg
+# profiled CIs
+(ci <- confint(olr.final))
 
-# removing cases missing values for either variable
+# CIs assuming normality
+confint.default(olr.final)
 
-community.rm <- na.omit(hp2013$community.f)
-community.rm
+##############################################
+# Proportional Odds Ratios with 95% Conf. Int.
+##############################################
 
-regdata <- NULL
-for (i in 1:nreg) {
-  filter <- hp2013$community.f==commtype[i]
-  y <- hp2013$partind[filter]
-  X <- cbind(1,      # intercept placeholder
-             newdata$churchattend.rm[filter],
-             newdata$polmotbyrel.rm[filter])
-  
-  regdata[[i]] <- list(y=y, X=X)
-}
+exp(coef(olr.final))
+exp(cbind(OR = coef(olr.final), confint(olr.final))) 
 
-  Data <- list(regdata=regdata)
-  Mcmc <- list(R=2000)
-  
-  system.time(
-    out <- bayesm::rhierLinearModel(
-      Data=Data,
-      Mcmc=Mcmc))
+#########################
+# Predicted Probabilities 
+#########################
+newdata <- read.csv("probdata.csv")
+newdata <- cbind(newdata, predict(olr.final, newdata, type = "probs"))
 
-library(rpud)
-system.time(
-  out<- rpud::rhierLinearModel(
-    Data=Data,
-    Mcmc=Mcmc,
-    output="bayesm"))
+head(newdata)
 
-#estimate the coefficient from the third component of the second dimension in the betadraw attribute of the MCMC output (dropping the first 10% samples for burn-in)
-beta.3 <- mean(as.vector(out$betadraw[, 3, 201:2000]))
-beta.3
+lnewdat <- melt(newdata, id.vars = c("mostlysec", "mostlyrel", "id", "age", "polmotbyrel", "married", "education", "inc", "polinterest", "polknowl"), variable.name = "Participation",
+                value.name ="Probability")
+head(lnewdat)
+
+ggplot(lnewdat, aes(x = polmotbyrel, y = Probability, colour = Participation)) + geom_line() +
+  facet_grid(mostlysec ~ mostlyrel, scales = "fixed", labeller = function(x, y) sprintf("%s = %d",
+                                                                                x, y))
+
