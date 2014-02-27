@@ -1,9 +1,9 @@
-##################
-# Gracey and Ritter 2014
-# Religion and Politics
-# Department of Political Science
-# University of Iowa
-##################
+###################################  
+# Gracey and Ritter 2014          #
+# Religion and Politics           #
+# Department of Political Science #
+# University of Iowa              #
+###################################
 
 
 ##################
@@ -167,22 +167,22 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
 #####################
 
 # Basic Relationships
-fit.1 <- lm(partind ~ churchattend + mostlysecandhet, data=hp2013)
+fit.1 <- lm(partind ~ polmotbyrel + churchattend, data=hp2013)
 summary(fit.1)
 
-fit.2 <- lm(partind ~ churchattend + mostlysecandhet + churchattend:mostlysecandhet, data=hp2013)
+fit.2 <- lm(partind ~ polmotbyrel + churchattend + hetero + churchattend*hetero + polmotbyrel*hetero, data=hp2013)
 summary(fit.2)
 
-fit.3 <- lm(partind ~ churchattend + mostlysecandhet + churchattend:mostlysecandhet + age + polinterest + polknowl + married, data=hp2013)
+fit.3 <- lm(partind ~ polmotbyrel + churchattend + hetero + churchattend*hetero + age + polinterest + polknowl + married, data=hp2013)
 summary(fit.3)
 
-fit.4 <- lm(partind ~ age + polinterest + polknowl + married + churchattend + inc + education, data=hp2013)
+fit.4 <- lm(partind ~ polmotbyrel + churchattend + hetero + age + polinterest + polknowl + married + inc + education, data=hp2013)
 summary(fit.4)
 
-fit.5 <- lm(partind ~ age + polinterest + polknowl + married + churchattend + inc + education, data=hp2013, mostlysecandhet==1)
+fit.5 <- lm(partind ~ polmotbyrel + age + polinterest + polknowl + married + churchattend + inc + education, data=hp2013, hetero==1)
 summary(fit.5)
 
-fit.6 <- lm(partind ~ age + polinterest + polknowl + married + churchattend + inc + education, data=hp2013, mostlyrel==1)
+fit.6 <- lm(partind ~ polmotbyrel + age + polinterest + polknowl + married + churchattend + inc + education, data=hp2013, mostlyrel==1)
 summary(fit.6)
 
 fit.7 <- lm(partind ~ polmotbyrel + age + polknowl + polinterest + married + inc + education, data=hp2013, mostlyrel==1)
@@ -191,7 +191,7 @@ fit.9 <- lm(partind ~ polmotbyrel + age + polknowl + polinterest + married + inc
 
 fit.10 <- lm(partind ~ polmotbyrel + mostlysecandhet + polmotbyrel:mostlysecandhet + age + polknowl + polinterest + married + inc + education, data=hp2013)
 fit.11 <- lm(partind ~ polmotbyrel + mostlysec + hetero + polmotbyrel:mostlysec + polmotbyrel:hetero + age + polknowl + polinterest + married + inc + education, data=hp2013)
-fit.final <- lm(partind ~ polmotbyrel + mostlyrel + mostlysec + polmotbyrel*mostlyrel + polmotbyrel*mostlysec + age + polknowl + polinterest + married + inc + education, data=hp2013)
+fit.final <- lm(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + age + polknowl + polinterest + married + inc + education, data=hp2013)
 summary(fit.7)
 summary(fit.8)
 summary(fit.9)
@@ -204,7 +204,7 @@ require(MASS)
 nbfit.10 <- glm.nb(partind ~ polmotbyrel + mostlysecandhet + polmotbyrel:mostlysecandhet + age + polknowl + polinterest + married + inc + education, data=hp2013)
 nbfit.11 <- glm.nb(partind ~ polmotbyrel + mostlysec + hetero + polmotbyrel:mostlysec + polmotbyrel:hetero + age + polknowl + polinterest + married + inc + education, data=hp2013)
 nbfit.12 <- glm.nb(partind ~ polmotbyrel + mostlyrel + mostlysec + polmotbyrel:mostlyrel + polmotbyrel:mostlysec + age + polknowl + polinterest + married + inc + education, data=hp2013)
-nbfit.final <- glm.nb(partind ~ polmotbyrel + mostlysec + mostlyrel + polmotbyrel*mostlysec + polmotbyrel*mostlyrel + age + polknowl + polinterest + married + inc + education, data=hp2013)
+nbfit.final <- glm.nb(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + age + polknowl + polinterest + married + inc + education, data=hp2013)
 summary(nbfit.10)
 summary(nbfit.11)
 summary(nbfit.12)
@@ -220,18 +220,18 @@ library(car)
 ###################### Assessing Outliers
 outlierTest(fit.final) # Bonferonni p-value for most extreme observations
 # qqplot(fit.final, main="QQ Plot") #qq plot for studentized residuals
-leveragePlots(fit.final) # Leverage plots
+# leveragePlots(fit.final) # Leverage plots
 
 ###################### Influential Observations
 # added variable plots
-avPlots(fit.final)
+# avPlots(fit.final)
 # Cook's D Plot
 # identify D values > 4/(n-k-1)
-cutoff <- 4/((nrow(hp2013)-length(fit.final$coefficients)-2))
-plot(fit.final, which=4, cook.levels=cutoff)
+# cutoff <- 4/((nrow(hp2013)-length(fit.final$coefficients)-2))
+# plot(fit.final, which=4, cook.levels=cutoff)
 #Influence Plot
-influencePlot(fit.final, id.method="identify", main="Influence Plot",
-              sub="Circle size is proprtional to Cook's Distance")
+# influencePlot(fit.final, id.method="identify", main="Influence Plot",
+#              sub="Circle size is proprtional to Cook's Distance")
 
 ###################### Non-Normality
 # Normality of Residuals
@@ -294,9 +294,9 @@ olr.sec <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married
                   education + inc, data = hp2013, mostlysec==1)
     olr.comb1 <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + 
                     education + inc, data = hp2013)
-    olr.final <- polr(partind.f ~ polmotbyrel + mostlysec + mostlyrel + polmotbyrel*mostlysec + 
-                    polmotbyrel*mostlyrel + age + polinterest + polknowl + married + education + 
-                    inc, data = hp2013)
+    olr.final <- polr(partind.f ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + age + 
+                        polinterest + polknowl + married + education + inc, data = hp2013)
+
     olr.comb3 <- polr(partind.f ~ polmotbyrel + hetero + polmotbyrel*hetero + age + polinterest +
                         polknowl + married + education + inc, data=hp2013)
 
@@ -318,9 +318,9 @@ p <- pnorm(abs(ctable[, "t value"]), lower.tail= FALSE) * 2
 # CIs assuming normality
 confint.default(olr.final)
 
-##############################################
-# Proportional Odds Ratios with 95% Conf. Int.
-##############################################
+################################################
+# Proportional Odds Ratios with 95% Conf. Int. #
+################################################
 
 exp(coef(olr.final))
 exp(cbind(OR = coef(olr.final), confint(olr.final))) 
@@ -338,6 +338,27 @@ lnewdat <- melt(newdata, id.vars = c("mostlysec", "mostlyrel", "id", "age", "pol
 head(lnewdat)
 
 ggplot(lnewdat, aes(x = polmotbyrel, y = Probability, colour = Participation)) + geom_line() +
-  facet_grid(mostlysec ~ mostlyrel, scales = "fixed", labeller = function(x, y) sprintf("%s = %d",
+  facet_grid (mostlyrel, scales = "fixed", labeller = function(x, y) sprintf("%s = %d",
                                                                                 x, y))
+#######################
+# Logistic Regression #
+#######################
 
+mylogit <- glm(signed ~ polmotbyrel + mostlysecandhet + polmotbyrel*mostlysecandhet + age + polinterest + 
+                 polknowl + married + education + inc, data = hp2013, family="binomial")
+
+summary(mylogit)
+
+
+#############################
+# Generate table of results #
+#############################
+
+library("stargazer")
+
+stargazer(fit.final, nbfit.final, olr.final, title="Results", align=TRUE, 
+          dep.var.labels=c("Political Participation", "Participation Factor"),
+          covariate.labels=c("Religious Motivation", "Mostly Religious Cmty.", "Age", "Political Knowledge", "Political Interest", "Married", "Income", "Education", "Religious Motivation * Mostly Rel. Cmty."),
+          omit.stat=c("LL","ser","f", "theta"),
+          no.space=FALSE
+          )
