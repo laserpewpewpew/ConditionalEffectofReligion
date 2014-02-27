@@ -300,6 +300,8 @@ olr.sec <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married
     olr.comb3 <- polr(partind.f ~ polmotbyrel + hetero + polmotbyrel*hetero + age + polinterest +
                         polknowl + married + education + inc, data=hp2013)
 
+olr.test <- 
+
 summary(olr.rel)
 summary(olr.het)
 summary(olr.sec)
@@ -333,13 +335,19 @@ newdata <- cbind(newdata, predict(olr.final, newdata, type = "probs"))
 
 head(newdata)
 
-lnewdat <- melt(newdata, id.vars = c("mostlysec", "mostlyrel", "id", "age", "polmotbyrel", "married", "education", "inc", "polinterest", "polknowl"), variable.name = "Participation",
+lnewdat <- melt(newdata, id.vars = c("mostlyrel", "id", "age", "polmotbyrel", "married", "education", "inc", "polinterest", "polknowl"), variable.name = "Participation",
                 value.name ="Probability")
 head(lnewdat)
 
+
+lnewdat$mostlyrel.f[lnewdat$mostlyrel==1] <- "Mostly Religious"
+lnewdat$mostlyrel.f[lnewdat$mostlyrel==0] <- "Heterogeneous/Secular"
+
 ggplot(lnewdat, aes(x = polmotbyrel, y = Probability, colour = Participation)) + geom_line() +
-  facet_grid (mostlyrel, scales = "fixed", labeller = function(x, y) sprintf("%s = %d",
-                                                                                x, y))
+  xlab("Religious Motivation of Politics") +
+  facet_grid (. ~ mostlyrel.f, scales = "fixed", labeller =label_value)
+
+
 #######################
 # Logistic Regression #
 #######################
@@ -356,7 +364,7 @@ summary(mylogit)
 
 library("stargazer")
 
-stargazer(fit.final, nbfit.final, olr.final, title="Results", align=TRUE, 
+stargazer(fit.final, nbfit.final, olr.final, title="Robust Results Across Dependent Variable Treatment", align=TRUE, 
           dep.var.labels=c("Political Participation", "Participation Factor"),
           covariate.labels=c("Religious Motivation", "Mostly Religious Cmty.", "Age", "Political Knowledge", "Political Interest", "Married", "Income", "Education", "Religious Motivation * Mostly Rel. Cmty."),
           omit.stat=c("LL","ser","f", "theta"),
