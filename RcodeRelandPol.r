@@ -63,6 +63,10 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
   hp2013$strongrep[hp2013$pid2r=="NA"] <- 0
 	hp2013$strongrep[hp2013$pid2r=="StrongGOP"] <- 1
 
+# female dichotomous variable:
+  hp2013$female[hp2013$male=="Female"] <- 1
+  hp2013$female[hp2013$male=="Male"] <- 0
+
 # polmotbyrel ordinal variable:
 	hp2013$polmotbyrel[hp2013$relidentity2=="None"] <- 0
 	hp2013$polmotbyrel[hp2013$relidentity2=="Small amount"] <- 1
@@ -97,7 +101,6 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
 
 # community.f factor variable
   hp2013$community.f <- factor(hp2013$commnum, labels=c("Mostly secular", "Somewhere between", "Mostly religious"))
-  hp2013$community.f
 
 # community nominal variable
   hp2013$commnom[hp2013$community=="Somewhere between"] <- 1
@@ -158,22 +161,24 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
   hp2013$inc[hp2013$income=="$100-under$150,000"] <- 8
   hp2013$inc[hp2013$income=="$150,000+"] <- 9
 
+  hp2013$mostlyrelflip <- 1 - hp2013$mostlyrel
+
 ###########################
 # Linear Regression Model #
 ###########################
 
-fit.1 <- lm(partind ~ polmotbyrel + mostlyrel + churchattend + age + polknowl + polinterest + married + inc + education, 
+fit.1 <- lm(partind ~ polmotbyrel + mostlyrel + churchattend + age + female + polknowl + polinterest + married + inc + education, 
             data=hp2013 )
-fit.final <- lm(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + age + polknowl + polinterest + married + inc + education, 
+fit.final <- lm(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + churchattend*mostlyrel + age + female + polknowl + polinterest + married + inc + education, 
                 data=hp2013)
 
 # Negative Binomial Model
 require(MASS)
 
-nbfit.10 <- glm.nb(partind ~ polmotbyrel + mostlysecandhet + polmotbyrel:mostlysecandhet + age + polknowl + polinterest + married + inc + education, data=hp2013)
-nbfit.11 <- glm.nb(partind ~ polmotbyrel + mostlysec + hetero + polmotbyrel:mostlysec + polmotbyrel:hetero + age + polknowl + polinterest + married + inc + education, data=hp2013)
-nbfit.12 <- glm.nb(partind ~ polmotbyrel + mostlyrel + mostlysec + polmotbyrel:mostlyrel + polmotbyrel:mostlysec + age + polknowl + polinterest + married + inc + education, data=hp2013)
-nbfit.final <- glm.nb(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + age + polknowl + polinterest + married + inc + education, data=hp2013)
+nbfit.10 <- glm.nb(partind ~ polmotbyrel + mostlysecandhet + polmotbyrel:mostlysecandhet + age + female + polknowl + polinterest + married + inc + education, data=hp2013)
+nbfit.11 <- glm.nb(partind ~ polmotbyrel + mostlysec + hetero + polmotbyrel:mostlysec + polmotbyrel:hetero + age + female + polknowl + polinterest + married + inc + education, data=hp2013)
+nbfit.12 <- glm.nb(partind ~ polmotbyrel + mostlyrel + mostlysec + polmotbyrel:mostlyrel + polmotbyrel:mostlysec + age + female + polknowl + polinterest + married + inc + education, data=hp2013)
+nbfit.final <- glm.nb(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + churchattend*mostlyrel + age + female + polknowl + polinterest + married + inc + education, data=hp2013)
 
 #####################
 # Regression Diagnostics
@@ -251,7 +256,10 @@ require(Hmisc)
 require(reshape2)
 
 ## fit ordered logit model and store results
-olr.final <- polr(partind.f ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + age + polinterest + polknowl + married + education + inc, 
+olr.final <- polr(partind.f ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + churchattend*mostlyrel + age + female + polinterest + polknowl + married + education + inc, 
+                  data = hp2013)
+
+olr.final2 <- polr(partind.f ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + churchattend + age + female + polinterest + polknowl + married + education + inc, 
                   data = hp2013)
 
 # Calculate p-values for OLR estimates
@@ -281,7 +289,7 @@ newdata <- cbind(newdata, predict(olr.final, newdata, type = "probs"))
 
 head(newdata)
 
-lnewdat <- melt(newdata, id.vars = c("mostlyrel", "id", "age", "polmotbyrel", "married", "education", "inc", "polinterest", "polknowl"), variable.name = "Participation",
+lnewdat <- melt(newdata, id.vars = c("mostlyrel", "id", "churchattend", "age", "female", "polmotbyrel", "married", "education", "inc", "polinterest", "polknowl"), variable.name = "Participation",
                 value.name ="Probability")
 head(lnewdat)
 
@@ -299,9 +307,11 @@ ggplot(lnewdat, aes(x = polmotbyrel, y = Probability, colour = Participation)) +
 
 library("stargazer")
 
-stargazer(fit.final, nbfit.final, olr.final, title="Robust Results Across Dependent Variable Treatment", align=TRUE, 
+stargazer(fit.final, nbfit.final, olr.final, 
+          title="Robust Results Across Dependent Variable Treatment", 
+          align=TRUE, 
           dep.var.labels=c("Political Participation", "Participation Factor"),
-          covariate.labels=c("Religious Motivation", "Mostly Religious Cmty.", "Church Attendance", "Age", "Political Knowledge", "Political Interest", "Married", "Income", "Education", "Religious Motivation * Mostly Rel. Cmty."),
-          omit.stat=c("LL","ser","f", "theta"),
+          covariate.labels=c("Religious Motivation", "Mostly Religious Cmty.", "Church Attendance", "Age", "Female", "Political Knowledge", "Political Interest", "Married", "Income", "Education", "Religious Motivation * Mostly Rel. Cmty.", "Church Attend. * Mostly Rel. Cmty."),
+          omit.stat=c("LL","ser", "theta"),
           no.space=FALSE
           )
