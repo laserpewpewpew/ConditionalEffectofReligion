@@ -20,7 +20,6 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
 	hp2013$livesrural[hp2013$urban=="Rural"] <- 1
 	hp2013$livesrural[hp2013$urban=="Suburban"] <- 0
 	hp2013$livesrural[hp2013$urban=="Urban"] <- 0
-  summary(hp2013$livesrural)
 
 # livesurban dichotomous variable:
 	hp2013$livesurban[hp2013$urban=="Rural"] <- 0
@@ -139,7 +138,6 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
 
 # partind.f factor variable
   partind.f <- factor(hp2013$partind, labels=c("None", "One", "Two", "Three", "Four", "Five"))
-  partind.f
 
 # education ordinal variable:
   hp2013$education[hp2013$educ=="<HighSchool"] <- 1
@@ -159,56 +157,23 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
   hp2013$inc[hp2013$income=="$75-under$100,000"] <- 7
   hp2013$inc[hp2013$income=="$100-under$150,000"] <- 8
   hp2013$inc[hp2013$income=="$150,000+"] <- 9
-  
-  summary(hp2013$partind)
 
-#####################
-# Linear Regression Model
-#####################
+###########################
+# Linear Regression Model #
+###########################
 
-# Basic Relationships
-fit.1 <- lm(partind ~ polmotbyrel + churchattend, data=hp2013)
-summary(fit.1)
+fit.1 <- lm(partind ~ polmotbyrel + mostlyrel + churchattend + age + polknowl + polinterest + married + inc + education, 
+            data=hp2013 )
+fit.final <- lm(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + age + polknowl + polinterest + married + inc + education, 
+                data=hp2013)
 
-fit.2 <- lm(partind ~ polmotbyrel + churchattend + hetero + churchattend*hetero + polmotbyrel*hetero, data=hp2013)
-summary(fit.2)
-
-fit.3 <- lm(partind ~ polmotbyrel + churchattend + hetero + churchattend*hetero + age + polinterest + polknowl + married, data=hp2013)
-summary(fit.3)
-
-fit.4 <- lm(partind ~ polmotbyrel + churchattend + hetero + age + polinterest + polknowl + married + inc + education, data=hp2013)
-summary(fit.4)
-
-fit.5 <- lm(partind ~ polmotbyrel + age + polinterest + polknowl + married + churchattend + inc + education, data=hp2013, hetero==1)
-summary(fit.5)
-
-fit.6 <- lm(partind ~ polmotbyrel + age + polinterest + polknowl + married + churchattend + inc + education, data=hp2013, mostlyrel==1)
-summary(fit.6)
-
-fit.7 <- lm(partind ~ polmotbyrel + age + polknowl + polinterest + married + inc + education, data=hp2013, mostlyrel==1)
-fit.8 <- lm(partind ~ polmotbyrel + age + polknowl + polinterest + married + inc + education, data=hp2013, mostlysec==1)
-fit.9 <- lm(partind ~ polmotbyrel + age + polknowl + polinterest + married + inc + education, data=hp2013, hetero==1)
-
-fit.10 <- lm(partind ~ polmotbyrel + mostlysecandhet + polmotbyrel:mostlysecandhet + age + polknowl + polinterest + married + inc + education, data=hp2013)
-fit.11 <- lm(partind ~ polmotbyrel + mostlysec + hetero + polmotbyrel:mostlysec + polmotbyrel:hetero + age + polknowl + polinterest + married + inc + education, data=hp2013)
-fit.final <- lm(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + age + polknowl + polinterest + married + inc + education, data=hp2013)
-summary(fit.7)
-summary(fit.8)
-summary(fit.9)
-summary(fit.10)
-summary(fit.11)
-summary(fit.final)
-
+# Negative Binomial Model
 require(MASS)
 
 nbfit.10 <- glm.nb(partind ~ polmotbyrel + mostlysecandhet + polmotbyrel:mostlysecandhet + age + polknowl + polinterest + married + inc + education, data=hp2013)
 nbfit.11 <- glm.nb(partind ~ polmotbyrel + mostlysec + hetero + polmotbyrel:mostlysec + polmotbyrel:hetero + age + polknowl + polinterest + married + inc + education, data=hp2013)
 nbfit.12 <- glm.nb(partind ~ polmotbyrel + mostlyrel + mostlysec + polmotbyrel:mostlyrel + polmotbyrel:mostlysec + age + polknowl + polinterest + married + inc + education, data=hp2013)
-nbfit.final <- glm.nb(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + age + polknowl + polinterest + married + inc + education, data=hp2013)
-summary(nbfit.10)
-summary(nbfit.11)
-summary(nbfit.12)
-summary(nbfit.final)
+nbfit.final <- glm.nb(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + age + polknowl + polinterest + married + inc + education, data=hp2013)
 
 #####################
 # Regression Diagnostics
@@ -218,7 +183,7 @@ library(ggplot2)
 library(car)
 
 ###################### Assessing Outliers
-outlierTest(fit.final) # Bonferonni p-value for most extreme observations
+# outlierTest(fit.final) # Bonferonni p-value for most extreme observations
 # qqplot(fit.final, main="QQ Plot") #qq plot for studentized residuals
 # leveragePlots(fit.final) # Leverage plots
 
@@ -239,24 +204,24 @@ outlierTest(fit.final) # Bonferonni p-value for most extreme observations
 # qqplot(fit.final, main="QQ Plot")
 # distribution of studentized residuals
 # library(MASS)
-sresid <- studres(fit.final)
-hist(sresid, freq=FALSE,
-     main="Distribution of Studentized Residuals")
- xfit <- seq(min(sresid),max(sresid),length=40)
- yfit <- dnorm(xfit)
- lines(xfit, yfit)
+# sresid <- studres(fit.final)
+# hist(sresid, freq=FALSE,
+#     main="Distribution of Studentized Residuals")
+# xfit <- seq(min(sresid),max(sresid),length=40)
+# yfit <- dnorm(xfit)
+# lines(xfit, yfit)
 
 ####################### Non-constant Error Variance
 # Evaluate homoscedasticity 
 # non-constant error variance test
-ncvTest(fit.final)
+# ncvTest(fit.final)
 # plot studentized residuals vs. fitted values
-spreadLevelPlot(fit.final)
+# spreadLevelPlot(fit.final)
 
 ####################### Multi-collinearity
 # Evaluate Collinearity
-vif(fit.final) # variance inflation factors
-sqrt(vif(fit.final)) > 2 # problem?
+# vif(fit.final) # variance inflation factors
+# sqrt(vif(fit.final)) > 2 # problem?
 
 ####################### Nonlinearity
 # Evaluate linearity
@@ -267,13 +232,13 @@ sqrt(vif(fit.final)) > 2 # problem?
 
 ####################### Non-independence of Errors
 # Test for Autocorrelated Errors
-durbinWatsonTest(fit.final)
+# durbinWatsonTest(fit.final)
 
 ####################### Global Tests
 # Global test of model assumptions
-library(gvlma)
-gvmodel <- gvlma(fit.final)
-summary(gvmodel)
+# library(gvlma)
+# gvmodel <- gvlma(fit.final)
+# summary(gvmodel)
 
 #######################
 # Ordered Logistic regression
@@ -286,27 +251,8 @@ require(Hmisc)
 require(reshape2)
 
 ## fit ordered logit model and store results
-olr.rel <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + 
-                  education + inc, data = hp2013, mostlyrel==1)
-    olr.het <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + 
-                  education + inc, data = hp2013, hetero==1)
-olr.sec <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + 
-                  education + inc, data = hp2013, mostlysec==1)
-    olr.comb1 <- polr(partind.f ~ polmotbyrel + age + polinterest + polknowl + married + 
-                    education + inc, data = hp2013)
-    olr.final <- polr(partind.f ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + age + 
-                        polinterest + polknowl + married + education + inc, data = hp2013)
-
-    olr.comb3 <- polr(partind.f ~ polmotbyrel + hetero + polmotbyrel*hetero + age + polinterest +
-                        polknowl + married + education + inc, data=hp2013)
-
-olr.test <- 
-
-summary(olr.rel)
-summary(olr.het)
-summary(olr.sec)
-summary(olr.comb1)
-summary(olr.final)
+olr.final <- polr(partind.f ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + age + polinterest + polknowl + married + education + inc, 
+                  data = hp2013)
 
 # Calculate p-values for OLR estimates
 (ctable <- coef(summary(olr.final)))
@@ -347,17 +293,6 @@ ggplot(lnewdat, aes(x = polmotbyrel, y = Probability, colour = Participation)) +
   xlab("Religious Motivation of Politics") +
   facet_grid (. ~ mostlyrel.f, scales = "fixed", labeller =label_value)
 
-
-#######################
-# Logistic Regression #
-#######################
-
-mylogit <- glm(signed ~ polmotbyrel + mostlysecandhet + polmotbyrel*mostlysecandhet + age + polinterest + 
-                 polknowl + married + education + inc, data = hp2013, family="binomial")
-
-summary(mylogit)
-
-
 #############################
 # Generate table of results #
 #############################
@@ -366,7 +301,7 @@ library("stargazer")
 
 stargazer(fit.final, nbfit.final, olr.final, title="Robust Results Across Dependent Variable Treatment", align=TRUE, 
           dep.var.labels=c("Political Participation", "Participation Factor"),
-          covariate.labels=c("Religious Motivation", "Mostly Religious Cmty.", "Age", "Political Knowledge", "Political Interest", "Married", "Income", "Education", "Religious Motivation * Mostly Rel. Cmty."),
+          covariate.labels=c("Religious Motivation", "Mostly Religious Cmty.", "Church Attendance", "Age", "Political Knowledge", "Political Interest", "Married", "Income", "Education", "Religious Motivation * Mostly Rel. Cmty."),
           omit.stat=c("LL","ser","f", "theta"),
           no.space=FALSE
           )
