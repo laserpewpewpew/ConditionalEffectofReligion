@@ -17,175 +17,175 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
 #####################
 
 # livesrural dichotomous variable:
-	hp2013$livesrural[hp2013$urban=="Rural"] <- 1
-	hp2013$livesrural[hp2013$urban=="Suburban"] <- 0
-	hp2013$livesrural[hp2013$urban=="Urban"] <- 0
+hp2013$livesrural[hp2013$urban=="Rural"] <- 1
+hp2013$livesrural[hp2013$urban=="Suburban"] <- 0
+hp2013$livesrural[hp2013$urban=="Urban"] <- 0
 
 # livesurban dichotomous variable:
-	hp2013$livesurban[hp2013$urban=="Rural"] <- 0
-	hp2013$livesurban[hp2013$urban=="Suburban"] <- 1
-	hp2013$livesurban[hp2013$urban=="Urban"] <- 1
+hp2013$livesurban[hp2013$urban=="Rural"] <- 0
+hp2013$livesurban[hp2013$urban=="Suburban"] <- 1
+hp2013$livesurban[hp2013$urban=="Urban"] <- 1
 
 # churchattend ordinal variable:
-	hp2013$churchattend[hp2013$attend=="Never"] <- 0
-	hp2013$churchattend[hp2013$attend=="Seldom"] <- 1
-	hp2013$churchattend[hp2013$attend=="Once or twice a year"] <- 2
-	hp2013$churchattend[hp2013$attend=="Few times a year"] <- 3
-	hp2013$churchattend[hp2013$attend=="Once a week"] <- 4
-	hp2013$churchattend[hp2013$attend=="More than once a week"] <- 5
+hp2013$churchattend[hp2013$attend=="Never"] <- 0
+hp2013$churchattend[hp2013$attend=="Seldom"] <- 1
+hp2013$churchattend[hp2013$attend=="Once or twice a year"] <- 2
+hp2013$churchattend[hp2013$attend=="Few times a year"] <- 3
+hp2013$churchattend[hp2013$attend=="Once a week"] <- 4
+hp2013$churchattend[hp2013$attend=="More than once a week"] <- 5
 
 # churchattend binary variable:
-  hp2013$binchurch[hp2013$churchattend==5] <- 1
-  hp2013$binchurch[hp2013$churchattend==4] <- 1
-  hp2013$binchurch[hp2013$churchattend==3] <- 0
-  hp2013$binchurch[hp2013$churchattend==2] <- 0
-  hp2013$binchurch[hp2013$churchattend==1] <- 0
-  hp2013$binchurch[hp2013$churchattend==0] <- 0
+hp2013$binchurch[hp2013$churchattend==5] <- 1
+hp2013$binchurch[hp2013$churchattend==4] <- 1
+hp2013$binchurch[hp2013$churchattend==3] <- 0
+hp2013$binchurch[hp2013$churchattend==2] <- 0
+hp2013$binchurch[hp2013$churchattend==1] <- 0
+hp2013$binchurch[hp2013$churchattend==0] <- 0
 
 # polinterest ordinal variable:
-	hp2013$polinterest[hp2013$intgov=="Not interested"] <- 0
-	hp2013$polinterest[hp2013$intgov=="Somewhat interested"] <- 1
-	hp2013$polinterest[hp2013$intgov=="Very interested"] <- 2
+hp2013$polinterest[hp2013$intgov=="Not interested"] <- 0
+hp2013$polinterest[hp2013$intgov=="Somewhat interested"] <- 1
+hp2013$polinterest[hp2013$intgov=="Very interested"] <- 2
 
 # polknowl ordinal variable:
-	hp2013$polknowl[hp2013$knowl=="Not well at all"] <- 0 
-	hp2013$polknowl[hp2013$knowl=="Slightly well"] <- 1
-	hp2013$polknowl[hp2013$knowl=="Moderately well"] <- 2
-	hp2013$polknowl[hp2013$knowl=="Very well"] <- 3
-	hp2013$polknowl[hp2013$knowl=="Extremely well"] <- 4
+hp2013$polknowl[hp2013$knowl=="Not well at all"] <- 0 
+hp2013$polknowl[hp2013$knowl=="Slightly well"] <- 1
+hp2013$polknowl[hp2013$knowl=="Moderately well"] <- 2
+hp2013$polknowl[hp2013$knowl=="Very well"] <- 3
+hp2013$polknowl[hp2013$knowl=="Extremely well"] <- 4
 
 # married dichotomous variable:
-	hp2013$married[hp2013$marital=="NeverMarried"] <- 0
-	hp2013$married[hp2013$marital=="Widowed"] <- 0
-	hp2013$married[hp2013$marital=="Divorced"] <- 0
-	hp2013$married[hp2013$marital=="Separated"] <- 0
-	hp2013$married[hp2013$marital=="Married/Partner"] <- 1
+hp2013$married[hp2013$marital=="NeverMarried"] <- 0
+hp2013$married[hp2013$marital=="Widowed"] <- 0
+hp2013$married[hp2013$marital=="Divorced"] <- 0
+hp2013$married[hp2013$marital=="Separated"] <- 0
+hp2013$married[hp2013$marital=="Married/Partner"] <- 1
 
 # strongdem dichotomous variable:
-	hp2013$strongdem[hp2013$pid2d=="NotStrongDem"] <- 0
-  hp2013$strongdem[hp2013$pid2d=="NA"] <- 0
-	hp2013$strongdem[hp2013$pid2d=="StrongDem"] <- 1
+hp2013$strongdem[hp2013$pid2d=="NotStrongDem"] <- 0
+hp2013$strongdem[hp2013$pid2d=="NA"] <- 0
+hp2013$strongdem[hp2013$pid2d=="StrongDem"] <- 1
 
 # strongrep dichotomous variable:
-	hp2013$strongrep[hp2013$pid2r=="NotStrongGOP"] <- 0
-  hp2013$strongrep[hp2013$pid2r=="NA"] <- 0
-	hp2013$strongrep[hp2013$pid2r=="StrongGOP"] <- 1
+hp2013$strongrep[hp2013$pid2r=="NotStrongGOP"] <- 0
+hp2013$strongrep[hp2013$pid2r=="NA"] <- 0
+hp2013$strongrep[hp2013$pid2r=="StrongGOP"] <- 1
 
 # female dichotomous variable:
-  hp2013$female[hp2013$male=="Female"] <- 1
-  hp2013$female[hp2013$male=="Male"] <- 0
+hp2013$female[hp2013$male=="Female"] <- 1
+hp2013$female[hp2013$male=="Male"] <- 0
 
 # polmotbyrel ordinal variable:
-	hp2013$polmotbyrel[hp2013$relidentity2=="None"] <- 0
-	hp2013$polmotbyrel[hp2013$relidentity2=="Small amount"] <- 1
-	hp2013$polmotbyrel[hp2013$relidentity2=="Moderate amount"] <- 2
-	hp2013$polmotbyrel[hp2013$relidentity2=="Large amount"] <- 3
-	hp2013$polmotbyrel[hp2013$relidentity2=="Entirely"] <- 4
+hp2013$polmotbyrel[hp2013$relidentity2=="None"] <- 0
+hp2013$polmotbyrel[hp2013$relidentity2=="Small amount"] <- 1
+hp2013$polmotbyrel[hp2013$relidentity2=="Moderate amount"] <- 2
+hp2013$polmotbyrel[hp2013$relidentity2=="Large amount"] <- 3
+hp2013$polmotbyrel[hp2013$relidentity2=="Entirely"] <- 4
 
 # binary polmotbyrel variable:
-  hp2013$binpol[hp2013$polmotbyrel==4] <- 1
-  hp2013$binpol[hp2013$polmotbyrel==3] <- 1
-  hp2013$binpol[hp2013$polmotbyrel==2] <- 0
-  hp2013$binpol[hp2013$polmotbyrel==1] <- 0
-  hp2013$binpol[hp2013$polmotbyrel==0] <- 0
+hp2013$binpol[hp2013$polmotbyrel==4] <- 1
+hp2013$binpol[hp2013$polmotbyrel==3] <- 1
+hp2013$binpol[hp2013$polmotbyrel==2] <- 0
+hp2013$binpol[hp2013$polmotbyrel==1] <- 0
+hp2013$binpol[hp2013$polmotbyrel==0] <- 0
 
 # mostlyrel dichotomous variable:
-	hp2013$mostlyrel[hp2013$community=="Mostly religious"] <- 1
-	hp2013$mostlyrel[hp2013$community=="Somewhere between"] <- 0
-	hp2013$mostlyrel[hp2013$community=="Mostly secular"] <- 0
+hp2013$mostlyrel[hp2013$community=="Mostly religious"] <- 1
+hp2013$mostlyrel[hp2013$community=="Somewhere between"] <- 0
+hp2013$mostlyrel[hp2013$community=="Mostly secular"] <- 0
 
 # mostlysecandhet dichotomous variable:
-	hp2013$mostlysecandhet[hp2013$community=="Mostly secular"] <- 1
-	hp2013$mostlysecandhet[hp2013$community=="Somewhere between"] <- 1
-	hp2013$mostlysecandhet[hp2013$community=="Mostly religious"] <- 0
+hp2013$mostlysecandhet[hp2013$community=="Mostly secular"] <- 1
+hp2013$mostlysecandhet[hp2013$community=="Somewhere between"] <- 1
+hp2013$mostlysecandhet[hp2013$community=="Mostly religious"] <- 0
 
 # mostlysec dichotomous variable:
-  hp2013$mostlysec[hp2013$community=="Mostly secular"] <- 1
-  hp2013$mostlysec[hp2013$community=="Somewhere between"] <- 0
-  hp2013$mostlysec[hp2013$community=="Mostly religious"] <- 0
+hp2013$mostlysec[hp2013$community=="Mostly secular"] <- 1
+hp2013$mostlysec[hp2013$community=="Somewhere between"] <- 0
+hp2013$mostlysec[hp2013$community=="Mostly religious"] <- 0
 
 # hetero dichotomous variable:
-	hp2013$hetero[hp2013$community=="Somewhere between"] <- 1
-	hp2013$hetero[hp2013$community=="Mostly religious"] <- 0
-	hp2013$hetero[hp2013$community=="Mostly secular"] <- 0
+hp2013$hetero[hp2013$community=="Somewhere between"] <- 1
+hp2013$hetero[hp2013$community=="Mostly religious"] <- 0
+hp2013$hetero[hp2013$community=="Mostly secular"] <- 0
 
 # commnum categorical variable:
-  hp2013$commnum[hp2013$community=="Somewhere between"] <- 2
-  hp2013$commnum[hp2013$community=="Mostly religious"] <- 3
-  hp2013$commnum[hp2013$community=="Mostly secular"] <- 1
+hp2013$commnum[hp2013$community=="Somewhere between"] <- 2
+hp2013$commnum[hp2013$community=="Mostly religious"] <- 3
+hp2013$commnum[hp2013$community=="Mostly secular"] <- 1
 
 # community.f factor variable
-  hp2013$community.f <- factor(hp2013$commnum, labels=c("Mostly secular", "Somewhere between", "Mostly religious"))
+hp2013$community.f <- factor(hp2013$commnum, labels=c("Mostly secular", "Somewhere between", "Mostly religious"))
 
 # community nominal variable
-  hp2013$commnom[hp2013$community=="Somewhere between"] <- 1
-  hp2013$commnom[hp2013$community=="Mostly secular"] <- 2
-  hp2013$commnom[hp2013$community=="Mostly religious"] <- 3
+hp2013$commnom[hp2013$community=="Somewhere between"] <- 1
+hp2013$commnom[hp2013$community=="Mostly secular"] <- 2
+hp2013$commnom[hp2013$community=="Mostly religious"] <- 3
 
 # uschristnat dichotomous variable:
-	hp2013$uschristnat[hp2013$relidentity1=="No"] <- 0
-	hp2013$uschristnat[hp2013$relidentity1=="Yes"] <- 1
+hp2013$uschristnat[hp2013$relidentity1=="No"] <- 0
+hp2013$uschristnat[hp2013$relidentity1=="Yes"] <- 1
 
 # partind ordinal variable:
-	hp2013$contact[hp2013$particp1=="No"] <- 0
-	hp2013$contact[hp2013$particp1=="Yes"] <- 1
+hp2013$contact[hp2013$particp1=="No"] <- 0
+hp2013$contact[hp2013$particp1=="Yes"] <- 1
 
-	hp2013$attmeet[hp2013$particp2=="No"] <- 0
-	hp2013$attmeet[hp2013$particp2=="Yes"] <- 1
+hp2013$attmeet[hp2013$particp2=="No"] <- 0
+hp2013$attmeet[hp2013$particp2=="Yes"] <- 1
 
-	hp2013$signed[hp2013$particp3=="No"] <- 0
-	hp2013$signed[hp2013$particp3=="Yes"] <- 1
+hp2013$signed[hp2013$particp3=="No"] <- 0
+hp2013$signed[hp2013$particp3=="Yes"] <- 1
 
-	hp2013$attrally[hp2013$particp4=="No"] <- 0
-	hp2013$attrally[hp2013$particp4=="Yes"] <- 1
+hp2013$attrally[hp2013$particp4=="No"] <- 0
+hp2013$attrally[hp2013$particp4=="Yes"] <- 1
 
-	hp2013$voted2012[hp2013$vote1=="I didn't vote in the 2012 presidential election"] <- 0
-	hp2013$voted2012[hp2013$vote1=="I am sure I voted"] <- 1
-	hp2013$voted2012[hp2013$vote1=="I thought about voting this time - but didn't"] <- 0
-	hp2013$voted2012[hp2013$vote1=="I usually vote, but didn't this time"] <- 0
+hp2013$voted2012[hp2013$vote1=="I didn't vote in the 2012 presidential election"] <- 0
+hp2013$voted2012[hp2013$vote1=="I am sure I voted"] <- 1
+hp2013$voted2012[hp2013$vote1=="I thought about voting this time - but didn't"] <- 0
+hp2013$voted2012[hp2013$vote1=="I usually vote, but didn't this time"] <- 0
 
-	hp2013$partind <- (hp2013$contact + hp2013$attmeet + hp2013$signed + hp2013$attrally + hp2013$voted2012)
+hp2013$partind <- (hp2013$contact + hp2013$attmeet + hp2013$signed + hp2013$attrally + hp2013$voted2012)
 
 # partcat categorical variable:
-  hp2013$partcat[hp2013$partind==0] <- "None"
-  hp2013$partcat[hp2013$partind==1] <- "One"
-  hp2013$partcat[hp2013$partind==2] <- "Two"
-  hp2013$partcat[hp2013$partind==3] <- "Three"
-  hp2013$partcat[hp2013$partind==4] <- "Four"
-  hp2013$partcat[hp2013$partind==5] <- "Five"
+hp2013$partcat[hp2013$partind==0] <- "None"
+hp2013$partcat[hp2013$partind==1] <- "One"
+hp2013$partcat[hp2013$partind==2] <- "Two"
+hp2013$partcat[hp2013$partind==3] <- "Three"
+hp2013$partcat[hp2013$partind==4] <- "Four"
+hp2013$partcat[hp2013$partind==5] <- "Five"
 
 # partind.f factor variable
-  partind.f <- factor(hp2013$partind, labels=c("None", "One", "Two", "Three", "Four", "Five"))
+partind.f <- factor(hp2013$partind, labels=c("None", "One", "Two", "Three", "Four", "Five"))
 
 # education ordinal variable:
-  hp2013$education[hp2013$educ=="<HighSchool"] <- 1
-  hp2013$education[hp2013$educ=="HighSchool"] <- 2
-  hp2013$education[hp2013$educ=="Vocational"] <- 3
-  hp2013$education[hp2013$educ=="SomeCollege"] <- 4
-  hp2013$education[hp2013$educ=="4yrDegree"] <- 5
-  hp2013$education[hp2013$educ=="PostCollege"] <- 5
+hp2013$education[hp2013$educ=="<HighSchool"] <- 1
+hp2013$education[hp2013$educ=="HighSchool"] <- 2
+hp2013$education[hp2013$educ=="Vocational"] <- 3
+hp2013$education[hp2013$educ=="SomeCollege"] <- 4
+hp2013$education[hp2013$educ=="4yrDegree"] <- 5
+hp2013$education[hp2013$educ=="PostCollege"] <- 5
 
 # inc ordinal variable:
-  hp2013$inc[hp2013$income=="<$10,000"] <- 1
-  hp2013$inc[hp2013$income=="$10-under$20,000"] <- 2
-  hp2013$inc[hp2013$income=="$20-under$30,000"] <- 3
-  hp2013$inc[hp2013$income=="$30-under$40,000"] <- 4
-  hp2013$inc[hp2013$income=="$40-under$50,000"] <- 5
-  hp2013$inc[hp2013$income=="$50-under$75,000"] <- 6
-  hp2013$inc[hp2013$income=="$75-under$100,000"] <- 7
-  hp2013$inc[hp2013$income=="$100-under$150,000"] <- 8
-  hp2013$inc[hp2013$income=="$150,000+"] <- 9
+hp2013$inc[hp2013$income=="<$10,000"] <- 1
+hp2013$inc[hp2013$income=="$10-under$20,000"] <- 2
+hp2013$inc[hp2013$income=="$20-under$30,000"] <- 3
+hp2013$inc[hp2013$income=="$30-under$40,000"] <- 4
+hp2013$inc[hp2013$income=="$40-under$50,000"] <- 5
+hp2013$inc[hp2013$income=="$50-under$75,000"] <- 6
+hp2013$inc[hp2013$income=="$75-under$100,000"] <- 7
+hp2013$inc[hp2013$income=="$100-under$150,000"] <- 8
+hp2013$inc[hp2013$income=="$150,000+"] <- 9
 
 # white and non-white dichotomous variable
-  hp2013$white[hp2013$race=="White"] <- 1
-  hp2013$white[hp2013$race=="Black"] <- 0
-  hp2013$white[hp2013$race=="Asian"] <- 0
-  hp2013$white[hp2013$race=="Native American"] <- 0
-  hp2013$white[hp2013$race=="Hispanic"] <- 0
-  hp2013$white[hp2013$race=="Some other race"] <- 0
-  hp2013$white[hp2013$race==NA] <- 0
+hp2013$white[hp2013$race=="White"] <- 1
+hp2013$white[hp2013$race=="Black"] <- 0
+hp2013$white[hp2013$race=="Asian"] <- 0
+hp2013$white[hp2013$race=="Native American"] <- 0
+hp2013$white[hp2013$race=="Hispanic"] <- 0
+hp2013$white[hp2013$race=="Some other race"] <- 0
+hp2013$white[hp2013$race==NA] <- 0
 
-  hp2013$mostlyrelflip <- 1 - hp2013$mostlyrel
+hp2013$mostlyrelflip <- 1 - hp2013$mostlyrel
 
 ####################
 # Survey Weighting #
@@ -215,7 +215,7 @@ svydata <- svydesign(id=~respnum,weights=~wgt_age_sex, data=nomiss)
 ###########################
 
 fit.1 <- svyglm(partind ~ polmotbyrel + mostlyrel + churchattend + age + female + polknowl + polinterest + married + inc + education, 
-            design=svydata )
+                design=svydata )
 fit.final <- svyglm(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
                     design=svydata)
 
@@ -329,6 +329,26 @@ log.final <- svyglm(voted2012 ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel 
 # exp(coef(olr.final))
 # exp(cbind(OR = coef(olr.final), confint(olr.final))) 
 
+#########################
+# Predicted Probabilities 
+#########################
+newdata <- read.csv("probdata.csv")
+newdata <- cbind(newdata, predict(olr.final, newdata, type = "probs"))
+
+head(newdata)
+
+lnewdat <- melt(newdata, id.vars = c("mostlyrel", "id", "churchattend", "age", "white", "female", "polmotbyrel", "married", "education", "inc", "polinterest", "polknowl"), variable.name = "Participation",
+                value.name ="Probability")
+head(lnewdat)
+
+
+lnewdat$mostlyrel.f[lnewdat$mostlyrel==1] <- "Mostly Religious"
+lnewdat$mostlyrel.f[lnewdat$mostlyrel==0] <- "Heterogeneous/Secular"
+
+ggplot(lnewdat, aes(x = polmotbyrel, y = Probability, colour = Participation)) + geom_line() +
+  xlab("Religious Motivation of Politics") +
+  facet_grid (. ~ mostlyrel.f, scales = "fixed", labeller =label_value)
+
 ##############################
 # Bayesian Linear Regression #
 ##############################
@@ -388,11 +408,11 @@ sigma);
 # Then put the data into the expected format
 hp2013final.data <- list(N = nrow(hp2013final), partind = hp2013final$partind, 
                          mostlyrelflip = hp2013final$mostlyrelflip,
-                    churchattend = hp2013final$churchattend, white = hp2013final$white, 
-                    age = hp2013final$age, female = hp2013final$female, polknowl = hp2013final$polknowl, 
-                    polinterest = hp2013final$polinterest, married = hp2013final$married,
-                    inc = hp2013final$inc, education = hp2013final$education, 
-                    interaction = hp2013final$churchattend * hp2013final$mostlyrelflip)
+                         churchattend = hp2013final$churchattend, white = hp2013final$white, 
+                         age = hp2013final$age, female = hp2013final$female, polknowl = hp2013final$polknowl, 
+                         polinterest = hp2013final$polinterest, married = hp2013final$married,
+                         inc = hp2013final$inc, education = hp2013final$education, 
+                         interaction = hp2013final$churchattend * hp2013final$mostlyrelflip)
 
 # Now we can run it
 set.seed(324)
@@ -473,66 +493,60 @@ reg.plot
 ##############################
 # Generate tables of results #
 ##############################
+require(aod)
+require(ggplot2)
+require(foreign)
+require(MASS)
+require(Hmisc)
+require(reshape2)
+
 
 #############################
-pol.fit.rel <- svyglm(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
+pol.fit.rel <- svyglm(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + age + polknowl + polinterest + married + inc + education, 
                       design=svydata)
-pol.fit.flip <- svyglm(partind ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
+pol.fit.flip <- svyglm(partind ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + age + polknowl + polinterest + married + inc + education, 
                        design=svydata)
-pol.log.rel <- svyglm(voted2012 ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                     design=svydata, family="binomial")
-pol.log.flip <- svyglm(voted2012 ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
-                       design=svydata, family="binomial")
-#############################
-#############################
-#############################
-chu.fit.rel <- svyglm(partind ~ mostlyrel + churchattend + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                      design=svydata)
-chu.fit.flip <- svyglm(partind ~ mostlyrelflip + churchattend + churchattend*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
-                       design=svydata)
-chu.log.rel <- svyglm(voted2012 ~ mostlyrel + churchattend + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                     design=svydata, family="binomial")
-chu.log.flip <- svyglm(voted2012 ~ mostlyrelflip + churchattend + churchattend*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
-                       design=svydata, family="binomial")
-#############################
-#############################
-#############################
-bot.fit.rel <- svyglm(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                     design=svydata)
-bot.fit.flip <- svyglm(partind ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + churchattend + churchattend*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
-                       design=svydata)
-bot.log.rel <- svyglm(voted2012 ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
+pol.log.rel <- svyglm(voted2012 ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + age + polknowl + polinterest + married + inc + education, 
                       design=svydata, family="binomial")
-bot.log.flip <- svyglm(voted2012 ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + churchattend + churchattend*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
+pol.log.flip <- svyglm(voted2012 ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + age + polknowl + polinterest + married + inc + education, 
                        design=svydata, family="binomial")
 #############################
 #############################
 #############################
-pol.olr.rel <- polr(partind.f ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
+chu.fit.rel <- svyglm(partind ~ mostlyrel + churchattend + churchattend*mostlyrel + age + polknowl + polinterest + married + inc + education, 
+                      design=svydata)
+chu.fit.flip <- svyglm(partind ~ mostlyrelflip + churchattend + churchattend*mostlyrelflip + age + polknowl + polinterest + married + inc + education, 
+                       design=svydata)
+chu.log.rel <- svyglm(voted2012 ~ mostlyrel + churchattend + churchattend*mostlyrel + age + polknowl + polinterest + married + inc + education, 
+                      design=svydata, family="binomial")
+chu.log.flip <- svyglm(voted2012 ~ mostlyrelflip + churchattend + churchattend*mostlyrelflip + age + polknowl + polinterest + married + inc + education, 
+                       design=svydata, family="binomial")
+#############################
+#############################
+#############################
+bot.fit.rel <- svyglm(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + churchattend*mostlyrel + age + polknowl + polinterest + married + inc + education, 
+                      design=svydata)
+bot.fit.flip <- svyglm(partind ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + churchattend + churchattend*mostlyrelflip + age + polknowl + polinterest + married + inc + education, 
+                       design=svydata)
+bot.log.rel <- svyglm(voted2012 ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + churchattend*mostlyrel + age + polknowl + polinterest + married + inc + education, 
+                      design=svydata, family="binomial")
+bot.log.flip <- svyglm(voted2012 ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + churchattend + churchattend*mostlyrelflip + age + polknowl + polinterest + married + inc + education, 
+                       design=svydata, family="binomial")
+#############################
+#############################
+#############################
+pol.olr.rel <- polr(partind.f ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + age + polknowl + polinterest + married + inc + education, 
                     data=hp2013)
-pol.olr.flip <- polr(partind.f ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
+pol.olr.flip <- polr(partind.f ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + age + polknowl + polinterest + married + inc + education, 
                      data=hp2013)
-chu.olr.rel <- polr(partind.f ~ mostlyrel + churchattend + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
+chu.olr.rel <- polr(partind.f ~ mostlyrel + churchattend + churchattend*mostlyrel + age + polknowl + polinterest + married + inc + education, 
                     data=hp2013)
-chu.olr.flip <- polr(partind.f ~ mostlyrelflip + churchattend + churchattend*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
+chu.olr.flip <- polr(partind.f ~ mostlyrelflip + churchattend + churchattend*mostlyrelflip + age + polknowl + polinterest + married + inc + education, 
                      data=hp2013)
-bot.olr.rel <- polr(partind.f ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
+bot.olr.rel <- polr(partind.f ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + churchattend*mostlyrel + age + polknowl + polinterest + married + inc + education, 
                     data=hp2013)
-bot.olr.flip <- polr(partind.f ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + churchattend + churchattend*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
+bot.olr.flip <- polr(partind.f ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + churchattend + churchattend*mostlyrelflip + age + polknowl + polinterest + married + inc + education, 
                      data=hp2013)
-
-###############################
-# Logit w/ Voting as Baseline #
-###############################
-hp2013log <- hp2013final[complete.cases(hp2013final[, c("voted2012")]), ]
-logitdata <- subset(hp2013log, voted2012==1)
-logitdata$morethanvote <- (logitdata$contact + logitdata$attmeet + logitdata$signed + logitdata$attrally)
-logitdata$beyondvote[logitdata$morethanvote >= 1] <- 1
-logitdata$beyondvote[logitdata$morethanvote < 1] <- 0
-
-svydatalog <- svydesign(id=~respnum,weights=~wgt_age_sex, data=logitdata)
-addpart.log <- svyglm(beyondvote ~ churchattend + mostlyrel + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                      design=svydatalog, family="binomial")
 
 ###############################
 # Tables Tables Tables Tables #
@@ -543,46 +557,26 @@ stargazer(pol.fit.rel, pol.fit.flip, pol.log.rel, pol.log.flip,
           type="latex", title="Political Participation as a Function of Religious Context and Motivation",
           align=TRUE, no.space=TRUE,
           dep.var.labels=c("Participation", "Voted 2012"),
-          covariate.labels=c("Rel. Motivation", "Mostly Rel. Cmty.","Non-mostly Rel. Cmty.","White","Age","Female","Pol. Knowledge","Pol. Interest","Married","Income","Education","Motivation*Mostly Rel. Cmty.","Motivation*Non-mostly Rel. Cmty.")
-          )
+          covariate.labels=c("Rel. Motivation", "Mostly Rel. Cmty.","Non-mostly Rel. Cmty.","Age","Pol. Knowledge","Pol. Interest","Married","Income","Education","Motivation*Mostly Rel. Cmty.","Motivation*Non-mostly Rel. Cmty.")
+)
 
 stargazer(chu.fit.rel, chu.fit.flip, chu.log.rel, chu.log.flip,
           type="latex", align=TRUE, no.space=TRUE,
           title=c("Political Participation as a Function of Religious Context and Service Attendance"),
           dep.var.labels=c("Participation", "Voted 2012"),
-          covariate.labels=c("Mostly Rel. Cmty.","Non-mostly Rel. Cmty.","Church Attend.","White","Age","Female","Pol. Knowledge","Pol. Interest","Married","Income","Education","Attend.*Mostly Rel. Cmty.","Attend.*Non-mostly Rel. Cmty.")
-          )
+          covariate.labels=c("Mostly Rel. Cmty.","Non-mostly Rel. Cmty.","Church Attend.","Age","Pol. Knowledge","Pol. Interest","Married","Income","Education","Attend.*Mostly Rel. Cmty.","Attend.*Non-mostly Rel. Cmty.")
+)
 
 stargazer(bot.fit.rel, bot.fit.flip, bot.log.rel, bot.log.flip,
           type="latex", align=TRUE, no.space=TRUE,
           title=c("Political Participation as a Function of Religious Context and Both Motivation and Service Attendance"),
           dep.var.labels=c("Participation", "Voted 2012"),
-          covariate.labels=c("Rel. Motivation", "Mostly Rel. Cmty.","Non-mostly Rel. Cmty.","Church Attend,","White","Age","Female","Pol. Knowledge","Pol. Interest","Married","Income","Education","Motivation*Mostly Rel. Cmty.","Attend.*Mostly Rel. Cmty.","Motivation*Non-mostly Rel. Cmty.","Attend.*Non-mostly Rel. Cmty.")
-          )
+          covariate.labels=c("Rel. Motivation", "Mostly Rel. Cmty.","Non-mostly Rel. Cmty.","Church Attend,","Age","Pol. Knowledge","Pol. Interest","Married","Income","Education","Motivation*Mostly Rel. Cmty.","Attend.*Mostly Rel. Cmty.","Motivation*Non-mostly Rel. Cmty.","Attend.*Non-mostly Rel. Cmty.")
+)
 
 stargazer(pol.olr.rel, pol.olr.flip, chu.olr.rel, chu.olr.flip, bot.olr.rel, bot.olr.flip,
           type="latex", align=TRUE, no.space=TRUE,
           title=c("Political Participation as a Function of Religious Context and Both Motivation and Service Attendance"),
           dep.var.labels=c("Participation Factor"),
-          covariate.labels=c("Rel. Motivation", "Mostly Rel. Cmty.","Non-mostly Rel. Cmty.","Church Attend.","White","Age","Female","Pol. Knowledge","Pol. Interest","Married","Income","Education","Motivation*Mostly Rel. Cmty.","Motivation*Non-mostly Rel. Cmty.","Attend.*Mostly Rel. Cmty.","Attend.*Non-mostly Rel. Cmty.")
-          )
-
-#########################
-# Predicted Probabilities 
-#########################
-newdata <- read.csv("probdata.csv")
-newdata <- cbind(newdata, predict(olr.final, newdata, type = "probs"))
-
-head(newdata)
-
-lnewdat <- melt(newdata, id.vars = c("mostlyrel", "id", "churchattend", "age", "white", "female", "married", "education", "inc", "polinterest", "polknowl"), variable.name = "Participation",
-                value.name ="Probability")
-head(lnewdat)
-
-
-lnewdat$mostlyrel.f[lnewdat$mostlyrel==1] <- "Mostly Religious"
-lnewdat$mostlyrel.f[lnewdat$mostlyrel==0] <- "Heterogeneous/Secular"
-
-ggplot(lnewdat, aes(x = churchattend, y = Probability, colour = Participation)) + geom_line() +
-  xlab("Religious Motivation of Politics") +
-  facet_grid (. ~ mostlyrel.f, scales = "fixed", labeller =label_value)
+          covariate.labels=c("Rel. Motivation", "Mostly Rel. Cmty.","Non-mostly Rel. Cmty.","Church Attend.","Age","Pol. Knowledge","Pol. Interest","Married","Income","Education","Motivation*Mostly Rel. Cmty.","Motivation*Non-mostly Rel. Cmty.","Attend.*Mostly Rel. Cmty.","Attend.*Non-mostly Rel. Cmty.")
+)
