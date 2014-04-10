@@ -586,3 +586,36 @@ lnewdat$mostlyrel.f[lnewdat$mostlyrel==0] <- "Heterogeneous/Secular"
 ggplot(lnewdat, aes(x = churchattend, y = Probability, colour = Participation)) + geom_line() +
   xlab("Religious Motivation of Politics") +
   facet_grid (. ~ mostlyrel.f, scales = "fixed", labeller =label_value)
+
+#################################
+# Congregational Data by County #
+#################################
+library(XML)
+county.tables <- readHTMLTable("http://en.wikipedia.org/wiki/List_of_counties_in_Iowa",
+                            stringsAsFactors=F)
+
+library(foreign)
+reldata <- read.dta("religioncensus.DTA")
+county <- county.tables[[1]]
+county <- county[ , 1]
+
+con.counties <- reldata[reldata$cntyname %in% county, ] 
+con.iowa <- con.counties[con.counties$stname=="Iowa", ]
+
+library(doBy)
+con2 <- summaryBy(totcng ~ cntyname, data=con.iowa, FUN=c(mean), na.rm=T)
+
+###############################
+# List of Zip Codes by County #
+###############################
+library(XML)
+zip.tables <- readHTMLTable("http://www.unitedstateszipcodes.org/ia/",
+                               stringsAsFactors=F)
+zip <- zip.tables[[7]]
+
+
+
+### Merging
+# Merging lets you match up observations in different datasets
+gsi.fh2 <- merge(x=gsi, y=fh2, all.x=T)
+gsi.fh2[is.na(gsi.fh2$PR), "country"]   # List the countries that didn't match up
