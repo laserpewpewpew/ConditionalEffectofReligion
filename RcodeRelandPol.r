@@ -685,48 +685,15 @@ svydatalog <- svydesign(id=~respnum,weights=~wgt_age_sex, data=logitdata)
 addpart.log <- svyglm(beyondvote ~ churchattend + mostlyrel + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
                       design=svydatalog, family="binomial")
 
-###############################
-# Tables Tables Tables Tables #
-###############################
-
-library("stargazer")
-stargazer(pol.fit.rel, pol.fit.flip, pol.log.rel, pol.log.flip,
-          type="latex", title="Political Participation as a Function of Religious Context and Motivation",
-          align=TRUE, no.space=TRUE,
-          dep.var.labels=c("Participation", "Voted 2012"),
-          covariate.labels=c("Rel. Motivation", "Mostly Rel. Cmty.","Non-mostly Rel. Cmty.","White","Age","Female","Pol. Knowledge","Pol. Interest","Married","Income","Education","Motivation*Mostly Rel. Cmty.","Motivation*Non-mostly Rel. Cmty.")
-          )
-
-stargazer(chu.fit.rel, chu.fit.flip, chu.log.rel, chu.log.flip,
-          type="latex", align=TRUE, no.space=TRUE,
-          title=c("Political Participation as a Function of Religious Context and Service Attendance"),
-          dep.var.labels=c("Participation", "Voted 2012"),
-          covariate.labels=c("Mostly Rel. Cmty.","Non-mostly Rel. Cmty.","Church Attend.","White","Age","Female","Pol. Knowledge","Pol. Interest","Married","Income","Education","Attend.*Mostly Rel. Cmty.","Attend.*Non-mostly Rel. Cmty.")
-          )
-
-stargazer(bot.fit.rel, bot.fit.flip, bot.log.rel, bot.log.flip,
-          type="latex", align=TRUE, no.space=TRUE,
-          title=c("Political Participation as a Function of Religious Context and Both Motivation and Service Attendance"),
-          dep.var.labels=c("Participation", "Voted 2012"),
-          covariate.labels=c("Rel. Motivation", "Mostly Rel. Cmty.","Non-mostly Rel. Cmty.","Church Attend,","White","Age","Female","Pol. Knowledge","Pol. Interest","Married","Income","Education","Motivation*Mostly Rel. Cmty.","Attend.*Mostly Rel. Cmty.","Motivation*Non-mostly Rel. Cmty.","Attend.*Non-mostly Rel. Cmty.")
-          )
-
-stargazer(pol.olr.rel, pol.olr.flip, chu.olr.rel, chu.olr.flip, bot.olr.rel, bot.olr.flip,
-          type="latex", align=TRUE, no.space=TRUE,
-          title=c("Political Participation as a Function of Religious Context and Both Motivation and Service Attendance"),
-          dep.var.labels=c("Participation Factor"),
-          covariate.labels=c("Rel. Motivation", "Mostly Rel. Cmty.","Non-mostly Rel. Cmty.","Church Attend.","White","Age","Female","Pol. Knowledge","Pol. Interest","Married","Income","Education","Motivation*Mostly Rel. Cmty.","Motivation*Non-mostly Rel. Cmty.","Attend.*Mostly Rel. Cmty.","Attend.*Non-mostly Rel. Cmty.")
-          )
-
 #########################
 # Predicted Probabilities 
 #########################
 newdata <- read.csv("probdata.csv")
-newdata <- cbind(newdata, predict(olr.final, newdata, type = "probs"))
+newdata <- cbind(newdata, predict(olr.4, newdata, type = "probs"))
 
 head(newdata)
 
-lnewdat <- melt(newdata, id.vars = c("mostlyrel", "id", "churchattend", "age", "white", "female", "married", "education", "inc", "polinterest", "polknowl"), variable.name = "Participation",
+lnewdat <- melt(newdata, id.vars = c("mostlyrel", "id", "churchattend", "age", "white", "female", "married", "education", "inc", "polinterest", "polknowl", "totcng"), variable.name = "Participation",
                 value.name ="Probability")
 head(lnewdat)
 
