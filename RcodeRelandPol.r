@@ -393,11 +393,13 @@ stargazer(nb.1, nb.2, nb.3, nb.4, nb.5, nb.6,
           dep.var.labels=c("Participation")
           #          covariate.labels=c("Rel. Motivation", "Mostly Rel. Cmty.","Non-mostly Rel. Cmty.","Church Attend,","White","Age","Female","Pol. Knowledge","Pol. Interest","Married","Income","Education","Motivation*Mostly Rel. Cmty.","Attend.*Mostly Rel. Cmty.","Motivation*Non-mostly Rel. Cmty.","Attend.*Non-mostly Rel. Cmty.")
 )
+
+
 #########################
 # Predicted Probabilities 
 #########################
 newdata <- read.csv("probdata.csv")
-newdata <- cbind(newdata, predict(olr.final, newdata, type = "probs"))
+newdata <- cbind(newdata, predict(olr.4, newdata, type = "probs"))
 
 head(newdata)
 
@@ -410,10 +412,8 @@ lnewdat$mostlyrel.f[lnewdat$mostlyrel==1] <- "Mostly Religious"
 lnewdat$mostlyrel.f[lnewdat$mostlyrel==0] <- "Heterogeneous/Secular"
 
 ggplot(lnewdat, aes(x = churchattend, y = Probability, colour = Participation)) + geom_line() +
-  xlab("Religious Motivation of Politics") +
+  xlab("Church Attendance") +
   facet_grid (. ~ mostlyrel.f, scales = "fixed", labeller =label_value)
-
-
 
 
 
@@ -617,126 +617,3 @@ reg.plot <- ggplot(data = reg.results, aes(y = no, x = b)) +
   geom_vline(xintercept=c(0), linetype="dotted")
 
 reg.plot
-
-
-<<<<<<< HEAD
-=======
-##############################
-# Generate tables of results #
-##############################
-
-#############################
-pol.fit.rel <- svyglm(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                      design=svydata)
-pol.fit.flip <- svyglm(partind ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
-                       design=svydata)
-pol.log.rel <- svyglm(voted2012 ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                     design=svydata, family="binomial")
-pol.log.flip <- svyglm(voted2012 ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
-                       design=svydata, family="binomial")
-#############################
-#############################
-#############################
-chu.fit.rel <- svyglm(partind ~ mostlyrel + churchattend + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                      design=svydata)
-chu.fit.flip <- svyglm(partind ~ mostlyrelflip + churchattend + churchattend*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
-                       design=svydata)
-chu.log.rel <- svyglm(voted2012 ~ mostlyrel + churchattend + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                     design=svydata, family="binomial")
-chu.log.flip <- svyglm(voted2012 ~ mostlyrelflip + churchattend + churchattend*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
-                       design=svydata, family="binomial")
-#############################
-#############################
-#############################
-bot.fit.rel <- svyglm(partind ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                     design=svydata)
-bot.fit.flip <- svyglm(partind ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + churchattend + churchattend*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
-                       design=svydata)
-bot.log.rel <- svyglm(voted2012 ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                      design=svydata, family="binomial")
-bot.log.flip <- svyglm(voted2012 ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + churchattend + churchattend*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
-                       design=svydata, family="binomial")
-#############################
-#############################
-#############################
-pol.olr.rel <- polr(partind.f ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                    data=hp2013)
-pol.olr.flip <- polr(partind.f ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
-                     data=hp2013)
-chu.olr.rel <- polr(partind.f ~ mostlyrel + churchattend + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                    data=hp2013)
-chu.olr.flip <- polr(partind.f ~ mostlyrelflip + churchattend + churchattend*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
-                     data=hp2013)
-bot.olr.rel <- polr(partind.f ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                    data=hp2013)
-bot.olr.flip <- polr(partind.f ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + churchattend + churchattend*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
-                     data=hp2013)
-
-###############################
-# Logit w/ Voting as Baseline #
-###############################
-hp2013log <- hp2013final[complete.cases(hp2013final[, c("voted2012")]), ]
-logitdata <- subset(hp2013log, voted2012==1)
-logitdata$morethanvote <- (logitdata$contact + logitdata$attmeet + logitdata$signed + logitdata$attrally)
-logitdata$beyondvote[logitdata$morethanvote >= 1] <- 1
-logitdata$beyondvote[logitdata$morethanvote < 1] <- 0
-
-svydatalog <- svydesign(id=~respnum,weights=~wgt_age_sex, data=logitdata)
-addpart.log <- svyglm(beyondvote ~ churchattend + mostlyrel + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                      design=svydatalog, family="binomial")
-
-#########################
-# Predicted Probabilities 
-#########################
-newdata <- read.csv("probdata.csv")
-newdata <- cbind(newdata, predict(olr.4, newdata, type = "probs"))
-
-head(newdata)
-
-lnewdat <- melt(newdata, id.vars = c("mostlyrel", "id", "churchattend", "age", "white", "female", "married", "education", "inc", "polinterest", "polknowl"), variable.name = "Participation",
-                value.name ="Probability")
-head(lnewdat)
-
-
-lnewdat$mostlyrel.f[lnewdat$mostlyrel==1] <- "Mostly Religious"
-lnewdat$mostlyrel.f[lnewdat$mostlyrel==0] <- "Heterogeneous/Secular"
-
-ggplot(lnewdat, aes(x = churchattend, y = Probability, colour = Participation)) + geom_line() +
-  xlab("Church Attendance") +
-  facet_grid (. ~ mostlyrel.f, scales = "fixed", labeller =label_value)
-
-#################################
-# Congregational Data by County #
-#################################
-library(XML)
-county.tables <- readHTMLTable("http://en.wikipedia.org/wiki/List_of_counties_in_Iowa",
-                            stringsAsFactors=F)
-
-library(foreign)
-reldata <- read.dta("religioncensus.DTA")
-county <- county.tables[[1]]
-county <- county[ , 1]
-
-con.counties <- reldata[reldata$cntyname %in% county, ] 
-con.iowa <- con.counties[con.counties$stname=="Iowa", ]
-
-library(doBy)
-con2 <- summaryBy(totcng ~ cntyname, data=con.iowa, FUN=c(mean), na.rm=T)
-
-###############################
-# List of Zip Codes by County #
-###############################
-library(XML)
-zip.tables <- readHTMLTable("http://www.unitedstateszipcodes.org/ia/",
-                               stringsAsFactors=F)
-zip <- zip.tables[[7]]
-
-
-
-### Merging
-# Merging lets you match up observations in different datasets
-gsi.fh2 <- merge(x=gsi, y=fh2, all.x=T)
-gsi.fh2[is.na(gsi.fh2$PR), "country"]   # List the countries that didn't match up
-
-
-
