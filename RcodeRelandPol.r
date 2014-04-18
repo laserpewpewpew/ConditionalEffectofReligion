@@ -702,7 +702,7 @@ lnewdat$mostlyrel.f[lnewdat$mostlyrel==1] <- "Mostly Religious"
 lnewdat$mostlyrel.f[lnewdat$mostlyrel==0] <- "Heterogeneous/Secular"
 
 ggplot(lnewdat, aes(x = churchattend, y = Probability, colour = Participation)) + geom_line() +
-  xlab("Religious Motivation of Politics") +
+  xlab("Church Attendance") +
   facet_grid (. ~ mostlyrel.f, scales = "fixed", labeller =label_value)
 
 #################################
