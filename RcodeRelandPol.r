@@ -398,8 +398,23 @@ stargazer(nb.1, nb.2, nb.3, nb.4, nb.5, nb.6,
 #########################
 # Predicted Probabilities 
 #########################
+
+# subset by voters and run OLR again
+voters <- myData[myData$voted2012==1, ]
+voters$partind.n[voters$partind==1] <- 0
+voters$partind.n[voters$partind==2] <- 1
+voters$partind.n[voters$partind==3] <- 2
+voters$partind.n[voters$partind==4] <- 3
+voters$partind.n[voters$partind==5] <- 4
+
+voters$partind.f <- factor(voters$partind.n, labels=c("None", "One", "Two", "Three", "Four"))
+
+
+vot.olr.4 <- polr(partind.f ~ churchattend + mostlyrel + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
+              data=voters)
+
 newdata <- read.csv("probdata.csv")
-newdata <- cbind(newdata, predict(olr.4, newdata, type = "probs"))
+newdata <- cbind(newdata, predict(olr.3, newdata, type = "probs"))
 
 head(newdata)
 
@@ -412,8 +427,8 @@ lnewdat$mostlyrel.f[lnewdat$mostlyrel==1] <- "Mostly Religious"
 lnewdat$mostlyrel.f[lnewdat$mostlyrel==0] <- "Heterogeneous/Secular"
 
 ggplot(lnewdat, aes(x = churchattend, y = Probability, colour = Participation)) + geom_line() +
-  xlab("Church Attendance") +
-  facet_grid (. ~ mostlyrel.f, scales = "fixed", labeller =label_value)
+  xlab("Church Attendance") #+
+#  facet_grid (. ~ mostlyrel.f, scales = "fixed", labeller =label_value)
 
 
 
