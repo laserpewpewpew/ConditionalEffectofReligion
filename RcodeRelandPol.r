@@ -328,7 +328,7 @@ fit.5 <- lm(partind ~ churchattend + mostlyrelflip + churchattend*mostlyrelflip 
 #############################
 #############################
 #############################
-
+require(MASS)
 olr.1 <- polr(partind.f ~ churchattend + white + age + female + polknowl + polinterest + married + inc + education, 
                     data=myData)
 olr.2 <- polr(partind.f ~ churchattend + totcng + white + age + female + polknowl + polinterest + married + inc + education, 
@@ -770,4 +770,6 @@ zip <- zip.tables[[7]]
 # Merging lets you match up observations in different datasets
 gsi.fh2 <- merge(x=gsi, y=fh2, all.x=T)
 gsi.fh2[is.na(gsi.fh2$PR), "country"]   # List the countries that didn't match up
->>>>>>> 5dbf1d44419d09425c2dacb3e70326f4b4956a6d
+
+
+
