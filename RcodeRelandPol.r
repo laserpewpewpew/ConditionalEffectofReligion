@@ -693,7 +693,7 @@ newdata <- cbind(newdata, predict(olr.4, newdata, type = "probs"))
 
 head(newdata)
 
-lnewdat <- melt(newdata, id.vars = c("mostlyrel", "id", "churchattend", "age", "white", "female", "married", "education", "inc", "polinterest", "polknowl", "totcng"), variable.name = "Participation",
+lnewdat <- melt(newdata, id.vars = c("mostlyrel", "id", "churchattend", "age", "white", "female", "married", "education", "inc", "polinterest", "polknowl"), variable.name = "Participation",
                 value.name ="Probability")
 head(lnewdat)
 
