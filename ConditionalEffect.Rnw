@@ -1,4 +1,3 @@
-\RequirePackage[12tabu, orthodox]{nag}
 \documentclass{article}
 
 \author{Kellen J. Gracey \\
@@ -13,62 +12,67 @@
 \usepackage[a4paper]{geometry}
 \usepackage{graphicx}
 \usepackage{microtype}
-\usepackage{natbib}
 \usepackage{setspace}
+\usepackage{dcolumn}
+\usepackage{fullpage}
+\usepackage{floatrow}
+
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
 \maketitle
 
 \begin{abstract}
 
-This paper has two primary goals: first, to propose a new measurement of individual-level religious context, showing how a simple indicator variable can offer leverage over data not commonly acheived using standard congregation density data; and second, to introduce a simple measurement of religious motivation of politics that can be used to explain regional variation in the effect of religion on political participation, as well as acting as an interesting dependent variable on its own.  Why is it that religious adherents in one community are politically active while members of the same denomination in a different community are not?  This paper argues that there is a link between perceived social threats from outgroups of secular people and political activation of religiously-motivated voters.  When religious Americans perceive themselves to be living in a homogeneous secular or religiously heterogeneous community they react by becoming more politically active and entrenching their political beliefs with their religious views.  Likewise, religious Americans who perceive themselves to be living in a homogeneous religious community are less likely to participate in politics and/or inform their political beliefs with their religious views than their counterparts in perceived-threat situations.  Using data from the 2013 Hawkeye Poll, a telephone survey of a representative sample of Iowans, I show this relationship holds across a variety of dependent variable treatments.  These findings have implications for future research into religion and politics as they highlight a deficiency in previous studies using congregational data that does not account for contextual conditioning.  Hopefully, these findings can help us better understand the polarized state of contemporary American politics.  In addition, these findings could be useful for campaign microtargeting purposes.
+This paper has two primary goals: first, to propose a new measurement of individual-level religious context, by showing how a simple indicator variable can offer leverage over data standard congregation density variables cannot capture; and second, to test a group threat theory of religion.  Why is it that religious adherents in one community are politically active while members of the same denomination in a different community are not?  This paper argues that there is a link between perceived social threats from out-groups of secular people and political activation of religious voters.  When religious Americans perceive themselves to be living in a homogeneous secular or religiously heterogeneous community they react by engaging in more political activities such as letter writing, donating money, and volunteering on a campaign.  Using data from the 2013 Hawkeye Poll, a telephone survey of a representative sample of Iowans, I show this relationship holds across a variety of dependent variable treatments.  These findings have implications for future research into religion and politics as they highlight a deficiency in previous understandings of the link between religion and participation measured using congregational data that does not account for contextual conditioning. In addition, these findings could be useful for campaign micro-targeting purposes.
 
 \end{abstract}
 
+
+
+\newpage
 \section*{Introduction}
 
-Religion plays a very important role in American life.  A long line of scholarship in political science reveals that religion matters greatly, often as a primary consideration, when American citizens are forming their political opinions~\citep{Guth:1988, Jelen:1992,Miller:1996,Layman:2001,JonesCorrea:2001,Djupe:2002,Djupe:2009,McDermott:2009,Smith:2013}.  While not the ultimate predictor of political behavior in the United States, if such a thing exists, volumes of research show that at a minimum religion is an important political consideration for significant portions of the population.  Political science has operated under the assumption that religion has a significant positive effect on participation rates of Americans, through both the skills developed in the institutional setting of a congregation and the motivation of religious-related beliefs. 
+Religion plays a very important role in American life.  A long line of scholarship in political science reveals that religion matters greatly, often as a primary consideration, when American citizens are forming their political opinions~\cite{Guth:1988,Jelen:1992,Miller:1996,Layman:2001,JonesCorrea:2001,Djupe:2002,Djupe:2009,McDermott:2009,Smith:2013}.  While not the ultimate predictor of political behavior in the United States, if such a thing exists, volumes of research show that at a minimum religion is an important political consideration for significant portions of the population.  Scholars of political science have long operated under the assumption that religion has a significant positive effect on participation rates of Americans, through both the skills developed in the institutional setting of a congregation and the motivation of religious-related beliefs. 
 
-There also exists a healthy body of literature regarding the effect of social context on political opinion and behavior \citep{Huckfeldt:1979,Bobo:1990,Baybeck:2002b,Baybeck:2002a,Beck:2002,Cho:2003,Baybeck:2006,Cho:2006,Djupe:2011,Sinclair:2012}.  The social context literature focuses on spatial dispersion, rural/urban divides, and racial contexts; all have an effect on political participation and opinion formation.  Social network analysis has found that even weak ties between community members, informal connections between neighbors via mutual friends for instance, can have an effect on diffusion of influence, information, and civic opportunities \citep{Granovetter:1973}.
+There also exists a healthy body of literature regarding the effect of social context on political opinion and behavior \cite{Huckfeldt:1979,Bobo:1990,Baybeck:2002b,Baybeck:2002a,Beck:2002,Cho:2003,Baybeck:2006,Cho:2006,Djupe:2011,Sinclair:2012}.  The social context literature focuses on spatial dispersion, rural/urban divides, and racial contexts; all have an effect on political participation and opinion formation.  Social network analysis has found that even weak ties between community members, informal connections between neighbors via mutual friends for instance, can have an effect on diffusion of influence, information, and civic opportunities \cite{Granovetter:1973}.
 
-The study of religion and politics has only just begun to examine the relationship in terms of social context.  This study adds to our understanding of the way political participation is motivated by religion, as well as the way Americans behave politically in groups.  For quite some time religion has been seen as having a consistently positive effect on participation rates.  That relationship is put to the test by examining variance in the effect of religion on participation rates depending on model specification.  The paper is organized as follows.  I begin by discussing previous religion and politics research followed by a discussion of social context literature.  Drawing from sociological group threat theory I make the argument that social threats trigger political reactions in people - whether they be implicit or explicit and whether the threat is actualized or perceived - and present my theory of the conditional effect of religion on political behavior.  To test my theory I turn to the 2013 Hawkeye Poll (HP), discussed in more detail below.
+The study of religion and politics has only just begun to examine how the two interact in terms of social context.  For quite some time religion has been seen as having a consistently positive effect on participation rates.  I argue this is largely due to the theoretical underspecification of participation models using religiosity variables.  These variables are frequently found to be statistically significant, but they fail to account for potential social context effects.  In this paper I offer a theory of conditional effects of religion on political participation and empirically test it using data from the 2013 Hawkeye Poll. I show how participation models relying on measures of congregational density, and similar measurements of community religiosity, fail to sufficiently capture the effect of an individual's surroundings.  Most Americans will be ignorant of the exact number of congregations in their community, but they probably will have an opinion on the matter if asked.  This subjective perception of the environment a respondent lives in is much more valuable in explaining how community context influences a cognitive choice, such as the choice to become politically active, than an objective measure of institutional density constructed by the researcher.  
 
 \section*{Literature Review}
 \subsection*{Religion and Behavior: State of the Literature}
 
-The influence of religion on voting in the United States has grown in importance since the 1990s, largely attributed to the stance each party has taken on social issues \citep[chapter 6]{Gelman:2010}.  Likewise, scholarly attention to the subject has grown, though remained rather myopic in focus \citep{Wald:2006}.  The academic community knows quite a bit about how religion affects political behavior already.  American voters find religion useful in developing civic skills through volunteer opportunities \citep{Brady:1995}, as a heuristic to determine vote choice among eligible candidates \citep{McDermott:2009}, and as a source of information for both policy and election issues \citep{Ribuffo:2006,Djupe:2009}. While significant strides have been made in understanding the ways which Americans incorporate their religion into their political lives, limited research has been conducted on why Americans vary in the intensity of this connection.  In other words, why is political behavior driven more by religion for some people and not for another, even if they are both of similar religious backgrounds?  Why do individuals who tie religion into their politics get more involved politically in some areas, and not as much in others?
+The influence of religion on voting in the United States has grown in importance since the 1990s, largely attributed to the stance each party has taken on social issues \cite[chapter 6]{Gelman:2010}.  Likewise, scholarly attention to the subject has grown, though remained rather myopic in focus \cite{Wald:2006}.  The academic community knows quite a bit about how religion affects political behavior already.  American voters find religion useful in developing civic skills through volunteer opportunities \cite{Brady:1995}, as a heuristic to determine vote choice among eligible candidates \cite{McDermott:2009}, and as a source of information for both policy and election issues \cite{Ribuffo:2006,Djupe:2009}. While significant strides have been made in understanding the ways which Americans incorporate their religion into their political lives, limited research has been conducted on why Americans vary in the intensity of this connection.  In other words, why is political behavior driven more by religion for some people and not for others, even those of similar religious backgrounds?
 
-While the empirical study of religion and politics is a relatively new endeavor, social scientists have approached it from three different perspectives over time.  The intellectual traditions of functionalism, modernization, and Marxism have largely guided and directed research in the area \citep{Guth:1988}.  Each tradition is generally associated with a particular set of questions.  Functionalist approaches look to the way religion supports and interacts with the political system, treating religion as a source of social control.  Religion acts as a heuristic for many Americans and is regularly used to inform political belief \citep{McDermott:2009}.  From this group of scholars comes the notion that religion encourages electoral participation.  To my knowledge no research exists that tests this premise in multiple social contexts.
+While the empirical study of religion and politics is a relatively new endeavor, social scientists have approached it from three different perspectives over time.  The intellectual traditions of functionalism, modernization, and Marxism have largely guided and directed research in the area \cite{Guth:1988}.  Each tradition is generally associated with a particular set of questions.  Functionalist approaches look to the way religion supports and interacts with the political system, treating religion as a source of social control.  Religion acts as a heuristic for many Americans and is regularly used to inform political belief \cite{McDermott:2009}.  From this group of scholars comes the notion that religion encourages electoral participation.
 
-The modernization tradition has been losing ground as of late.  At its inception modernization theory was wildly popular amongst scholars \citep{Guth:1988,Norris:2011}.  This approach largely focused on the relationship between the growth of industrial societies, technology, and secularization.  The theory held that as technology improves and modernization spreads, traditional values decline drastically.  As religious attachment rests upon acceptance of traditional values, modernization theorists argued, secularization is bound to occur.  We should therefore see a pattern of modernization and secularization occurring hand-in-hand.  This theory is difficult to apply to the United States, however.  While it may be true that there are growing numbers of secular Americans religion does not appear to be going away anytime soon.  The United States is somewhat of an outlier for modernization theory.  For the most part, it has been abandoned by social scientists.  Cogent attempts to reformulate it have recently appeared in the literature \citep{Norris:2011}.  In their book \textit{Sacred and Secular} Norris and Inglehart argue that as existential security improves, religiosity decreases.  Rather than tossing modernization theory aside, Norris and Inglehart suggest instead that the theory be revised to account for economic development differentials and relative levels of perceived existential security.  Perceptions of religious threat speak to a form of existential security that can only be understood in a modernized industrial state where the threat of a mortar shelling or outbreak of a civil war are seemingly non-existent. When people are less concerned about physical threats to their safety they turn to (real or imagined) threats to their beliefs and values.
+The modernization tradition has been losing ground as of late, though wildly popular at inception \cite{Guth:1988,Norris:2011}.  This approach largely focused on the relationship between the growth of industrial societies, technology, and secularization.  Modernization theory is difficult to apply to the United States, however.  While it may be true that there are growing numbers of secular Americans religious influence does not appear to be waning; the United States is somewhat of an outlier for modernization theory.  Cogent attempts to reformulate have recently appeared in the literature \cite{Norris:2011}.  In their book \textit{Sacred and Secular} Norris and Inglehart argue that as existential security improves, religiosity decreases.  Rather than tossing modernization theory aside, Norris and Inglehart suggest instead that the theory be revised to account for economic development differentials and relative levels of existential security.  Perceptions of religious threat speak to a form of existential security that can only be understood in a modernized industrial state where the threat of a mortar shelling or outbreak of a civil war are seemingly non-existent. When people are less concerned about physical threats to their safety, threats to beliefs and values have more room to grow salience.
 
-Marxism has experienced a dwindling base of support in the literature, as well.  Nonetheless the research tradition has made an important and notable impact on the way scholars think about religion and politics.  Marxists perceive religion in terms of a social control mechanism, similar to the functionalists' approach.  Beginning in the 1980s Marxist scholars began analyzing the effect of religion on individual behavior from the perspective of social interactions and interpersonal networks.  Afterwards a growth in the study of religion as a social environment capable of molding a person's world-view took place, directing attention toward "the power of religion in forming political culture and shaping responses to political controversies," \citep{Guth:1988}.  From the Marxist tradition was born scholarly analysis of religion as a socializing and politicizing factor.
+Marxism has experienced a dwindling base of support in the literature, as well.  Nonetheless the research tradition has made an important and notable impact on the way scholars think about religion and politics.  Marxists perceive religion in terms of a social control mechanism, similar to the functionalists' approach.  Beginning in the 1980s Marxist scholars began analyzing the effect of religion on individual behavior from the perspective of social interactions and interpersonal networks.  Afterwards a growth in the study of religion as a social environment capable of molding a person's world-view took place, directing attention toward "the power of religion in forming political culture and shaping responses to political controversies," \cite{Guth:1988}.  From the Marxist tradition was born scholarly analysis of religion as a socializing and politicizing factor.
 
-Methods of inquiry also vary in the study of religion and politics.  Focus on denominational and congregational differences has found that different religious groups participate in politics in observable patterns over time.  Evangelical Protestantism had long been an apolitical body in the United States, largely due to the hegemonic status the denomination enjoyed.  The traditionalist cultural and social positions held by evangelical Protestants were so widespread and embedded in American culture there was no need to be anything but apolitical; that is until the 1970s and 1980s brought forth a reaction to the growing moral and cultural liberalism beginning to sweep across the country \citep[chapter 1]{Layman:2001}.  The effect of their emergence into politics produced a massive shock to the party system, realigning moral and cultural issues between political parties.  Moral and cultural issues then become very important motivators of political behavior and the best way to capture their effect was to examine specific denominations or congregations.
+Both religious groups and the people who belong to them participate in politics in observable patterns over time.  Evangelical Protestantism had long been an apolitical body in the United States, largely due to the hegemonic status the denomination enjoyed.  The traditionalist cultural and social positions held by evangelical Protestants were so widespread and embedded in American culture there was no need to be anything but apolitical; that is until the 1970s and 1980s brought forth a reaction to the growing moral and cultural liberalism beginning to sweep across the country \cite[chapter 1]{Layman:2001}.  The effect of their emergence into politics produced a massive shock to the party system, realigning moral and cultural issues between political parties.  Moral and cultural issues then became very important motivators of political behavior and the best way to capture their effect was to examine specific denominations or congregations.
 
-Congregational studies generally come to similar conclusions: context matters and is oftentimes a stronger predictor of individual-level behavior and opinion formation.  When scholars make this argument however, they are referring to the institutional treatment provided by places of worship.  That is, churches aid in the development of skills and resources needed in civic life.  Various studies have examined this concept \citep{Jelen:1992,Djupe:2002,Djupe:2009,Smith:2013,JonesCorrea:2001}.  Recent research has examined an economy of time effect that emerges between religious adherents who closely align their religious lives with their political lives \citep{Smith:2013}.  A U-shaped pattern emerges when comparing religiosity (measured by time spent in church) to political activity; people spending more than once a week involved in religious activities experience a trade-off and begin to report less participation in political activities.  When religion and politics are intertwined enough, as is the case with many evangelical Protestants, we see no such trade-off.  These types of studies show religiosity and political participation in a non-monotonic relationship, but still do not capture the effect of community context on the individual. 
+Congregational studies all generally come to a similar conclusion: context matters and is often times a stronger predictor of individual-level behavior and opinion formation.  When scholars make this argument however, they are referring to the institutional treatment provided by places of worship.  That is, churches aid in the development of skills and resources needed in civic life~\cite{Brady:1995}.  Various studies have examined this concept \cite{Jelen:1992,Djupe:2002,Djupe:2009,Smith:2013,JonesCorrea:2001}.  Recent research has found an economy of time effect that emerges between religious adherents who closely align their religious lives with their political lives \cite{Smith:2013}.  A U-shaped pattern emerges when comparing religiosity (measured by time spent in church) to political activity; people spending more than once a week involved in religious activities experience a trade-off and begin to report less participation in political activities.  When religion and politics are intertwined enough, as is the case with many evangelical Protestants, we see no such trade-off.  
 
-Finally, it is important to point out a growing line of research in the psychological dimension of religious effects on political participation.  Some scholars argue that a vast majority of Americans identify 'being American' with 'being religious;' that is, many citizens directly link their civic identity with their religious identity \citep{Walzer, 2004; Campbell, 2011; Smith, 2013}.  This helps explain why religious people tend to be more politically active than non-religious people.  Recent research coupling the institutional approach described previously with psychological dimensions argues that a gender gap exists in the way religious institutions affect political behavior by moderating civic skill development \citep{Djupe:2013}.  They argue that individual predispositions condition political involvement.  This paper seeks to expand on this notion of conditional effects by applying the concept to the subjective perceptions of community religiosity of Iowans.
+A growing line of research focuses on the psychological dimension of religious effects on political participation.  Some scholars argue that a vast majority of Americans identify 'being American' with 'being religious;' that is, many citizens directly link their civic identity with their religious identity \cite{Walzer:2004,Campbell:2011,Smith:2013}.  This helps explain why religious people tend to be more politically active than non-religious people.  Recent research coupling the institutional approach described previously with psychological dimensions argues that a gender gap exists in the way religious institutions affect political behavior by moderating civic skill development \cite{Djupe:2013}.  They argue that individual predispositions condition political involvement.  This paper adds to this line of research, expanding on the notion that the effect religion has on participation is conditioned in some way.
 
-The largest gap in the religion and politics literature appears to be contextual analysis extending beyond rural areas and/or the congregational and denominational levels.  Studies looking at denominational differences tend to overlook important social contexts when doing so can be detrimental to our understanding of religion and politics \citep{Djupe:2009}.
+The largest gap in the religion and politics literature appears to be contextual analysis extending beyond the congregational and denominational levels.  Studies looking at denominational differences tend to overlook important social contexts when doing so can be detrimental to our understanding of religion and politics \cite{Djupe:2009}.  Community context is the focus of this paper.
 
 \subsection*{Toward a Group Threat Theory of Religion and Politics}
-The importance of social context in political research is well established in the literature.  Research into neighborhood effects reveals that where you live matters for your politics.  Americans tend to sort themselves into areas where like-minded people are located, places where they will feel more connected and more similar to those around them \citep{Bishop:2008,Chinni:2010}.  Robert Huckfeldt explored neighborhood social contexts and found that not only do they matter in participation and opinion formation, but that class and status within such context also matters \citep{Huckfeldt:1979}.  Similarly, more recent research has shown that disagreements among members of communities has distinct effects on opinions and participation \citep{Klofstad:2013}.  In terms of the current research, a religious person living in a non-religiously-dominated neighborhood will be much more likely to participate and become politically involved than if they lived in a religiously-dominated neighborhood.  A religious person who perceives some sort of threat from a growing secular portion of their community will 'dig in their heels' so to speak and become more politically active. 
+The importance of social context in political research is well established in the literature.  Research into neighborhood effects reveals that where you live matters for your politics.  Americans tend to sort themselves into areas where like-minded people are located, places where they will feel more connected and more similar to those around them \cite{Bishop:2008,Chinni:2010}.  Robert Huckfeldt explored neighborhood social contexts and found that not only do they matter in participation and opinion formation, but that class and status within such context also matters \cite{Huckfeldt:1979}.  Similarly, more recent research has shown that disagreements among members of communities has distinct effects on opinions and participation \cite{Klofstad:2013}.  In terms of the current research, a religious person living in a non-religiously-dominated neighborhood will be much more likely to participate and become politically involved than if they lived in a religiously-dominated neighborhood.  A religious person who perceives some sort of threat from a growing secular portion of their community will 'dig in their heels' so to speak and become more politically active. 
 
-Sociological theories of group threat interpret politics in terms of subordinate and dominant power positions of particular groups.  Marginalized groups in an exclusionary political environment gain political power through increased voter turnout and 'say' in the democratic regime, causing a reaction from the dominant group in power \citep{Behrens:2003}.  When dominant groups perceive increased political participation by the marginalized groups, they react.  Reactions can take on different forms and can be as subtle as retrenchment of rigid political beliefs, or as explicit as political activism.  Previous research has found that, comparable to the group threat theory, evangelical Protestants respond to perceived 'religious threats' from secularists in their community by showing up in greater numbers at the polling place \citep{Campbell:2006}.  Whether or not such a threat actually exists is of no import, the perception of such via greater numbers of secularists in the community is all that is necessary to motivate a response.  Sociologists studying neighborhoods explain such behavior as social homophily: communities of like-people insulate and defend against 'others' \citep{Sampson:2011}.  
+Sociological theories of group threat interpret politics in terms of subordinate and dominant power positions of particular groups.  Marginalized groups in an exclusionary political environment gain political power through increased voter turnout and 'say' in the democratic regime, causing a reaction from the dominant group in power \cite{Behrens:2003}.  When dominant groups perceive increased political participation by the marginalized groups, they react.  Reactions can take on different forms and can be as subtle as retrenchment of rigid political beliefs, or as explicit as political activism.  Previous research has found that, comparable to the group threat theory, evangelical Protestants respond to perceived 'religious threats' from secularists in their community by showing up in greater numbers at the polling place \cite{Campbell:2006}.  Whether or not such a threat actually exists is of no import, the perception of such via greater numbers of secularists in the community is all that is necessary to motivate a response.  Sociologists studying neighborhoods explain such behavior as social homophily: communities of like-people insulate and defend against 'others' \cite{Sampson:2011}.  
 
 As discussed above, the political preferences of evangelical Protestants have enjoyed hegemonic status for most of the nation's history, only recently (the past 40 years or so) declining in favor.    I argue that the relationship between religion and political participation is best illustrated in terms of social context.  A common way to control for community contextual effects in the literature is to include the number of congregations near an individual respondent (ADD LIST OF ARTICLES THAT DO THIS; TO BE USED IN CONCLUDING REMARKS FOR FUTURE RESEARCH).  The logic is that the greater number of churches there are in a respondent's immediate area, the more religious their community is.  The perceived religiosity of a person's community then conditions the relationship between religion and participation.  The causal mechanism between religion and political participation is therefore hypothesized to operate through a perceived threat: when religious people perceive their beliefs and/or values to be threatened, religion is more likely to inform their political beliefs and drive them to participate more in politics.  This leads us to an empirically testable general theory of conditional effects of religion on participation.
 
 \section*{Theory}
-The theory put forth here argues that religion is more likely to affect political behavior when a perceived religious threat exists; otherwise religiosity has little to no effect on participation, \textit{ceteris paribus}.  This theory draws from the same basic concept developed by racial threat scholars, beginning with Key (1949).  Key discovered white voter turnout for conservative candidates was correlated with the black proportion of the population.  Subsequent research into the affect geographically-based racial context has on political participation found that voters behave differently depending on demographic characteristics of the community they live in \citep{Putnam:2007,Habyarimana:2007}.  I purport a similar relationship exists here.
+The theory put forth here argues that religion is more likely to affect political behavior when a perceived religious threat exists; otherwise religiosity has little to no effect on participation, \textit{ceteris paribus}.  This theory draws from the same basic concept developed by racial threat scholars, beginning with Key (1949).  Key discovered white voter turnout for conservative candidates was correlated with the black proportion of the population.  Other research has found that relative concentrations of ethnic groups can influence behavior \cite{Putnam:2007,Habyarimana:2007}.  I purport a similar relationship exists here.
 
-Racial threat scholars have identified several causal mechanisms linking the mere presence of an outgroup to behavior, including competition over material resources and representation, stimulation of stereotypes, manipulation of fear by elites, and a cultural desire to preserve "white heritage," \citep{Bobo:1983,Spence:2010,Giles:1993,Key:1949,Voss:1996}.  This research looks to add this component of group threat to our understanding of religion and politics.  I argue that having a nearby religious outgroup, represented by secular people, stimulates political activity of people who link politics and religion.  Similar mechanisms present in racial threat theory also exist when thinking in terms of religion: different religious groups compete over finite material resources and representation, construct stereotypes surround non-members, encourage elite members to manipulate through fear, and drive a constant desire to preserve belief and cultural systems.  Religious identity, much like race, is part of the larger complex social construct we all live in.  
+Racial threat scholars have identified several causal mechanisms linking the mere presence of an outgroup to behavior, including competition over material resources and representation, stimulation of stereotypes, manipulation of fear by elites, and a cultural desire to preserve "white heritage," \cite{Bobo:1983,Spence:2010,Giles:1993,Key:1984,Voss:1996}.  This research looks to add this component of group threat to our understanding of religion and politics.  I argue that having a nearby religious outgroup, represented by secular people, stimulates political activity of people who link politics and religion.  Similar mechanisms present in racial threat theory also exist when thinking in terms of religion: different religious groups compete over finite material resources and representation, construct stereotypes surround non-members, encourage elite members to manipulate through fear, and drive a constant desire to preserve belief and cultural systems.  Religious identity, much like race, is part of the larger complex social construct we all live in.  
 
 Political elites and candidates for office have long used religion for political gain by activating group threat sentiments, though nearly all research focused in this area has narrowed on race.  Here, we look at how presence of outgroup secular voters, even just the perceived presence of outgroup secular voters, conditions the effect religion has on participation.  The relationship is not as direct and unwavering as previously believed and is contingent upon other factors in an individual voter's environment.  Previous models of participation including religious effects have been potentially misspecified as reactionary threatened religious voters are inflating the effect of religion, biasing estimates upwards for non-reactionary non-threatened voters.  Religiosity as a predictor variable is being misused constantly in political science and the models doing so can be improved.
 
 \section*{Data and Methods}
-Drawing from the 2013 Hawkeye Poll I examine the social context element of perceived religious homogeneity of one's surrounding community.  The Hawkeye Poll is a telephone survey conducted from November 3 to November 10, 2013 of a representative sample of Iowans.  I hypothesize that religious people who perceive a threat from non-religious people in their community are more likely to participate in politics than religious people who do not perceive such a threat (\textb{H1}).  There is a conditional effect of religion on participation, conditioned by the social context a person finds themselves in.  
+Drawing from the 2013 Hawkeye Poll I examine the social context element of perceived religious homogeneity of one's surrounding community.  The Hawkeye Poll is a telephone survey conducted from November 3 to November 10, 2013 of a representative sample of Iowans.  I hypothesize that religious people who perceive a threat from non-religious people in their community are more likely to participate in politics than religious people who do not perceive such a threat.  There is a conditional effect of religion on participation, conditioned by the social context a person finds themselves in.  
 
 To measure religiosity in the Hawkeye Poll respondents were asked a series of questions used in the analysis below.  First, a question asked how much the respondent's political behavior is motivated by their religious beliefs.  Second, the respondent is asked whether or not they believe religion is gaining or losing importance in the United States.  Third, they are asked whether they believe the community they live in is mostly religious, mostly secular, or somewhere in between.  Finally, respondents are asked how frequently they attend religious services offered by a local congregation.  These questions are the primary measures of religiosity for individuals in the survey.  Other commonly used measures of religiosity (e.g. frequency of prayer, importance of religion) are also included in the dataset and were used for robustness checks.
 
@@ -78,32 +82,175 @@ Perceived threat is determined by two questions on the survey: whether responden
 
 Political participation, as constructed, offers a unique ability for researchers to treat the dependent variable in a variety of ways.  To tease out all possible statistical relationships I use similar specifications across several model types.  I begin by treating the variable as continuous and estimating an ordinary least squares model.  This, of course, violates an assumption of OLS models.  I therefore present the results of an ordered logistic regression, reflecting the ordinal nature of the dependent variable.  This, too, presents a problem: treating the variable as ordinal erroneously assumes that moving from one to two is similar to moving from two to three.  That is, there is no relative weight given to any one item in the indexed variable.  Voting is considered just as 'participatory' as donating money or working on a campaign.  Treating the variable in such a way belies the true count nature of the variable.  Therefore, I also present results from a negative binomial regression, treating the variable as a count of participatory activities.
 
-(Discuss specification - IVs of interest and controls)
-
+The independent variables appearing in the models below were chosen based on those found to be important in previous studies of participation.  To move the discussion toward a better model of political participation, I selected a fair number touching a variety of possible relationships.  Some of variables typically found to be significant in the literature (eg. race, sex) could be indicative of the limited generalizability of these findings resulting from the sample selection of Iowa respondents.  Still, the model should be useful in comparing operationalization of the concept of interest, community context.  I show the subjective measure of community context to be a superior variable across several dependent variable treatments.  As an ordinal variable with at least five categories I first treat the variable as continuous using ordinary least squares regression.  I also specify the model using ordered logistic regression, adhering to the ordinal nature of the dependent variable, as well as using negative binomial regression, in light of the event count nature of a participatory index.  I find similar findings across all dependent variable treatments.
 
 \section*{Results and Analysis}
+\subsection*{Specifying the Model: Preliminary Evidence for Community Context}
 
-Introduce the results/analysis section.
+Table~\ref{table1} presents the preliminary results of an ordinary least squares regression.  The results are presented in a step-wise fashion.  Model 1 shows how the independent variable of interest, religiosity as measured by frequency of church attendance, is statistically significant and positively signed as the literature would suggest.  Many studies will stop here as definitive evidence of a positive relationship between religiosity and participation.  Model 2 presents the results when including the number of congregations per 1,000 people in a respondent's county, a commonly used objective measurement of community context.  The effect it has on participation is statistically indistinguishable from zero.  Model 3 includes an interaction term between these two variables, shown to also be statistically insignificant.
 
-\subsection*{Specifying the Model: Preliminary Evidence}
+Model 4 presents results when using a subjective perception indicator variable \textit{mostly rel. cmty.}, whether a respondent believes to be living in a community that is mostly religious, mostly secular, or somewhere in between.  The statistically significant interaction term indicates that the effect of religiosity on participation differs for people who respond to this question in different ways.  The important coefficient is for the \textit{church attendance} variable.  When a respondent indicates that they believe to be living in either a mostly secular or a heterogeneous community, higher levels of religiosity lead to higher levels of participation.  Model 5 elaborates on this community context effect.  The subjective perception indicator variable is flipped, so that a '1' indicates a respondent who reported living in a mostly secular or heterogeneous community.  This allows us to interpret the \textit{church attendance} coefficient in terms of respondents who reported living in a mostly religious community, as this variable is a constitutive element in the interaction term.
 
-(Table 1: Linear Model goes here)
+Table~\ref{table1} illustrates how an objective measurement constructed by the researcher, \textit{congregations per 1,000 people}, fails to uncover a conditional relationship between religiosity and political participation.  Religiosity only has a statistically significant effect on participation rates when respondents report living in a mostly secular or heterogeneous community.  In addition, note the increasing value of adjusted R$^2$ for between each successive model.  We are able to gain both substantive leverage by uncovering a contextual relationship as well as statistical leverage by explaining a little more variance in the dependent variable. While the total gain in adjusted R$^2$ values are small, any gain is welcome considering the limited sample. 
 
-Discuss significant and substantive findings from table 1 (what are substantive effects, leverage over variance given by contextual variable, etc, here.
+\newpage
+\begin{table}[!htbp] \centering 
+\ttabbox
+  {\caption{OLS Regression of Political Participation} 
+  \label{table1} }
+{\begin{tabular}{@{\extracolsep{5pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} } 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{5}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-6} 
+\\[-1.8ex] & \multicolumn{5}{c}{Participation Index} \\ 
+\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)}\\ 
+\hline \\[-1.8ex] 
+ Church Attendance & 0.115^{***} & 0.116^{***} & 0.172^{**} & 0.166^{***} & 0.013 \\ 
+  & (0.032) & (0.032) & (0.080) & (0.039) & (0.056) \\ 
+  Congregations/1k ppl. &  & -0.075 & 0.013 &  &  \\ 
+  &  & (0.063) & (0.130) &  &  \\ 
+  Mostly Rel. Cmty. &  &  &  & 0.376^{*} &  \\ 
+  &  &  &  & (0.220) &  \\ 
+  Non-mostly Rel. Cmty. &  &  &  &  & -0.376^{*} \\ 
+  &  &  &  &  & (0.220) \\ 
+  White & -0.146 & -0.128 & -0.123 & -0.148 & -0.148 \\ 
+  & (0.242) & (0.242) & (0.242) & (0.242) & (0.242) \\ 
+  Age & 0.014^{***} & 0.014^{***} & 0.014^{***} & 0.014^{***} & 0.014^{***} \\ 
+  & (0.003) & (0.003) & (0.003) & (0.003) & (0.003) \\ 
+  Female & 0.015 & 0.015 & 0.016 & 0.022 & 0.022 \\ 
+  & (0.101) & (0.101) & (0.101) & (0.101) & (0.101) \\ 
+  Political Knowledge & 0.237^{***} & 0.234^{***} & 0.237^{***} & 0.232^{***} & 0.232^{***} \\ 
+  & (0.062) & (0.062) & (0.062) & (0.061) & (0.061) \\ 
+  Political Interest & 0.462^{***} & 0.470^{***} & 0.468^{***} & 0.474^{***} & 0.474^{***} \\ 
+  & (0.099) & (0.099) & (0.099) & (0.099) & (0.099) \\ 
+  Married & 0.212^{*} & 0.220^{*} & 0.221^{*} & 0.219^{*} & 0.219^{*} \\ 
+  & (0.114) & (0.114) & (0.114) & (0.114) & (0.114) \\ 
+  Income & 0.098^{***} & 0.095^{***} & 0.095^{***} & 0.099^{***} & 0.099^{***} \\ 
+  & (0.027) & (0.027) & (0.027) & (0.027) & (0.027) \\ 
+  Education & 0.236^{***} & 0.230^{***} & 0.230^{***} & 0.236^{***} & 0.236^{***} \\ 
+  & (0.042) & (0.042) & (0.042) & (0.042) & (0.042) \\ 
+  Church Attendance X &  &  & -0.032 &  &  \\ 
+  Congregations&  &  & (0.042) &  &  \\ 
+  Church Attendance X &  &  &  & -0.153^{**} &  \\ 
+  Mostly Rel. Cmty. &  &  &  & (0.067) &  \\ 
+  Church Attendance X &  &  &  &  & 0.153^{**} \\ 
+  Non-mostly Rel. Cmty. &  &  &  &  & (0.067) \\ 
+  Constant & -0.785^{**} & -0.632^{*} & -0.789^{*} & -0.926^{**} & -0.550 \\ 
+  & (0.355) & (0.378) & (0.429) & (0.359) & (0.394) \\ 
+ \hline \\[-1.8ex] 
+Observations & \multicolumn{1}{c}{717} & \multicolumn{1}{c}{717} & \multicolumn{1}{c}{717} & \multicolumn{1}{c}{717} & \multicolumn{1}{c}{717} \\ 
+R$^{2}$ & \multicolumn{1}{c}{0.248} & \multicolumn{1}{c}{0.249} & \multicolumn{1}{c}{0.250} & \multicolumn{1}{c}{0.254} & \multicolumn{1}{c}{0.254} \\ 
+Adjusted R$^{2}$ & \multicolumn{1}{c}{0.238} & \multicolumn{1}{c}{0.239} & \multicolumn{1}{c}{0.238} & \multicolumn{1}{c}{0.242} & \multicolumn{1}{c}{0.242} \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{5}{c}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\multicolumn{6}{l}{Unstandardized OLS regression coefficients with standard errors in parantheses.} \\ 
+\normalsize 
+\end{tabular}} 
+\end{table} 
+\newpage
 
-(Figures 1 and 2 go here, same page one above the other, Bayesian posterior distribution of the churchattend variable from model 3 and then model 4)
+Figures~\ref{f:BPmodel3} and \ref{f:BPmodel4} below  
 
-Discuss improvements on estimate just by changing the way communtiy context is operationalized.
 
-Community variable captures a measure of subjective perception.  Considering that the causal mechanism linking religion to participation has always been based on cognitive and mental connections being made by voters, it makes sense to tap into the subjective perspectives of individuals.  A simple indicator variable linked to a survey question merely asking respondents about the community they live in is much more informative than including more complex congregational density measurements in statistical models of participation.  The findings presented above confirm this.  
+\begin{figure}[p]
+    \centering
+    \ffigbox[\FBwidth]
+    {\includegraphics[scale=0.6]{BPmodel3}}
+    {\caption{Simulated Estimate Using Congregation/1k Ppl. Variable}
+    \label{f:BPmodel3}}
+\end{figure}
 
-\subsection*{Predicting Political Participation: Ordered Logistic Regression}
+\begin{figure}[p]
+    \centering
+    \ffigbox[\FBwidth]
+    {\includegraphics[scale=0.6]{BPmodel4}}
+    {\caption{Simulated Estimate Using Subjective Perception Variable}
+    \label{f:BPmodel4}}
+\end{figure}
+\newpage
+
+ Considering that the causal mechanism linking religion to participation has always been based on cognitive and mental connections being made by voters, it makes sense to tap into the subjective perceptions of individuals.  A simple indicator variable linked to a survey question merely asking respondents about the community they live in is much more informative than including more complex congregational density measurements in statistical models of participation.  The findings presented above in Table~\ref{table1} and Figures~\ref{f:BPmodel3} and~\ref{f:BPmodel4} confirm this.  
+
+\subsection*{Religiosity Predicting Political Participation: Ordered Logistic Regression}
 
 Intro to OLR, continued use of prior specification.  Purpose of this section is twofold: (1) improve the model of participation by treating the DV in a more suitable manner than the linear assumption; (2) submit the conditional effect to additional testing beyond the linear model.
 
-(Table 2 goes here - OLR results)
+
+\newpage
+\begin{table}[!htbp] \centering 
+\ttabbox
+  {\caption{Ordered Logistic Regression of Political Participation} 
+  \label{}}
+{\begin{tabular}{@{\extracolsep{5pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} } 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{5}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-6} 
+\\[-1.8ex] & \multicolumn{5}{c}{Participation Index} \\ 
+\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)} & \multicolumn{1}{c}{(4)} & \multicolumn{1}{c}{(5)}\\ 
+\hline \\[-1.8ex] 
+ Church Attendance & 0.145^{***} & 0.146^{***} & 0.188^{*} & 0.215^{***} & -0.002 \\ 
+  & (0.045) & (0.045) & (0.111) & (0.055) & (0.079) \\ 
+  Congregations/1k ppl. &  & -0.099 & -0.032 &  &  \\ 
+  &  & (0.089) & (0.185) &  &  \\ 
+  Mostly Rel. Cmty. &  &  &  & 0.560^{*} &  \\ 
+  &  &  &  & (0.314) &  \\ 
+  Non-mostly Rel. Cmty. &  &  &  &  & -0.560^{*} \\ 
+  &  &  &  &  & (0.314) \\ 
+  White & -0.249 & -0.227 & -0.223 & -0.274 & -0.274 \\ 
+  & (0.336) & (0.336) & (0.337) & (0.337) & (0.337) \\ 
+  Age & 0.020^{***} & 0.020^{***} & 0.020^{***} & 0.020^{***} & 0.020^{***} \\ 
+  & (0.005) & (0.005) & (0.005) & (0.005) & (0.005) \\ 
+  Female & 0.031 & 0.028 & 0.030 & 0.043 & 0.043 \\ 
+  & (0.140) & (0.140) & (0.140) & (0.140) & (0.140) \\ 
+  Political Knowledge & 0.345^{***} & 0.342^{***} & 0.343^{***} & 0.332^{***} & 0.332^{***} \\ 
+  & (0.087) & (0.087) & (0.087) & (0.088) & (0.088) \\ 
+  Political Interest & 0.659^{***} & 0.671^{***} & 0.669^{***} & 0.684^{***} & 0.684^{***} \\ 
+  & (0.139) & (0.139) & (0.139) & (0.139) & (0.139) \\ 
+  Married & 0.266^{*} & 0.278^{*} & 0.278^{*} & 0.289^{*} & 0.289^{*} \\ 
+  & (0.160) & (0.160) & (0.160) & (0.160) & (0.160) \\ 
+  Income & 0.137^{***} & 0.133^{***} & 0.133^{***} & 0.139^{***} & 0.139^{***} \\ 
+  & (0.038) & (0.038) & (0.038) & (0.038) & (0.038) \\ 
+  Education & 0.321^{***} & 0.314^{***} & 0.315^{***} & 0.323^{***} & 0.323^{***} \\ 
+  & (0.059) & (0.059) & (0.059) & (0.059) & (0.059) \\ 
+  Church Attendance X &  &  & -0.024 &  &  \\ 
+  Congregations &  &  & (0.058) &  &  \\ 
+  Church Attendance X &  &  &  & -0.217^{**} &  \\ 
+  Mostly Rel. Cmty. &  &  &  & (0.095) &  \\ 
+  Church Attendance X &  &  &  &  & 0.217^{**} \\ 
+  Non-mostly Rel. Cmty.&  &  &  &  & (0.095) \\ 
+ \hline \\[-1.8ex] 
+Observations & \multicolumn{1}{c}{717} & \multicolumn{1}{c}{717} & \multicolumn{1}{c}{717} & \multicolumn{1}{c}{717} & \multicolumn{1}{c}{717} \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{5}{c}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\multicolumn{6}{l}{Unstandardized ordered logistic regression coefficients with standard errors in parantheses.} \\ 
+\normalsize 
+\end{tabular}} 
+\end{table} 
+\newpage
 
 Discuss Table 2.  What does table 2 give us that table 1 does not give us?
+
+Table 2 raises more questions about the nature of the interaction term between \textit{church attendance} and \textit{community type}.  While still lacking statistical significance in, the \textit{church attendance} variable in model 5 has now became negative.  Considering the relatively rural and traditional nature of many Iowa counties and zip codes, this might be indicative of a stronger relationship in the general population.  A survey design sampling Americans finding a statistically significant negative relationship would be further evidence that previous models of participation using religion variables may have been theoretically underspecified without considering context.
+
+\begin{figure}[p]
+    \centering
+    \ffigbox[\FBwidth]
+    {\includegraphics[scale=0.6]{predprobsmostlyrel}}
+    {\caption{Predicted Probabilities - Table 2: Model 4, Heterogeneous/Mostly Secular Cmty.}
+    \label{f:predprobsmostlyrel}}
+\end{figure}
+
+\begin{figure}[p]
+    \centering
+    \ffigbox[\FBwidth]
+    {\includegraphics[scale=0.6]{predprobsmostlyrelvoters}}
+    {\caption{Predicted Probabilities - Table 2: Model 4, Only Voters in Heterogeneous/Mostly Secular Cmty.}
+    \label{f:predprobsmostlyrelvoters}    }
+\end{figure}
 
 (Figures 4 and 5 go here, one above the other; predicted probabilities for (a) whole sample, and (b) subsampled by just voters)
 
@@ -113,13 +260,67 @@ The effect of religion is conditioned by community type; does the participation 
 
 Final model has the goal of specifying a better model of participation than has previously been used by including the conditional effect.  I compare the model of participation estimated using a sample of Iowans to a national sample using a similar specification.  Briefly mention the survey instrument used.
 
-(Table 3 goes here; or tables 3 and 4 if it is too big and needs to be split)
+
+\newpage
+\begin{table}[!htbp] \centering 
+\ttabbox
+  {\caption{Negative Binomial Regression of Political Participation} 
+  \label{}} 
+{\begin{tabular}{@{\extracolsep{5pt}}lD{.}{.}{-3} D{.}{.}{-3} D{.}{.}{-3} } 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{3}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-4} 
+\\[-1.8ex] & \multicolumn{3}{c}{\# of Activities} \\ 
+\\[-1.8ex] & \multicolumn{1}{c}{(1)} & \multicolumn{1}{c}{(2)} & \multicolumn{1}{c}{(3)}\\ 
+\hline \\[-1.8ex] 
+ Church Attendance & 0.056 & 0.056^{***} & 0.006 \\ 
+  & (0.036) & (0.018) & (0.025) \\ 
+  Congregations/1k ppl. & 0.004 &  &  \\ 
+  & (0.061) &  &  \\ 
+  Mostly Rel. Cmty. &  & 0.129 &  \\ 
+  &  & (0.101) &  \\ 
+  Non-mostly Rel. Cmty. &  &  & -0.129 \\ 
+  &  &  & (0.101) \\ 
+  White & -0.027 & -0.034 & -0.034 \\ 
+  & (0.110) & (0.110) & (0.110) \\ 
+  Age & 0.005^{***} & 0.005^{***} & 0.005^{***} \\ 
+  & (0.002) & (0.002) & (0.002) \\ 
+  Female & 0.011 & 0.013 & 0.013 \\ 
+  & (0.045) & (0.045) & (0.045) \\ 
+  Political Knowledge & 0.080^{***} & 0.078^{***} & 0.078^{***} \\ 
+  & (0.028) & (0.028) & (0.028) \\ 
+  Political Interest & 0.161^{***} & 0.163^{***} & 0.163^{***} \\ 
+  & (0.046) & (0.046) & (0.046) \\ 
+  Married & 0.081 & 0.080 & 0.080 \\ 
+  & (0.052) & (0.052) & (0.052) \\ 
+  Income & 0.031^{***} & 0.033^{***} & 0.033^{***} \\ 
+  & (0.012) & (0.012) & (0.012) \\ 
+  Education & 0.077^{***} & 0.079^{***} & 0.079^{***} \\ 
+  & (0.019) & (0.019) & (0.019) \\ 
+  Church Attendance * Congregations & -0.010 &  &  \\ 
+  & (0.019) &  &  \\ 
+  Church Attendance * Mostly Rel. Cmty. &  & -0.050^{*} &  \\ 
+  &  & (0.030) &  \\ 
+  Church Attendance * Non-mostly Rel. Cmty. &  &  & 0.050^{*} \\ 
+  &  &  & (0.030) \\ 
+  Constant & -0.247 & -0.296^{*} & -0.167 \\ 
+  & (0.204) & (0.173) & (0.187) \\ 
+ \hline \\[-1.8ex] 
+Observations & \multicolumn{1}{c}{717} & \multicolumn{1}{c}{717} & \multicolumn{1}{c}{717} \\ 
+Log Likelihood & \multicolumn{1}{c}{-1,261.509} & \multicolumn{1}{c}{-1,260.495} & \multicolumn{1}{c}{-1,260.495} \\ 
+Akaike Inf. Crit. & \multicolumn{1}{c}{2,547} & \multicolumn{1}{c}{2,544} & \multicolumn{1}{c}{2,544} \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{3}{c}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\multicolumn{4}{l}{Unstandardized negative binomial regression coefficients with standard errors in parantheses.} \\ 
+\normalsize 
+\end{tabular}} 
+\end{table} 
+\newpage
+
 
 Offer evidence that these subjective perception variables are important and should be included in new survey instruments to aid researchers in building more accurate models of participation.  
-
-(Table 4 goes here; NB fit identical to last table except subsampled to only voters)
-
-This lets us see what causes respondents to engage in political activities above and beyond just voting, valuable information to modern campigns using analytic tactics.
 
 \section*{Conclusion}
 This paper outlined a theory of conditional effects of religion on political participation.  The effect of religiosity is conditioned by social context and community type.  When a religious person perceives a potential threat from non-religious people in their community they engage more with politics to prevent them from gaining any additional political power. This offers a new way to understand the dynamic relationship between religion and politics in the United States.  Religion does not have a consistent effect on political opinion or behavior, as is commonly assumed in scholarly research of American political behavior.  Important social context conditioning effects have been omitted from research thus far.
@@ -137,22 +338,8 @@ These findings can be enhanced by including a qualitative research component.  A
 \begin{enumerate}
 \item Religious motivation of political beliefs
 
-  	\begin{itemize}
-		\item \textbf{RELIDENTITY2} To what degree would you say your political beliefs are motivated by your religious beliefs?
-		\begin{table}[H]
-		\centering
-		\begin{tabular}{l l}
-		None (296)				&	1 \\
-		Small amount (240)		&	2 \\
-		Moderate amount (197)	&	3 \\
-		Large amount (170)		&	4 \\
-		Entirely (67)			&	5 \\
-		\end{tabular}
-		\end{table}		
-		Recoded, each response was moved -1
-		\end{itemize}
-
-\item Political Participation \textit{[Prompt for PARTICP] Have your ever done the following political activities?}
+    \begin{itemize}
+	\item Political Participation \textit{[Prompt for PARTICP] Have your ever done the following political activities?}
 
 		\begin{itemize}
 		\item \textbf{PARTICP1} Contacted your legislator
@@ -210,7 +397,7 @@ These findings can be enhanced by including a qualitative research component.  A
 \item Religiosity of community
 
 		\begin{itemize}
-		\item \textbf{RELIDENTITY2} To what degree would you say your political beliefs are motivated by your religious beliefs?
+		\item \textbf{RELIDENTITY2} Would you say your community is mostly religious, mostly secular, or somewhere in between?
 		\begin{table}[H]
 		\centering
 		\begin{tabular}{l l}
@@ -220,7 +407,7 @@ These findings can be enhanced by including a qualitative research component.  A
 		\end{tabular}
 		\end{table}		
 		\end{itemize}
-
+\end{itemize}
 \end{enumerate}
 
 \newpage
