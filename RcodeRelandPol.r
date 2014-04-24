@@ -263,31 +263,6 @@ myData <- myDat11[complete.cases(myDat11[, c("education")]), ]
 # generate per capita measure of congregations
 myData$totcng <- round((with(myData, (totcng.mean/cntypop) * 1000 )), digits=2)
 
-# set up the survey design
-library(survey)
-svydata <- svydesign(id=~respnum,weights=~wgt_age_sex, data=nomiss)
-
-######################
-# Ordered Logistic regression
-#######################
-require(aod)
-require(ggplot2)
-require(foreign)
-require(MASS)
-require(Hmisc)
-require(reshape2)
-
-## fit ordered logit model and store results
-olr.final <- polr(partind.f ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + churchattend*mostlyrel + white + age + female + polinterest + polknowl + married + education + inc, 
-                  data=myData)
-
-olr.final2 <- polr(partind.f ~ polmotbyrel + mostlyrelflip + polmotbyrel*mostlyrelflip + churchattend + white + age + female + polinterest + polknowl + married + education + inc, 
-                   data=myData)
-
-# logistic regression
-log.final <- svyglm(voted2012 ~ polmotbyrel + mostlyrel + polmotbyrel*mostlyrel + churchattend + churchattend*polmotbyrel + white + age + female + polinterest + polknowl + married + education + inc, 
-                    design=svydata, family="binomial")
-
 # Calculate p-values for OLR estimates
 # (ctable <- coef(summary(olr.final)))
 # p <- pnorm(abs(ctable[, "t value"]), lower.tail= FALSE) * 2
@@ -473,8 +448,8 @@ ggplot(lnewdat, aes(x = totcng, y = Probability, colour = Participation)) + geom
 # Linear Regression Diagnostics
 ################################
 
-library(ggplot2)
-library(car)
+# library(ggplot2)
+# library(car)
 
 ###################### Assessing Outliers
 # outlierTest(fit.final) # Bonferonni p-value for most extreme observations
@@ -486,11 +461,11 @@ library(car)
 # avPlots(fit.final)
 # Cook's D Plot
 # identify D values > 4/(n-k-1)
- cutoff <- 4/((nrow(myData)-length(fit.4$coefficients)-2))
- plot(fit.4, which=4, cook.levels=cutoff)
+# cutoff <- 4/((nrow(myData)-length(fit.4$coefficients)-2))
+# plot(fit.4, which=4, cook.levels=cutoff)
 #Influence Plot
-influencePlot(fit.4, id.method="identify", main="Influence Plot",
-              sub="Circle size is proprtional to Cook's Distance")
+# influencePlot(fit.4, id.method="identify", main="Influence Plot",
+#              sub="Circle size is proprtional to Cook's Distance")
 
 ###################### Non-Normality
 # Normality of Residuals
@@ -508,9 +483,9 @@ influencePlot(fit.4, id.method="identify", main="Influence Plot",
 ####################### Non-constant Error Variance
 # Evaluate homoscedasticity 
 # non-constant error variance test
- ncvTest(fit.4)
+# ncvTest(fit.4)
 # plot studentized residuals vs. fitted values
- spreadLevelPlot(fit.4)
+# spreadLevelPlot(fit.4)
 
 ####################### Multi-collinearity
 # Evaluate Collinearity
@@ -520,19 +495,19 @@ influencePlot(fit.4, id.method="identify", main="Influence Plot",
 ####################### Nonlinearity
 # Evaluate linearity
 # component + residual plot
- crPlots(fit.4)
+# crPlots(fit.4)
 # Ceres plots
- ceresPlots(fit.4)
+# ceresPlots(fit.4)
 
 ####################### Non-independence of Errors
 # Test for Autocorrelated Errors
- durbinWatsonTest(fit.4)
+# durbinWatsonTest(fit.4)
 
 ####################### Global Tests
 # Global test of model assumptions
- library(gvlma)
- gvmodel <- gvlma(fit.4)
- summary(gvmodel)
+# library(gvlma)
+# gvmodel <- gvlma(fit.4)
+# summary(gvmodel)
 
 
 
@@ -607,7 +582,7 @@ print(m1.stan)
 m1.stan.sim <- as.data.frame(m1.stan)
 
 b.gini.plot <- qplot(m1.stan.sim$beta2, geom="density") + 
-  xlab("Coefficient of Church Attendance") + 
+  xlab("Coefficient of Service Attendance") + 
   ylab("Density of Posterior Distribution") +
   xlim(0,.3) +
   ylim(0,10) +
@@ -615,57 +590,79 @@ b.gini.plot <- qplot(m1.stan.sim$beta2, geom="density") +
 
 b.gini.plot
 
-# Graph regression results
-sim.data.2 <- myData
 
-hp2013.2.data <- list(N = nrow(sim.data.2), partind = sim.data.2$partind, 
-                      churchattend = sim.data.2$churchattend,
-                      totcng = sim.data.2$totcng, white = sim.data.2$white, 
-                      age = sim.data.2$age, female = sim.data.2$female, 
-                      polknowl = sim.data.2$polknowl, 
-                      polinterest = sim.data.2$polinterest, married = sim.data.2$married,
-                      inc = sim.data.2$inc, education = sim.data.2$education,
-                      interaction = sim.data.2$churchattend * sim.data.2$totcng)
+#####################
+# MODEL 4 POSTERIOR #
+#####################
 
-set.seed(324)
-m1.stan2 <- stan(fit=m1.stan, data=hp2013.2.data, iter = 10000, chains = 3)
-m1.stan2.sim <- as.data.frame(m1.stan2)
+# Bayesian Linear Regression in Stan
+# Install by following the directions at <https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started>
+require(rstan)
+require(ggplot2)
 
-# HDI.posterior is based, in part, on Kruschke (2011, 628-29)
-HDI.posterior <- function(data = NULL, mass = .95) {
-  n.vars <- dim(data)[2]-2
-  results.HDI <- matrix(rep(NA,3*n.vars), nrow=n.vars, ncol=3)
-  for (var in 1:n.vars) {
-    post <- data[,var]
-    sorted.post <- sort(post)
-    ci.idx <- floor(mass * length(sorted.post))
-    n.ci <- length(sorted.post) - ci.idx
-    ci.width <- rep(0, n.ci)
-    for (i in 1:n.ci) {
-      ci.width[i] <- sorted.post[i+ci.idx] - sorted.post[i]
-    }
-    HDI.min <- sorted.post[which.min(ci.width)]
-    HDI.max <- sorted.post[which.min(ci.width)+ci.idx]
-    mean.post <- mean(post)
-    results.HDI[var,] <- c(mean.post, HDI.min, HDI.max)
-  }  
-  results.HDI <- as.data.frame(results.HDI)
-  names(results.HDI) <- c("b", "lb", "ub")
-  return(results.HDI)
+# First we have to define the model
+partrel.code <- '
+data {
+int<lower=0> N;
+vector[N] partind;
+vector[N] churchattend;
+vector[N] mostlyrel;
+vector[N] white;
+vector[N] age;
+vector[N] female;
+vector[N] polknowl;
+vector[N] polinterest;
+vector[N] married;
+vector[N] inc;
+vector[N] education;
+vector[N] interaction;
 }
+parameters {                
+real beta1;             // coef for constant (default prior is uniform, i.e., noninformative)
+real beta2;             // coef for churchattend
+real beta3;             // coef for mostlyrel
+real beta4;
+real beta5;
+real beta6;
+real beta7;
+real beta8;
+real beta9;
+real beta10;
+real beta11;
+real beta12;
+real<lower=0> sigma;
+}
+model {
+partind ~ normal(beta1 + beta2 * churchattend + beta3 * mostlyrel +
+beta4 * white + beta5 * age + beta6 * female + beta7 * polknowl + 
+beta8 * polinterest + beta9 * married + beta10 * inc + beta11 * education + 
+beta12 * interaction, 
+sigma);
+}
+'
 
-reg.results <- HDI.posterior(m1.stan2.sim)   
-reg.results <- reg.results[-1,]             # exclude constant (not interesting)
-reg.results$no <- 1:dim(reg.results)[1]     # an index to order the variables
-reg.results$var <- c("Church Attendance", "Mostly Rel. Cmty.", "White",
-                     "Age", "Female", "Political Knowledge", "Political Interest", 
-                     "Married", "Income", "Education", "Church Attend. * Mostly Rel. Cmty.") # variable names
+# Then put the data into the expected format
+sim.data2 <- list(N = nrow(myData), partind = myData$partind, 
+                 churchattend = myData$churchattend,
+                 mostlyrel = myData$mostlyrel, white = myData$white, 
+                 age = myData$age, female = myData$female, polknowl = myData$polknowl, 
+                 polinterest = myData$polinterest, married = myData$married,
+                 inc = myData$inc, education = myData$education, 
+                 interaction = myData$churchattend * myData$mostlyrel)
 
-reg.plot <- ggplot(data = reg.results, aes(y = no, x = b)) +
-  geom_point() + geom_errorbarh(aes(xmin = lb, xmax = ub, height=0)) +
-  ylab("") + xlab("") + theme_bw() + 
-  scale_y_reverse(breaks = 1:dim(reg.results)[1], 
-                  labels = reg.results[1:dim(reg.results)[1],"var"]) +
-  geom_vline(xintercept=c(0), linetype="dotted")
+# Now we can run it
+set.seed(324)
+m1.stan2 <- stan(model_code = partrel.code, data = sim.data2, 
+                iter = 10000, chains = 3)
 
-reg.plot
+print(m1.stan2)
+m1.stan.sim2 <- as.data.frame(m1.stan2)
+
+b.gini.plot2 <- qplot(m1.stan.sim2$beta2, geom="density") + 
+  xlab("Coefficient of Service Attendance") + 
+  ylab("Density of Posterior Distribution") +
+  xlim(0,.3) +
+  ylim(0,10) +
+  theme_bw()
+
+b.gini.plot2
