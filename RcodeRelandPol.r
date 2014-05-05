@@ -379,17 +379,18 @@ covariate.labels=c("Church Attendance",
 require(ggplot2)
 require(car)
 require(reshape2)
-newdata <- read.csv("logprobdata.csv")
+norelfake <- read.csv("logprobdatanorelvoters.csv")
+relfake <- read.csv("logprobdatarelvoters.csv")
 
 # predicted probs for contacting an elected official
-newdata1 <- cbind(newdata, predict(vnorelfit.1, newdata = newdata, type = "link", se = TRUE))
+newdata1 <- cbind(newdata, predict(vnorelfit.1, newdata = norelfake, type = "link", se = TRUE))
 newdata1 <- within(newdata1, {
   pp <- plogis(fit)*100
   lb <- plogis(fit - (1.96 * se.fit))*100
   ub <- plogis(fit + (1.96 * se.fit))*100
 })
 
-newdata1 <- cbind(newdata1, predict(vrelfit.1, newdata = newdata, type = "link", se = TRUE))
+newdata1 <- cbind(newdata1, predict(vrelfit.1, newdata = relfake, type = "link", se = TRUE))
 names(newdata1)[20] = "fit2"
 names(newdata1)[21] = "se.fit2"
 names(newdata1)[22] = "residual.scale2"
@@ -407,14 +408,14 @@ ggplot(newdata1, aes(x = churchattend, y = pp)) +
   labs(x="Service Attendance", y="Probability")
 
 # predicted probs for attending a political meeting
-newdata2 <- cbind(newdata, predict(vnorelfit.2, newdata = newdata, type = "link", se = TRUE))
+newdata2 <- cbind(newdata, predict(vnorelfit.2, newdata = norelfake, type = "link", se = TRUE))
 newdata2 <- within(newdata2, {
   pp <- plogis(fit)*100
   lb <- plogis(fit - (1.96 * se.fit))*100
   ub <- plogis(fit + (1.96 * se.fit))*100
 })
 
-newdata2 <- cbind(newdata2, predict(vrelfit.2, newdata = newdata, type = "link", se = TRUE))
+newdata2 <- cbind(newdata2, predict(vrelfit.2, newdata = relfake, type = "link", se = TRUE))
 names(newdata2)[20] = "fit2"
 names(newdata2)[21] = "se.fit2"
 names(newdata2)[22] = "residual.scale2"
@@ -432,14 +433,14 @@ ggplot(newdata2, aes(x = churchattend, y = pp)) +
   labs(x="Service Attendance", y="Probability")
 
 # predicted probs for attending a political rally or protest
-newdata3 <- cbind(newdata, predict(vnorelfit.3, newdata = newdata, type = "link", se = TRUE))
+newdata3 <- cbind(newdata, predict(vnorelfit.3, newdata = norelfake, type = "link", se = TRUE))
 newdata3 <- within(newdata3, {
   pp <- plogis(fit)*100
   lb <- plogis(fit - (1.96 * se.fit))*100
   ub <- plogis(fit + (1.96 * se.fit))*100
 })
 
-newdata3 <- cbind(newdata3, predict(vrelfit.3, newdata = newdata, type = "link", se = TRUE))
+newdata3 <- cbind(newdata3, predict(vrelfit.3, newdata = relfake, type = "link", se = TRUE))
 names(newdata3)[20] = "fit2"
 names(newdata3)[21] = "se.fit2"
 names(newdata3)[22] = "residual.scale2"
@@ -457,14 +458,14 @@ ggplot(newdata3, aes(x = churchattend, y = pp)) +
   labs(x="Service Attendance", y="Probability")
 
 # predicted probs for participating in a signed petition
-newdata4 <- cbind(newdata, predict(vnorelfit.4, newdata = newdata, type = "link", se = TRUE))
+newdata4 <- cbind(newdata, predict(vnorelfit.4, newdata = norelfake, type = "link", se = TRUE))
 newdata4 <- within(newdata4, {
   pp <- plogis(fit)*100
   lb <- plogis(fit - (1.96 * se.fit))*100
   ub <- plogis(fit + (1.96 * se.fit))*100
 })
 
-newdata4 <- cbind(newdata4, predict(vrelfit.4, newdata = newdata, type = "link", se = TRUE))
+newdata4 <- cbind(newdata4, predict(vrelfit.4, newdata = relfake, type = "link", se = TRUE))
 names(newdata4)[20] = "fit2"
 names(newdata4)[21] = "se.fit2"
 names(newdata4)[22] = "residual.scale2"
