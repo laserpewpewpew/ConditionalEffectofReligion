@@ -237,25 +237,25 @@ myData$totcng <- round((with(myData, (totcng.mean/cntypop) * 1000 )), digits=2)
 ###########
 # Table 1 #
 ###########
-fit.1 <- glm(voted2012 ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + strongideo + married + female + white, 
+fit.1 <- glm(voted2012 ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
                   data=myData, family = "binomial")
-fit.2 <- glm(contact ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + strongideo + married + female + white, 
+fit.2 <- glm(contact ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
                   data=myData, family = "binomial")
-fit.3 <- glm(attmeet ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + strongideo + married + female + white, 
+fit.3 <- glm(attmeet ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
                   data=myData, family = "binomial")
-fit.4 <- glm(attrally ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + strongideo + married + female + white, 
+fit.4 <- glm(attrally ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
                   data=myData, family = "binomial")
-fit.5 <- glm(signed ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + strongideo + married + female + white, 
+fit.5 <- glm(signed ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
                    data=myData, family = "binomial")
 
 ###########
 # Table 2 #
 ###########
-fit.6 <- lm(partind ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + strongideo + married + female + white, 
+fit.6 <- lm(partind ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
              data=myData)
-fit.7 <- lm(partind ~ churchattend + totcng + churchattend*totcng + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + strongideo + married + female + white, 
+fit.7 <- lm(partind ~ churchattend + totcng + churchattend*totcng + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
             data=myData)
-fit.8 <- lm(partind ~ churchattend + totcng + mostlyrel + churchattend*totcng + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + strongideo + married + female + white, 
+fit.8 <- lm(partind ~ churchattend + totcng + mostlyrel + churchattend*totcng + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
             data=myData)
 
 ###############################
@@ -390,9 +390,9 @@ newdata1 <- within(newdata1, {
 })
 
 newdata1 <- cbind(newdata1, predict(vrelfit.1, newdata = newdata, type = "link", se = TRUE))
-names(newdata1)[18] = "fit2"
-names(newdata1)[19] = "se.fit2"
-names(newdata1)[20] = "residual.scale2"
+names(newdata1)[20] = "fit2"
+names(newdata1)[21] = "se.fit2"
+names(newdata1)[22] = "residual.scale2"
 
 newdata1 <- within(newdata1, {
   pp2 <- plogis(fit2)*100
@@ -415,9 +415,9 @@ newdata2 <- within(newdata2, {
 })
 
 newdata2 <- cbind(newdata2, predict(vrelfit.2, newdata = newdata, type = "link", se = TRUE))
-names(newdata2)[18] = "fit2"
-names(newdata2)[19] = "se.fit2"
-names(newdata2)[20] = "residual.scale2"
+names(newdata2)[20] = "fit2"
+names(newdata2)[21] = "se.fit2"
+names(newdata2)[22] = "residual.scale2"
 
 newdata2 <- within(newdata2, {
   pp2 <- plogis(fit2)*100
@@ -440,9 +440,9 @@ newdata3 <- within(newdata3, {
 })
 
 newdata3 <- cbind(newdata3, predict(vrelfit.3, newdata = newdata, type = "link", se = TRUE))
-names(newdata3)[18] = "fit2"
-names(newdata3)[19] = "se.fit2"
-names(newdata3)[20] = "residual.scale2"
+names(newdata3)[20] = "fit2"
+names(newdata3)[21] = "se.fit2"
+names(newdata3)[22] = "residual.scale2"
 
 newdata3 <- within(newdata3, {
   pp2 <- plogis(fit2)*100
@@ -465,9 +465,9 @@ newdata4 <- within(newdata4, {
 })
 
 newdata4 <- cbind(newdata4, predict(vrelfit.4, newdata = newdata, type = "link", se = TRUE))
-names(newdata4)[18] = "fit2"
-names(newdata4)[19] = "se.fit2"
-names(newdata4)[20] = "residual.scale2"
+names(newdata4)[20] = "fit2"
+names(newdata4)[21] = "se.fit2"
+names(newdata4)[22] = "residual.scale2"
 
 newdata4 <- within(newdata4, {
   pp2 <- plogis(fit2)*100
