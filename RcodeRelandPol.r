@@ -237,25 +237,25 @@ myData$totcng <- round((with(myData, (totcng.mean/cntypop) * 1000 )), digits=2)
 ###########
 # Table 1 #
 ###########
-fit.1 <- glm(voted2012 ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+fit.1 <- glm(voted2012 ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + strongideo + married + female + white, 
                   data=myData, family = "binomial")
-fit.2 <- glm(contact ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+fit.2 <- glm(contact ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + strongideo + married + female + white, 
                   data=myData, family = "binomial")
-fit.3 <- glm(attmeet ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+fit.3 <- glm(attmeet ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + strongideo + married + female + white, 
                   data=myData, family = "binomial")
-fit.4 <- glm(attrally ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+fit.4 <- glm(attrally ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + strongideo + married + female + white, 
                   data=myData, family = "binomial")
-fit.5 <- glm(signed ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+fit.5 <- glm(signed ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + strongideo + married + female + white, 
                    data=myData, family = "binomial")
 
 ###########
 # Table 2 #
 ###########
-fit.6 <- lm(partind ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+fit.6 <- lm(partind ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + strongideo + married + female + white, 
              data=myData)
-fit.7 <- lm(partind ~ churchattend + totcng + churchattend*totcng + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+fit.7 <- lm(partind ~ churchattend + totcng + churchattend*totcng + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + strongideo + married + female + white, 
             data=myData)
-fit.8 <- lm(partind ~ churchattend + totcng + mostlyrel + churchattend*totcng + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+fit.8 <- lm(partind ~ churchattend + totcng + mostlyrel + churchattend*totcng + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + strongideo + married + female + white, 
             data=myData)
 
 ###############################
@@ -280,8 +280,10 @@ stargazer(fit.1, fit.2, fit.3, fit.4, fit.5,
                             "Political Interest",
                             "Income",
                             "Education",
-                           "Partisan",
-                           "Ideologue",
+                           "Strong Democrat",
+                           "Strong Republican",
+                           "Strong Liberal",
+                           "Strong Conservative",
                            "Married",
                            "Female",
                            "Race",
@@ -303,8 +305,10 @@ stargazer(fit.6, fit.7, fit.8,
           "Political Interest",
           "Income",
           "Education",
-          "Partisan",
-          "Ideologue",
+          "Strong Democrat",
+          "Strong Republican",
+          "Strong Liberal",
+          "Strong Conservative",
           "Married",
           "Female",
           "Race",
