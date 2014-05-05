@@ -1,5 +1,5 @@
 ###################################  
-# Gracey and Ritter 2014          #
+# Gracey 2014                     #
 # Religion and Politics           #
 # Department of Political Science #
 # University of Iowa              #
@@ -33,6 +33,7 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
 	hp2013$churchattend[hp2013$attend=="Few times a year"] <- 3
 	hp2013$churchattend[hp2013$attend=="Once a week"] <- 4
 	hp2013$churchattend[hp2013$attend=="More than once a week"] <- 5
+  hp2013$churchattend[is.na(hp2013$attend)] <- 0
 
 # churchattend binary variable:
   hp2013$binchurch[hp2013$churchattend==5] <- 1
@@ -46,6 +47,7 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
 	hp2013$polinterest[hp2013$intgov=="Not interested"] <- 0
 	hp2013$polinterest[hp2013$intgov=="Somewhat interested"] <- 1
 	hp2013$polinterest[hp2013$intgov=="Very interested"] <- 2
+  hp2013$polinterest[is.na(hp2013$intgov)] <- 0
 
 # polknowl ordinal variable:
 	hp2013$polknowl[hp2013$knowl=="Not well at all"] <- 0 
@@ -53,6 +55,7 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
 	hp2013$polknowl[hp2013$knowl=="Moderately well"] <- 2
 	hp2013$polknowl[hp2013$knowl=="Very well"] <- 3
 	hp2013$polknowl[hp2013$knowl=="Extremely well"] <- 4
+  hp2013$polknowl[is.na(hp2013$knowl)] <- 0
 
 # married dichotomous variable:
 	hp2013$married[hp2013$marital=="NeverMarried"] <- 0
@@ -60,20 +63,12 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
 	hp2013$married[hp2013$marital=="Divorced"] <- 0
 	hp2013$married[hp2013$marital=="Separated"] <- 0
 	hp2013$married[hp2013$marital=="Married/Partner"] <- 1
-
-# strongdem dichotomous variable:
-	hp2013$strongdem[hp2013$pid2d=="NotStrongDem"] <- 0
-  hp2013$strongdem[hp2013$pid2d=="NA"] <- 0
-	hp2013$strongdem[hp2013$pid2d=="StrongDem"] <- 1
-
-# strongrep dichotomous variable:
-	hp2013$strongrep[hp2013$pid2r=="NotStrongGOP"] <- 0
-  hp2013$strongrep[hp2013$pid2r=="NA"] <- 0
-	hp2013$strongrep[hp2013$pid2r=="StrongGOP"] <- 1
+  hp2013$married[is.na(hp2013$marital)] <- 0
 
 # female dichotomous variable:
   hp2013$female[hp2013$male=="Female"] <- 1
   hp2013$female[hp2013$male=="Male"] <- 0
+  hp2013$female[is.na(hp2013$male)] <- 0
 
 # polmotbyrel ordinal variable:
 	hp2013$polmotbyrel[hp2013$relidentity2=="None"] <- 0
@@ -93,6 +88,7 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
 	hp2013$mostlyrel[hp2013$community=="Mostly religious"] <- 1
 	hp2013$mostlyrel[hp2013$community=="Somewhere between"] <- 0
 	hp2013$mostlyrel[hp2013$community=="Mostly secular"] <- 0
+  hp2013$mostlyrel[is.na(hp2013$community)] <- 1
 
 # mostlysecandhet dichotomous variable:
 	hp2013$mostlysecandhet[hp2013$community=="Mostly secular"] <- 1
@@ -129,20 +125,25 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
 # partind ordinal variable:
 	hp2013$contact[hp2013$particp1=="No"] <- 0
 	hp2013$contact[hp2013$particp1=="Yes"] <- 1
+  hp2013$contact[is.na(hp2013$particp1)] <- 0
 
 	hp2013$attmeet[hp2013$particp2=="No"] <- 0
 	hp2013$attmeet[hp2013$particp2=="Yes"] <- 1
+  hp2013$attmeet[is.na(hp2013$particp2)] <- 0
 
 	hp2013$signed[hp2013$particp3=="No"] <- 0
 	hp2013$signed[hp2013$particp3=="Yes"] <- 1
+  hp2013$signed[is.na(hp2013$particp3)] <- 0
 
 	hp2013$attrally[hp2013$particp4=="No"] <- 0
 	hp2013$attrally[hp2013$particp4=="Yes"] <- 1
+  hp2013$attrally[is.na(hp2013$particp4)] <- 0
 
 	hp2013$voted2012[hp2013$vote1=="I didn't vote in the 2012 presidential election"] <- 0
 	hp2013$voted2012[hp2013$vote1=="I am sure I voted"] <- 1
 	hp2013$voted2012[hp2013$vote1=="I thought about voting this time - but didn't"] <- 0
 	hp2013$voted2012[hp2013$vote1=="I usually vote, but didn't this time"] <- 0
+  hp2013$voted2012[is.na(hp2013$vote1)] <- 0
 
 	hp2013$partind <- (hp2013$contact + hp2013$attmeet + hp2013$signed + hp2013$attrally + hp2013$voted2012)
 
@@ -183,9 +184,51 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
   hp2013$white[hp2013$race=="Native American"] <- 0
   hp2013$white[hp2013$race=="Hispanic"] <- 0
   hp2013$white[hp2013$race=="Some other race"] <- 0
-  hp2013$white[hp2013$race==NA] <- 0
+  hp2013$white[is.na(hp2013$race)] <- 0
 
   hp2013$mostlyrelflip <- 1 - hp2013$mostlyrel
+
+# strong partisans and ideological responses
+  hp2013$strongrep[hp2013$pid2r=="StrongGOP"] <- 1
+  hp2013$strongrep[hp2013$pid2r=="NotStrongGOP"] <- 0
+  hp2013$strongrep[is.na(hp2013$pid2r)] <- 0
+
+hp2013$strongdem[hp2013$pid2d=="StrongDem"] <- 1
+hp2013$strongdem[hp2013$pid2d=="NotStrongDem"] <- 0
+hp2013$strongdem[is.na(hp2013$pid2d)] <- 0
+
+hp2013$strongpartisan <- hp2013$strongrep + hp2013$strongdem
+hp2013$strongpartisan[is.na(hp2013$strongpartisan)] <- 0
+
+# ideology
+hp2013$strongcon[hp2013$ideol2c==1] <- 1
+hp2013$strongcon[hp2013$ideol2c==0] <- 0
+hp2013$strongcon[is.na(hp2013$ideol2c)] <- 0
+
+hp2013$stronglib[hp2013$ideol2l==1] <- 1
+hp2013$stronglib[hp2013$ideol2l==0] <- 0
+hp2013$stronglib[is.na(hp2013$ideol2l)] <- 0
+
+hp2013$strongideo <- hp2013$strongcon + hp2013$stronglib
+hp2013$strongideo[is.na(hp2013$strongideo)] <- 0
+
+#########
+# Imputing Income (a la Gelman 2008)
+#########
+attach(hp2013)
+sis <- data.frame (cbind (partind, churchattend, mostlyrel, age, polknowl, polinterest, married, inc, education, female, white))
+lm.imp.1 <- lm(inc ~ partind + churchattend + mostlyrel + age + polknowl + polinterest + married + partind + education + female + white, data=hp2013, subset=inc>0)
+# predictions for all the data
+pred.1 <- predict (lm.imp.1, hp2013)
+
+# create a function that creates a completed dataset by 
+# imputing the predictions into the missing values
+impute <- function (a, a.impute){
+  ifelse (is.na(a), a.impute, a)
+}
+
+#and use this to impute missing earnings:
+hp2013$inc.imp <- impute (hp2013$inc, pred.1)
 
 #################################
 # Congregational Data by County #
@@ -206,7 +249,7 @@ pop$cntyname <- paste(rep(pop$County),
                       "County", 
                       sep=" ")
 pop <- pop[-1]
-names(pop)[1] <- c("pop","cntyname")
+names(pop) <- c("pop", "cntyname")
 pop[ , 1] <- as.numeric(gsub(",", "", pop[ , 1])) 
 pop$cntypop <- pop$pop
 pop <- pop[-1]
@@ -233,35 +276,15 @@ rel.con2 <- merge(x=con2, y=zipt)
 rel.con2[is.na(rel.con2$totcng), "cntyname"]   # List the counties that didn't match up
 
 myDa <- merge(x=hp2013, y=rel.con2)
-myDat <- merge(x=myDa, y=pop)
-
-###########################################################
-# myData now has the total number of congregations in the 
-# county where each zipcode can be found
-###########################################################
-#
-#
-#
-#############################
-# Weighting and Transforming#
-#############################
-# remove missing values of the weight variable
-myDat0 <- myDat[complete.cases(myDat[, c("partind.f")]), ]
-myDat1 <- myDat0[complete.cases(myDat0[, c("polmotbyrel")]), ]
-myDat2 <- myDat1[complete.cases(myDat1[, c("partind")]), ]
-myDat3 <- myDat2[complete.cases(myDat2[, c("mostlyrel")]), ]
-myDat4 <- myDat3[complete.cases(myDat3[, c("churchattend")]), ]
-myDat5 <- myDat4[complete.cases(myDat4[, c("age")]), ]
-myDat6 <- myDat5[complete.cases(myDat5[, c("female")]), ]
-myDat7 <- myDat6[complete.cases(myDat6[, c("polknowl")]), ]
-myDat8 <- myDat7[complete.cases(myDat7[, c("polinterest")]), ]
-myDat9 <- myDat8[complete.cases(myDat8[, c("married")]), ]
-myDat10 <- myDat9[complete.cases(myDat9[, c("inc")]), ]
-myDat11 <- myDat10[complete.cases(myDat10[, c("white")]), ]
-myData <- myDat11[complete.cases(myDat11[, c("education")]), ]
+myData <- merge(x=myDa, y=pop)
 
 # generate per capita measure of congregations
 myData$totcng <- round((with(myData, (totcng.mean/cntypop) * 1000 )), digits=2)
+
+###########################################################
+# myData now has the total number of congregations in the #
+# county where each zipcode can be found                  #
+###########################################################
 
 # Calculate p-values for OLR estimates
 # (ctable <- coef(summary(olr.final)))
@@ -289,49 +312,26 @@ myData$totcng <- round((with(myData, (totcng.mean/cntypop) * 1000 )), digits=2)
 ###########
 # Table 1 #
 ###########
-fit.1 <- lm(partind ~ churchattend + white + age + female + polknowl + polinterest + married + inc + education, 
-                  data=myData)
-fit.2 <- lm(partind ~ churchattend + totcng + white + age + female + polknowl + polinterest + married + inc + education, 
-                  data=myData)
-fit.3 <- lm(partind ~ churchattend + totcng + churchattend*totcng + white + age + female + polknowl + polinterest + married + inc + education, 
-                  data=myData)
-fit.4 <- lm(partind ~ churchattend + mostlyrel + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                  data=myData)
-fit.5 <- lm(partind ~ churchattend + mostlyrelflip + churchattend*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
-                   data=myData)
+fit.1 <- glm(voted2012 ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+                  data=myData, family = "binomial")
+fit.2 <- glm(contact ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+                  data=myData, family = "binomial")
+fit.3 <- glm(attmeet ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+                  data=myData, family = "binomial")
+fit.4 <- glm(attrally ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+                  data=myData, family = "binomial")
+fit.5 <- glm(signed ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+                   data=myData, family = "binomial")
 
-#############################
-#############################
-#############################
-require(MASS)
-olr.1 <- polr(partind.f ~ churchattend + white + age + female + polknowl + polinterest + married + inc + education, 
-                    data=myData)
-olr.2 <- polr(partind.f ~ churchattend + totcng + white + age + female + polknowl + polinterest + married + inc + education, 
-                    data=myData)
-olr.3 <- polr(partind.f ~ churchattend + totcng + churchattend*totcng + white + age + female + polknowl + polinterest + married + inc + education, 
-                    data=myData)
-olr.4 <- polr(partind.f ~ churchattend + mostlyrel + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-                    data=myData)
-olr.5 <- polr(partind.f ~ churchattend + mostlyrelflip + churchattend*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
-                     data=myData)
-
-#############################
-#############################
-#############################
-require(foreign)
-require(ggplot2)
-require(MASS)
-
-# HP models below
-nb.1 <- glm.nb(partind ~ churchattend + totcng + churchattend*totcng + white + age + female + polknowl + polinterest + married + inc + education, 
-               data=voters)
-
-nb.3 <- glm.nb(partind ~ churchattend + mostlyrelflip + churchattend*mostlyrelflip + white + age + female + polknowl + polinterest + married + inc + education, 
-            data=voters)
-nb.2 <- glm.nb(partind ~ churchattend + mostlyrel + churchattend*mostlyrel + white + age + female + polknowl + polinterest + married + inc + education, 
-               data=voters)
-
-
+###########
+# Table 2 #
+###########
+fit.6 <- lm(partind ~ churchattend + mostlyrel + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+             data=myData)
+fit.7 <- lm(partind ~ churchattend + totcng + churchattend*totcng + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+            data=myData)
+fit.8 <- lm(partind ~ churchattend + totcng + mostlyrel + churchattend*totcng + churchattend*mostlyrel + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+            data=myData)
 
 ###############################
 # Tables Tables Tables Tables #
@@ -339,109 +339,222 @@ nb.2 <- glm.nb(partind ~ churchattend + mostlyrel + churchattend*mostlyrel + whi
 
 library("stargazer")
 stargazer(fit.1, fit.2, fit.3, fit.4, fit.5,
+          type="latex", title="Logistic Regression of Various Political Activities",
+          align=TRUE, no.space=TRUE,
+          omit.stat=c("ser","f"),
+          notes=c("Unstandardized logistic regression coefficients with standard errors in parantheses."),
+          dep.var.labels=c("Voted 2012",
+                           "Contact",
+                           "Attend Meeting",
+                           "Attend Rally",
+                           "Petition")
+#          covariate.labels=c("Church Attendance", 
+#                            "Congregations/1k ppl.",
+#                           "Mostly Rel. Cmty.",
+#                            "Non-mostly Rel. Cmty.",
+#                            "White",
+#                            "Age",
+#                            "Female",
+#                            "Political Knowledge",
+#                            "Political Interest",
+#                            "Married",
+#                            "Income",
+#                            "Education",
+#                            "Church Attendance * Congregations",
+#                            "Church Attendance * Mostly Rel. Cmty.",
+#                            "Church Attendance * Non-mostly Rel. Cmty.")
+)
+
+library("stargazer")
+stargazer(fit.6, fit.7, fit.8,
           type="latex", title="OLS Regression of Political Participation",
           align=TRUE, no.space=TRUE,
           omit.stat=c("ser","f"),
           notes=c("Unstandardized OLS regression coefficients with standard errors in parantheses."),
-          dep.var.labels=c("Participation Index"),
-          covariate.labels=c("Church Attendance", 
-                            "Congregations/1k ppl.",
-                            "Mostly Rel. Cmty.",
-                            "Non-mostly Rel. Cmty.",
-                            "White",
-                            "Age",
-                            "Female",
-                            "Political Knowledge",
-                            "Political Interest",
-                            "Married",
-                            "Income",
-                            "Education",
-                            "Church Attendance * Congregations",
-                            "Church Attendance * Mostly Rel. Cmty.",
-                            "Church Attendance * Non-mostly Rel. Cmty.")
+          dep.var.labels=c("Participation Index")
+          #          covariate.labels=c("Church Attendance", 
+          #                            "Congregations/1k ppl.",
+          #                           "Mostly Rel. Cmty.",
+          #                            "Non-mostly Rel. Cmty.",
+          #                            "White",
+          #                            "Age",
+          #                            "Female",
+          #                            "Political Knowledge",
+          #                            "Political Interest",
+          #                            "Married",
+          #                            "Income",
+          #                            "Education",
+          #                            "Church Attendance * Congregations",
+          #                            "Church Attendance * Mostly Rel. Cmty.",
+          #                            "Church Attendance * Non-mostly Rel. Cmty.")
 )
 
-stargazer(olr.1, olr.2, olr.3, olr.4, olr.5,
-          type="latex", title="Ordered Logistic Regression of Political Participation",
+
+# subset by voters and run logistic models again
+voters <- myData[myData$voted2012==1, ]
+voters.rel <- voters[voters$mostlyrel==1, ]
+voters.norel <- voters[voters$mostlyrel==0, ]
+
+###########
+# Table 3 #
+###########
+vrelfit.1 <- glm(contact ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+             data=voters.rel, family = "binomial")
+vrelfit.2 <- glm(attmeet ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+             data=voters.rel, family = "binomial")
+vrelfit.3 <- glm(attrally ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+             data=voters.rel, family = "binomial")
+vrelfit.4 <- glm(signed ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+             data=voters.rel, family = "binomial")
+
+vnorelfit.1 <- glm(contact ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+              data=voters.norel, family = "binomial")
+vnorelfit.2 <- glm(attmeet ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+              data=voters.norel, family = "binomial")
+vnorelfit.3 <- glm(attrally ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+              data=voters.norel, family = "binomial")
+vnorelfit.4 <- glm(signed ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+              data=voters.norel, family = "binomial")
+
+
+library("stargazer")
+stargazer(vrelfit.1, vrelfit.2, vrelfit.3, vrelfit.4, vnorelfit.1, vnorelfit.2, vnorelfit.3, vnorelfit.4,
+          type="latex", title="Logistic Regression of Political Activities Subset by Voters in Mostly Religious Community Types",
           align=TRUE, no.space=TRUE,
           omit.stat=c("ser","f"),
-          dep.var.labels=c("Participation Index"),
-          notes=c("Unstandardized ordered logistic regression coefficients with standard errors in parantheses."),
-          covariate.labels=c("Church Attendance", 
-                             "Congregations/1k ppl.",
-                             "Mostly Rel. Cmty.",
-                             "Non-mostly Rel. Cmty.",
-                             "White",
-                             "Age",
-                             "Female",
-                             "Political Knowledge",
-                             "Political Interest",
-                             "Married",
-                             "Income",
-                             "Education",
-                             "Church Attendance * Congregations",
-                             "Church Attendance * Mostly Rel. Cmty.",
-                             "Church Attendance * Non-mostly Rel. Cmty.")
-          )
-
-stargazer(nb.1, nb.2, nb.3, 
-          type="latex", align=TRUE, no.space=TRUE,
-          omit.stat=c("ser","f", "theta"),
-          title=c("Negative Binomial Regression of Political Participation - Subsampled by Voters"),
-          dep.var.labels=c("# of Activities"),
-          notes=c("Unstandardized negative binomial regression coefficients with standard errors in parantheses."),
-          covariate.labels=c("Church Attendance", 
-                             "Congregations/1k ppl.",
-                             "Mostly Rel. Cmty.",
-                             "Non-mostly Rel. Cmty.",
-                             "White",
-                             "Age",
-                             "Female",
-                             "Political Knowledge",
-                             "Political Interest",
-                             "Married",
-                             "Income",
-                             "Education",
-                             "Church Attendance * Congregations",
-                             "Church Attendance * Mostly Rel. Cmty.",
-                             "Church Attendance * Non-mostly Rel. Cmty."))
-
+          notes=c("Unstandardized logistic regression coefficients with standard errors in parantheses."),
+          dep.var.labels=c("Contact",
+                           "Attend Meeting",
+                           "Attend Rally",
+                           "Petition",
+                           "Contact",
+                           "Attend Meeting",
+                           "Attend Rally",
+                           "Petition")
+          #          covariate.labels=c("Church Attendance", 
+          #                            "Congregations/1k ppl.",
+          #                           "Mostly Rel. Cmty.",
+          #                            "Non-mostly Rel. Cmty.",
+          #                            "White",
+          #                            "Age",
+          #                            "Female",
+          #                            "Political Knowledge",
+          #                            "Political Interest",
+          #                            "Married",
+          #                            "Income",
+          #                            "Education",
+          #                            "Church Attendance * Congregations",
+          #                            "Church Attendance * Mostly Rel. Cmty.",
+          #                            "Church Attendance * Non-mostly Rel. Cmty.")
+)
 
 #########################
 # Predicted Probabilities 
 #########################
+require(ggplot2)
+require(car)
+require(reshape2)
+newdata <- read.csv("logprobdata.csv")
 
-# subset by voters and run OLR again
-voters <- myData[myData$voted2012==1, ]
-voters$partind.n[voters$partind==1] <- 0
-voters$partind.n[voters$partind==2] <- 1
-voters$partind.n[voters$partind==3] <- 2
-voters$partind.n[voters$partind==4] <- 3
-voters$partind.n[voters$partind==5] <- 4
+# predicted probs for contacting an elected official
+newdata1 <- cbind(newdata, predict(vnorelfit.1, newdata = newdata, type = "link", se = TRUE))
+newdata1 <- within(newdata1, {
+  pp <- plogis(fit)*100
+  lb <- plogis(fit - (1.96 * se.fit))*100
+  ub <- plogis(fit + (1.96 * se.fit))*100
+})
 
-voters$partind.f <- factor(voters$partind.n, labels=c("None", "One", "Two", "Three", "Four"))
+newdata1 <- cbind(newdata1, predict(vrelfit.1, newdata = newdata, type = "link", se = TRUE))
+names(newdata1)[18] = "fit2"
+names(newdata1)[19] = "se.fit2"
+names(newdata1)[20] = "residual.scale2"
 
+newdata1 <- within(newdata1, {
+  pp2 <- plogis(fit2)*100
+  lb2 <- plogis(fit2 - (1.96 * se.fit2))*100
+  ub2 <- plogis(fit2 + (1.96 * se.fit2))*100
+})
 
-vot.olr.4 <- polr(partind.f ~ churchattend + mostlyrel + totcng + churchattend*mostlyrel + churchattend*totcng + white + age + female + polknowl + polinterest + married + inc + education, 
-              data=myData)
+ggplot(newdata1, aes(x = churchattend, y = pp)) + 
+  geom_ribbon(aes(ymin = lb, ymax = ub), alpha = 0.2) +
+  geom_line(size=1.5, colour="green") +
+  geom_line(aes(x = churchattend, y=pp2), size=.5, colour="red") +
+  labs(x="Service Attendance", y="Probability")
 
-newdata <- read.csv("probdata.csv")
-newdata <- cbind(newdata, predict(olr.3, newdata, type = "probs"))
+# predicted probs for attending a political meeting
+newdata2 <- cbind(newdata, predict(vnorelfit.2, newdata = newdata, type = "link", se = TRUE))
+newdata2 <- within(newdata2, {
+  pp <- plogis(fit)*100
+  lb <- plogis(fit - (1.96 * se.fit))*100
+  ub <- plogis(fit + (1.96 * se.fit))*100
+})
 
-head(newdata)
+newdata2 <- cbind(newdata2, predict(vrelfit.2, newdata = newdata, type = "link", se = TRUE))
+names(newdata2)[18] = "fit2"
+names(newdata2)[19] = "se.fit2"
+names(newdata2)[20] = "residual.scale2"
 
-lnewdat <- melt(newdata, id.vars = c("totcng", "id", "churchattend", "age", "white", "female", "married", "education", "inc", "polinterest", "polknowl"), variable.name = "Participation",
-                value.name ="Probability")
-head(lnewdat)
+newdata2 <- within(newdata2, {
+  pp2 <- plogis(fit2)*100
+  lb2 <- plogis(fit2 - (1.96 * se.fit2))*100
+  ub2 <- plogis(fit2 + (1.96 * se.fit2))*100
+})
 
+ggplot(newdata2, aes(x = churchattend, y = pp)) + 
+  geom_ribbon(aes(ymin = lb, ymax = ub), alpha = 0.2) +
+  geom_line(size=1.5, colour="green") +
+  geom_line(aes(x = churchattend, y=pp2), size=.5, colour="red") +
+  labs(x="Service Attendance", y="Probability")
 
-lnewdat$mostlyrel.f[lnewdat$totcng==4.92] <- "Maximum"
-lnewdat$mostlyrel.f[lnewdat$totcng==.93] <- "Minimum"
+# predicted probs for attending a political rally or protest
+newdata3 <- cbind(newdata, predict(vnorelfit.3, newdata = newdata, type = "link", se = TRUE))
+newdata3 <- within(newdata3, {
+  pp <- plogis(fit)*100
+  lb <- plogis(fit - (1.96 * se.fit))*100
+  ub <- plogis(fit + (1.96 * se.fit))*100
+})
 
-ggplot(lnewdat, aes(x = totcng, y = Probability, colour = Participation)) + geom_line() +
-  xlab("Number of Congregations") #+
-#  facet_grid (. ~ mostlyrel.f, scales = "fixed", labeller =label_value)
+newdata3 <- cbind(newdata3, predict(vrelfit.3, newdata = newdata, type = "link", se = TRUE))
+names(newdata3)[18] = "fit2"
+names(newdata3)[19] = "se.fit2"
+names(newdata3)[20] = "residual.scale2"
 
+newdata3 <- within(newdata3, {
+  pp2 <- plogis(fit2)*100
+  lb2 <- plogis(fit2 - (1.96 * se.fit2))*100
+  ub2 <- plogis(fit2 + (1.96 * se.fit2))*100
+})
+
+ggplot(newdata3, aes(x = churchattend, y = pp)) + 
+  geom_ribbon(aes(ymin = lb, ymax = ub), alpha = 0.2) +
+  geom_line(size=1.5, colour="green") +
+  geom_line(aes(x = churchattend, y=pp2), size=.5, colour="red") +
+  labs(x="Service Attendance", y="Probability")
+
+# predicted probs for participating in a signed petition
+newdata4 <- cbind(newdata, predict(vnorelfit.4, newdata = newdata, type = "link", se = TRUE))
+newdata4 <- within(newdata4, {
+  pp <- plogis(fit)*100
+  lb <- plogis(fit - (1.96 * se.fit))*100
+  ub <- plogis(fit + (1.96 * se.fit))*100
+})
+
+newdata4 <- cbind(newdata4, predict(vrelfit.4, newdata = newdata, type = "link", se = TRUE))
+names(newdata4)[18] = "fit2"
+names(newdata4)[19] = "se.fit2"
+names(newdata4)[20] = "residual.scale2"
+
+newdata4 <- within(newdata4, {
+  pp2 <- plogis(fit2)*100
+  lb2 <- plogis(fit2 - (1.96 * se.fit2))*100
+  ub2 <- plogis(fit2 + (1.96 * se.fit2))*100
+})
+
+ggplot(newdata4, aes(x = churchattend, y = pp)) + 
+  geom_ribbon(aes(ymin = lb, ymax = ub), alpha = 0.2) +
+  geom_line(size=1.5, colour="green") +
+  geom_line(aes(x = churchattend, y=pp2), size=.5, colour="red") +
+  labs(x="Service Attendance", y="Probability")
 
 
 ################################
@@ -510,159 +623,3 @@ ggplot(lnewdat, aes(x = totcng, y = Probability, colour = Participation)) + geom
 # summary(gvmodel)
 
 
-
-##############################
-# Bayesian Linear Regression #
-##############################
-#####################
-# MODEL 3 POSTERIOR #
-#####################
-
-# Bayesian Linear Regression in Stan
-# Install by following the directions at <https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started>
-require(rstan)
-require(ggplot2)
-
-# First we have to define the model
-partrel.code <- '
-data {
-int<lower=0> N;
-vector[N] partind;
-vector[N] churchattend;
-vector[N] totcng;
-vector[N] white;
-vector[N] age;
-vector[N] female;
-vector[N] polknowl;
-vector[N] polinterest;
-vector[N] married;
-vector[N] inc;
-vector[N] education;
-vector[N] interaction;
-}
-parameters {                
-real beta1;             // coef for constant (default prior is uniform, i.e., noninformative)
-real beta2;             // coef for churchattend
-real beta3;             // coef for totcng
-real beta4;
-real beta5;
-real beta6;
-real beta7;
-real beta8;
-real beta9;
-real beta10;
-real beta11;
-real beta12;
-real<lower=0> sigma;
-}
-model {
-partind ~ normal(beta1 + beta2 * churchattend + beta3 * totcng +
-beta4 * white + beta5 * age + beta6 * female + beta7 * polknowl + 
-beta8 * polinterest + beta9 * married + beta10 * inc + beta11 * education + 
-beta12 * interaction, 
-sigma);
-}
-'
-
-# Then put the data into the expected format
-sim.data <- list(N = nrow(myData), partind = myData$partind, 
-                         churchattend = myData$churchattend,
-                    totcng = myData$totcng, white = myData$white, 
-                    age = myData$age, female = myData$female, polknowl = myData$polknowl, 
-                    polinterest = myData$polinterest, married = myData$married,
-                    inc = myData$inc, education = myData$education, 
-                    interaction = myData$churchattend * myData$totcng)
-
-# Now we can run it
-set.seed(324)
-m1.stan <- stan(model_code = partrel.code, data = sim.data, 
-                iter = 10000, chains = 3)
-
-print(m1.stan)
-m1.stan.sim <- as.data.frame(m1.stan)
-
-b.gini.plot <- qplot(m1.stan.sim$beta2, geom="density") + 
-  xlab("Coefficient of Service Attendance") + 
-  ylab("Density of Posterior Distribution") +
-  xlim(0,.3) +
-  ylim(0,10) +
-  theme_bw()
-
-b.gini.plot
-
-
-#####################
-# MODEL 4 POSTERIOR #
-#####################
-
-# Bayesian Linear Regression in Stan
-# Install by following the directions at <https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started>
-require(rstan)
-require(ggplot2)
-
-# First we have to define the model
-partrel.code <- '
-data {
-int<lower=0> N;
-vector[N] partind;
-vector[N] churchattend;
-vector[N] mostlyrel;
-vector[N] white;
-vector[N] age;
-vector[N] female;
-vector[N] polknowl;
-vector[N] polinterest;
-vector[N] married;
-vector[N] inc;
-vector[N] education;
-vector[N] interaction;
-}
-parameters {                
-real beta1;             // coef for constant (default prior is uniform, i.e., noninformative)
-real beta2;             // coef for churchattend
-real beta3;             // coef for mostlyrel
-real beta4;
-real beta5;
-real beta6;
-real beta7;
-real beta8;
-real beta9;
-real beta10;
-real beta11;
-real beta12;
-real<lower=0> sigma;
-}
-model {
-partind ~ normal(beta1 + beta2 * churchattend + beta3 * mostlyrel +
-beta4 * white + beta5 * age + beta6 * female + beta7 * polknowl + 
-beta8 * polinterest + beta9 * married + beta10 * inc + beta11 * education + 
-beta12 * interaction, 
-sigma);
-}
-'
-
-# Then put the data into the expected format
-sim.data2 <- list(N = nrow(myData), partind = myData$partind, 
-                 churchattend = myData$churchattend,
-                 mostlyrel = myData$mostlyrel, white = myData$white, 
-                 age = myData$age, female = myData$female, polknowl = myData$polknowl, 
-                 polinterest = myData$polinterest, married = myData$married,
-                 inc = myData$inc, education = myData$education, 
-                 interaction = myData$churchattend * myData$mostlyrel)
-
-# Now we can run it
-set.seed(324)
-m1.stan2 <- stan(model_code = partrel.code, data = sim.data2, 
-                iter = 10000, chains = 3)
-
-print(m1.stan2)
-m1.stan.sim2 <- as.data.frame(m1.stan2)
-
-b.gini.plot2 <- qplot(m1.stan.sim2$beta2, geom="density") + 
-  xlab("Coefficient of Service Attendance") + 
-  ylab("Density of Posterior Distribution") +
-  xlim(0,.3) +
-  ylim(0,10) +
-  theme_bw()
-
-b.gini.plot2
