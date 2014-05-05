@@ -16,16 +16,6 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
 # Recoding Variables
 #####################
 
-# livesrural dichotomous variable:
-	hp2013$livesrural[hp2013$urban=="Rural"] <- 1
-	hp2013$livesrural[hp2013$urban=="Suburban"] <- 0
-	hp2013$livesrural[hp2013$urban=="Urban"] <- 0
-
-# livesurban dichotomous variable:
-	hp2013$livesurban[hp2013$urban=="Rural"] <- 0
-	hp2013$livesurban[hp2013$urban=="Suburban"] <- 1
-	hp2013$livesurban[hp2013$urban=="Urban"] <- 1
-
 # churchattend ordinal variable:
 	hp2013$churchattend[hp2013$attend=="Never"] <- 0
 	hp2013$churchattend[hp2013$attend=="Seldom"] <- 1
@@ -34,14 +24,6 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
 	hp2013$churchattend[hp2013$attend=="Once a week"] <- 4
 	hp2013$churchattend[hp2013$attend=="More than once a week"] <- 5
   hp2013$churchattend[is.na(hp2013$attend)] <- 0
-
-# churchattend binary variable:
-  hp2013$binchurch[hp2013$churchattend==5] <- 1
-  hp2013$binchurch[hp2013$churchattend==4] <- 1
-  hp2013$binchurch[hp2013$churchattend==3] <- 0
-  hp2013$binchurch[hp2013$churchattend==2] <- 0
-  hp2013$binchurch[hp2013$churchattend==1] <- 0
-  hp2013$binchurch[hp2013$churchattend==0] <- 0
 
 # polinterest ordinal variable:
 	hp2013$polinterest[hp2013$intgov=="Not interested"] <- 0
@@ -70,57 +52,11 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
   hp2013$female[hp2013$male=="Male"] <- 0
   hp2013$female[is.na(hp2013$male)] <- 0
 
-# polmotbyrel ordinal variable:
-	hp2013$polmotbyrel[hp2013$relidentity2=="None"] <- 0
-	hp2013$polmotbyrel[hp2013$relidentity2=="Small amount"] <- 1
-	hp2013$polmotbyrel[hp2013$relidentity2=="Moderate amount"] <- 2
-	hp2013$polmotbyrel[hp2013$relidentity2=="Large amount"] <- 3
-	hp2013$polmotbyrel[hp2013$relidentity2=="Entirely"] <- 4
-
-# binary polmotbyrel variable:
-  hp2013$binpol[hp2013$polmotbyrel==4] <- 1
-  hp2013$binpol[hp2013$polmotbyrel==3] <- 1
-  hp2013$binpol[hp2013$polmotbyrel==2] <- 0
-  hp2013$binpol[hp2013$polmotbyrel==1] <- 0
-  hp2013$binpol[hp2013$polmotbyrel==0] <- 0
-
 # mostlyrel dichotomous variable:
 	hp2013$mostlyrel[hp2013$community=="Mostly religious"] <- 1
 	hp2013$mostlyrel[hp2013$community=="Somewhere between"] <- 0
 	hp2013$mostlyrel[hp2013$community=="Mostly secular"] <- 0
   hp2013$mostlyrel[is.na(hp2013$community)] <- 1
-
-# mostlysecandhet dichotomous variable:
-	hp2013$mostlysecandhet[hp2013$community=="Mostly secular"] <- 1
-	hp2013$mostlysecandhet[hp2013$community=="Somewhere between"] <- 1
-	hp2013$mostlysecandhet[hp2013$community=="Mostly religious"] <- 0
-
-# mostlysec dichotomous variable:
-  hp2013$mostlysec[hp2013$community=="Mostly secular"] <- 1
-  hp2013$mostlysec[hp2013$community=="Somewhere between"] <- 0
-  hp2013$mostlysec[hp2013$community=="Mostly religious"] <- 0
-
-# hetero dichotomous variable:
-	hp2013$hetero[hp2013$community=="Somewhere between"] <- 1
-	hp2013$hetero[hp2013$community=="Mostly religious"] <- 0
-	hp2013$hetero[hp2013$community=="Mostly secular"] <- 0
-
-# commnum categorical variable:
-  hp2013$commnum[hp2013$community=="Somewhere between"] <- 2
-  hp2013$commnum[hp2013$community=="Mostly religious"] <- 3
-  hp2013$commnum[hp2013$community=="Mostly secular"] <- 1
-
-# community.f factor variable
-  hp2013$community.f <- factor(hp2013$commnum, labels=c("Mostly secular", "Somewhere between", "Mostly religious"))
-
-# community nominal variable
-  hp2013$commnom[hp2013$community=="Somewhere between"] <- 1
-  hp2013$commnom[hp2013$community=="Mostly secular"] <- 2
-  hp2013$commnom[hp2013$community=="Mostly religious"] <- 3
-
-# uschristnat dichotomous variable:
-	hp2013$uschristnat[hp2013$relidentity1=="No"] <- 0
-	hp2013$uschristnat[hp2013$relidentity1=="Yes"] <- 1
 
 # partind ordinal variable:
 	hp2013$contact[hp2013$particp1=="No"] <- 0
@@ -146,17 +82,6 @@ hp2013 <- read.dta("hp2013-11clean01-v12.dta")
   hp2013$voted2012[is.na(hp2013$vote1)] <- 0
 
 	hp2013$partind <- (hp2013$contact + hp2013$attmeet + hp2013$signed + hp2013$attrally + hp2013$voted2012)
-
-# partcat categorical variable:
-  hp2013$partcat[hp2013$partind==0] <- "None"
-  hp2013$partcat[hp2013$partind==1] <- "One"
-  hp2013$partcat[hp2013$partind==2] <- "Two"
-  hp2013$partcat[hp2013$partind==3] <- "Three"
-  hp2013$partcat[hp2013$partind==4] <- "Four"
-  hp2013$partcat[hp2013$partind==5] <- "Five"
-
-# partind.f factor variable
-  hp2013$partind.f <- factor(hp2013$partind, labels=c("None", "One", "Two", "Three", "Four", "Five"))
 
 # education ordinal variable:
   hp2013$education[hp2013$educ=="<HighSchool"] <- 1
@@ -347,22 +272,20 @@ stargazer(fit.1, fit.2, fit.3, fit.4, fit.5,
                            "Contact",
                            "Attend Meeting",
                            "Attend Rally",
-                           "Petition")
-#          covariate.labels=c("Church Attendance", 
-#                            "Congregations/1k ppl.",
-#                           "Mostly Rel. Cmty.",
-#                            "Non-mostly Rel. Cmty.",
-#                            "White",
-#                            "Age",
-#                            "Female",
-#                            "Political Knowledge",
-#                            "Political Interest",
-#                            "Married",
-#                            "Income",
-#                            "Education",
-#                            "Church Attendance * Congregations",
-#                            "Church Attendance * Mostly Rel. Cmty.",
-#                            "Church Attendance * Non-mostly Rel. Cmty.")
+                           "Petition"),
+         covariate.labels=c("Church Attendance", 
+                           "Religious Cmty.",
+                            "Age",
+                            "Political Knowledge",
+                            "Political Interest",
+                            "Income",
+                            "Education",
+                           "Partisan",
+                           "Ideologue",
+                           "Married",
+                           "Female",
+                           "Race",
+                         "Church Attendance * Religious Cmty.")
 )
 
 library("stargazer")
@@ -371,22 +294,22 @@ stargazer(fit.6, fit.7, fit.8,
           align=TRUE, no.space=TRUE,
           omit.stat=c("ser","f"),
           notes=c("Unstandardized OLS regression coefficients with standard errors in parantheses."),
-          dep.var.labels=c("Participation Index")
-          #          covariate.labels=c("Church Attendance", 
-          #                            "Congregations/1k ppl.",
-          #                           "Mostly Rel. Cmty.",
-          #                            "Non-mostly Rel. Cmty.",
-          #                            "White",
-          #                            "Age",
-          #                            "Female",
-          #                            "Political Knowledge",
-          #                            "Political Interest",
-          #                            "Married",
-          #                            "Income",
-          #                            "Education",
-          #                            "Church Attendance * Congregations",
-          #                            "Church Attendance * Mostly Rel. Cmty.",
-          #                            "Church Attendance * Non-mostly Rel. Cmty.")
+          dep.var.labels=c("Participation Index"),
+          covariate.labels=c("Church Attendance", 
+          "Religious Cmty.",
+          "Congregations/1k Ppl.",
+          "Age",
+          "Political Knowledge",
+          "Political Interest",
+          "Income",
+          "Education",
+          "Partisan",
+          "Ideologue",
+          "Married",
+          "Female",
+          "Race",
+          "Church Attendance * Religious Cmty.",
+          "Church Attendance * Congregations")
 )
 
 
@@ -398,22 +321,22 @@ voters.norel <- voters[voters$mostlyrel==0, ]
 ###########
 # Table 3 #
 ###########
-vrelfit.1 <- glm(contact ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+vrelfit.1 <- glm(contact ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
              data=voters.rel, family = "binomial")
-vrelfit.2 <- glm(attmeet ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+vrelfit.2 <- glm(attmeet ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
              data=voters.rel, family = "binomial")
-vrelfit.3 <- glm(attrally ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+vrelfit.3 <- glm(attrally ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
              data=voters.rel, family = "binomial")
-vrelfit.4 <- glm(signed ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+vrelfit.4 <- glm(signed ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
              data=voters.rel, family = "binomial")
 
-vnorelfit.1 <- glm(contact ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+vnorelfit.1 <- glm(contact ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
               data=voters.norel, family = "binomial")
-vnorelfit.2 <- glm(attmeet ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+vnorelfit.2 <- glm(attmeet ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
               data=voters.norel, family = "binomial")
-vnorelfit.3 <- glm(attrally ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+vnorelfit.3 <- glm(attrally ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
               data=voters.norel, family = "binomial")
-vnorelfit.4 <- glm(signed ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongpartisan + strongideo + married + female + white, 
+vnorelfit.4 <- glm(signed ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
               data=voters.norel, family = "binomial")
 
 
@@ -430,22 +353,20 @@ stargazer(vrelfit.1, vrelfit.2, vrelfit.3, vrelfit.4, vnorelfit.1, vnorelfit.2, 
                            "Contact",
                            "Attend Meeting",
                            "Attend Rally",
-                           "Petition")
-          #          covariate.labels=c("Church Attendance", 
-          #                            "Congregations/1k ppl.",
-          #                           "Mostly Rel. Cmty.",
-          #                            "Non-mostly Rel. Cmty.",
-          #                            "White",
-          #                            "Age",
-          #                            "Female",
-          #                            "Political Knowledge",
-          #                            "Political Interest",
-          #                            "Married",
-          #                            "Income",
-          #                            "Education",
-          #                            "Church Attendance * Congregations",
-          #                            "Church Attendance * Mostly Rel. Cmty.",
-          #                            "Church Attendance * Non-mostly Rel. Cmty.")
+                           "Petition"),
+covariate.labels=c("Church Attendance", 
+          "Age",
+          "Political Knowledge",
+          "Political Interest",
+          "Income",
+          "Education",
+          "Strong Democrat",
+          "Strong Republican",
+          "Strong Liberal",
+          "Strong Conservative",
+          "Married",
+          "Female",
+          "Race")
 )
 
 #########################
@@ -555,71 +476,4 @@ ggplot(newdata4, aes(x = churchattend, y = pp)) +
   geom_line(size=1.5, colour="green") +
   geom_line(aes(x = churchattend, y=pp2), size=.5, colour="red") +
   labs(x="Service Attendance", y="Probability")
-
-
-################################
-# Linear Regression Diagnostics
-################################
-
-# library(ggplot2)
-# library(car)
-
-###################### Assessing Outliers
-# outlierTest(fit.final) # Bonferonni p-value for most extreme observations
-# qqplot(fit.final, main="QQ Plot") #qq plot for studentized residuals
-# leveragePlots(fit.final) # Leverage plots
-
-###################### Influential Observations
-# added variable plots
-# avPlots(fit.final)
-# Cook's D Plot
-# identify D values > 4/(n-k-1)
-# cutoff <- 4/((nrow(myData)-length(fit.4$coefficients)-2))
-# plot(fit.4, which=4, cook.levels=cutoff)
-#Influence Plot
-# influencePlot(fit.4, id.method="identify", main="Influence Plot",
-#              sub="Circle size is proprtional to Cook's Distance")
-
-###################### Non-Normality
-# Normality of Residuals
-# qqplot for studentized residuals
-# qqplot(fit.final, main="QQ Plot")
-# distribution of studentized residuals
-# library(MASS)
-# sresid <- studres(fit.final)
-# hist(sresid, freq=FALSE,
-#     main="Distribution of Studentized Residuals")
-# xfit <- seq(min(sresid),max(sresid),length=40)
-# yfit <- dnorm(xfit)
-# lines(xfit, yfit)
-
-####################### Non-constant Error Variance
-# Evaluate homoscedasticity 
-# non-constant error variance test
-# ncvTest(fit.4)
-# plot studentized residuals vs. fitted values
-# spreadLevelPlot(fit.4)
-
-####################### Multi-collinearity
-# Evaluate Collinearity
-# vif(fit.final) # variance inflation factors
-# sqrt(vif(fit.final)) > 2 # problem?
-
-####################### Nonlinearity
-# Evaluate linearity
-# component + residual plot
-# crPlots(fit.4)
-# Ceres plots
-# ceresPlots(fit.4)
-
-####################### Non-independence of Errors
-# Test for Autocorrelated Errors
-# durbinWatsonTest(fit.4)
-
-####################### Global Tests
-# Global test of model assumptions
-# library(gvlma)
-# gvmodel <- gvlma(fit.4)
-# summary(gvmodel)
-
 
