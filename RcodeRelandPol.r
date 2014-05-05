@@ -482,3 +482,196 @@ ggplot(newdata4, aes(x = churchattend, y = pp)) +
   geom_line(aes(x = churchattend, y=pp2), size=.5, colour="red") +
   labs(x="Service Attendance", y="Probability")
 
+
+
+
+
+###########################################################
+# Experimental Section - Whole sample logistic regressions#
+# and pred probs below                                    #
+###########################################################
+
+# subset by community type and run logistic models again
+relData <- myData[myData$mostlyrel==1, ]
+norelData <- myData[myData$mostlyrel==0, ]
+
+relfit.1 <- glm(contact ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
+                 data=relData, family = "binomial")
+relfit.2 <- glm(attmeet ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
+                 data=relData, family = "binomial")
+relfit.3 <- glm(attrally ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
+                 data=relData, family = "binomial")
+relfit.4 <- glm(signed ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
+                 data=relData, family = "binomial")
+
+norelfit.1 <- glm(contact ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
+                   data=norelData, family = "binomial")
+norelfit.2 <- glm(attmeet ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
+                   data=norelData, family = "binomial")
+norelfit.3 <- glm(attrally ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
+                   data=norelData, family = "binomial")
+norelfit.4 <- glm(signed ~ churchattend + age + polknowl + polinterest + inc.imp + education + strongdem + strongrep + stronglib + strongcon + married + female + white, 
+                   data=norelData, family = "binomial")
+
+
+library("stargazer")
+stargazer(relfit.1, relfit.2, relfit.3, relfit.4, norelfit.1, norelfit.2, norelfit.3, norelfit.4,
+          type="latex", title="Logistic Regression of Political Activities Subset by Community Type",
+          align=TRUE, no.space=TRUE,
+          omit.stat=c("ser","f"),
+          notes=c("Unstandardized logistic regression coefficients with standard errors in parantheses."),
+          dep.var.labels=c("Contact",
+                           "Attend Meeting",
+                           "Attend Rally",
+                           "Petition",
+                           "Contact",
+                           "Attend Meeting",
+                           "Attend Rally",
+                           "Petition"),
+          covariate.labels=c("Church Attendance", 
+                             "Age",
+                             "Political Knowledge",
+                             "Political Interest",
+                             "Income",
+                             "Education",
+                             "Strong Democrat",
+                             "Strong Republican",
+                             "Strong Liberal",
+                             "Strong Conservative",
+                             "Married",
+                             "Female",
+                             "Race")
+)
+
+#########################
+# Predicted Probabilities 
+#########################
+require(ggplot2)
+require(car)
+require(reshape2)
+relDatafake <- read.csv("probsreldata.csv")
+norelDatafake <- read.csv("probsnoreldata.csv")
+
+# predicted probs for contacting an elected official
+newdata1 <- cbind(newdata, predict(norelfit.1, newdata = norelDatafake, type = "link", se = TRUE))
+newdata1 <- within(newdata1, {
+  pp <- plogis(fit)*100
+  lb <- plogis(fit - (1.96 * se.fit))*100
+  ub <- plogis(fit + (1.96 * se.fit))*100
+})
+
+newdata1 <- cbind(newdata1, predict(relfit.1, newdata = relDatafake, type = "link", se = TRUE))
+names(newdata1)[20] = "fit2"
+names(newdata1)[21] = "se.fit2"
+names(newdata1)[22] = "residual.scale2"
+
+newdata1 <- within(newdata1, {
+  pp2 <- plogis(fit2)*100
+  lb2 <- plogis(fit2 - (1.96 * se.fit2))*100
+  ub2 <- plogis(fit2 + (1.96 * se.fit2))*100
+})
+
+ggplot(newdata1, aes(x = churchattend, y = pp)) + 
+  geom_ribbon(aes(ymin = lb, ymax = ub), alpha = 0.2) +
+  geom_line(size=1.5, colour="green") +
+  geom_line(aes(x = churchattend, y=pp2), size=.5, colour="red") +
+  labs(x="Service Attendance", y="Probability")
+
+# predicted probs for attending a political meeting
+newdata2 <- cbind(newdata, predict(norelfit.2, newdata = norelDatafake, type = "link", se = TRUE))
+newdata2 <- within(newdata2, {
+  pp <- plogis(fit)*100
+  lb <- plogis(fit - (1.96 * se.fit))*100
+  ub <- plogis(fit + (1.96 * se.fit))*100
+})
+
+newdata2 <- cbind(newdata2, predict(relfit.2, newdata = relDatafake, type = "link", se = TRUE))
+names(newdata2)[20] = "fit2"
+names(newdata2)[21] = "se.fit2"
+names(newdata2)[22] = "residual.scale2"
+
+newdata2 <- within(newdata2, {
+  pp2 <- plogis(fit2)*100
+  lb2 <- plogis(fit2 - (1.96 * se.fit2))*100
+  ub2 <- plogis(fit2 + (1.96 * se.fit2))*100
+})
+
+ggplot(newdata2, aes(x = churchattend, y = pp)) + 
+  geom_ribbon(aes(ymin = lb, ymax = ub), alpha = 0.2) +
+  geom_line(size=1.5, colour="green") +
+  geom_line(aes(x = churchattend, y=pp2), size=.5, colour="red") +
+  labs(x="Service Attendance", y="Probability")
+
+# predicted probs for attending a political rally or protest
+newdata3 <- cbind(newdata, predict(norelfit.3, newdata = norelDatafake, type = "link", se = TRUE))
+newdata3 <- within(newdata3, {
+  pp <- plogis(fit)*100
+  lb <- plogis(fit - (1.96 * se.fit))*100
+  ub <- plogis(fit + (1.96 * se.fit))*100
+})
+
+newdata3 <- cbind(newdata3, predict(relfit.3, newdata = relDatafake, type = "link", se = TRUE))
+names(newdata3)[20] = "fit2"
+names(newdata3)[21] = "se.fit2"
+names(newdata3)[22] = "residual.scale2"
+
+newdata3 <- within(newdata3, {
+  pp2 <- plogis(fit2)*100
+  lb2 <- plogis(fit2 - (1.96 * se.fit2))*100
+  ub2 <- plogis(fit2 + (1.96 * se.fit2))*100
+})
+
+ggplot(newdata3, aes(x = churchattend, y = pp)) + 
+  geom_ribbon(aes(ymin = lb, ymax = ub), alpha = 0.2) +
+  geom_line(size=1.5, colour="green") +
+  geom_line(aes(x = churchattend, y=pp2), size=.5, colour="red") +
+  labs(x="Service Attendance", y="Probability")
+
+# predicted probs for participating in a signed petition
+newdata4 <- cbind(newdata, predict(norelfit.4, newdata = norelDatafake, type = "link", se = TRUE))
+newdata4 <- within(newdata4, {
+  pp <- plogis(fit)*100
+  lb <- plogis(fit - (1.96 * se.fit))*100
+  ub <- plogis(fit + (1.96 * se.fit))*100
+})
+
+newdata4 <- cbind(newdata4, predict(relfit.4, newdata = relDatafake, type = "link", se = TRUE))
+names(newdata4)[20] = "fit2"
+names(newdata4)[21] = "se.fit2"
+names(newdata4)[22] = "residual.scale2"
+
+newdata4 <- within(newdata4, {
+  pp2 <- plogis(fit2)*100
+  lb2 <- plogis(fit2 - (1.96 * se.fit2))*100
+  ub2 <- plogis(fit2 + (1.96 * se.fit2))*100
+})
+
+ggplot(newdata4, aes(x = churchattend, y = pp)) + 
+  geom_ribbon(aes(ymin = lb, ymax = ub), alpha = 0.2) +
+  geom_line(size=1.5, colour="green") +
+  geom_line(aes(x = churchattend, y=pp2), size=.5, colour="red") +
+  labs(x="Service Attendance", y="Probability")
+
+
+
+
+###############
+#
+
+# Bill Franko's 2014 midwest paper (perceptions of 
+# income inequality being bad/state - geo estimates)
+
+# Mike McDonald & Tolbert (POQ- individuals nested in house districts)
+# two-stage (1st, errors perceptions as the y, actual competition as the x, plus controls)
+# strong partisans more likely to overestimate competitiveness
+
+# check pew to see if they have any of the variables you need (try calling them - 
+# they have grad students "do you know of questions asking how religious your 
+# community is?) "Pew Forum on Religion \& Public Life"
+
+# theoretical background: Motivated Reasoning (political psych)
+# Redlawsk et al's paper on motivated reasoning
+# Jamie Druckman on motivated reasoning
+# Tabor and Lodge 
+
+# Race literature: perceptions of racial diverstiy in community vs reality
